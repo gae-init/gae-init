@@ -15,6 +15,7 @@ window.service_call = (method, url, params, data, callback) ->
     contentType: 'application/json'
     accepts: 'application/json'
     dataType: 'json'
+    cache: true
     data: if data then JSON.stringify(data) else undefined
     success: (response) ->
       if response.status == 'success'
