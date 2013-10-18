@@ -31,6 +31,8 @@
         </fieldset>
         <fieldset class="col-sm-6">
           <legend>Third Party OAuth</legend>
+          {{forms.text_field(form.bitbucket_key)}}
+          {{forms.text_field(form.bitbucket_secret)}}
           {{forms.text_field(form.facebook_app_id)}}
           {{forms.text_field(form.facebook_app_secret)}}
           {{forms.text_field(form.twitter_consumer_key)}}

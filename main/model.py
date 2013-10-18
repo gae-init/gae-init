@@ -29,6 +29,8 @@ class Config(Base, modelx.ConfigX):
   announcement_type = ndb.StringProperty(default='info', choices=[
       'info', 'warning', 'success', 'danger',
     ])
+  bitbucket_key = ndb.StringProperty(default='')
+  bitbucket_secret = ndb.StringProperty(default='')
   brand_name = ndb.StringProperty(default='gae-init')
   facebook_app_id = ndb.StringProperty(default='')
   facebook_app_secret = ndb.StringProperty(default='')
@@ -43,6 +45,8 @@ class Config(Base, modelx.ConfigX):
       'analytics_id',
       'announcement_html',
       'announcement_type',
+      'bitbucket_key',
+      'bitbucket_secret',
       'brand_name',
       'facebook_app_id',
       'facebook_app_secret',
