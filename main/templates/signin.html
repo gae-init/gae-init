@@ -37,6 +37,13 @@
           Sign in with GitHub
         </a>
       # endif
+
+      # if config.CONFIG_DB.bitbucket_key and config.CONFIG_DB.bitbucket_secret
+        <a class="btn btn-block btn-lg btn-bitbucket" href="{{bitbucket_signin_url}}" rel="nofollow">
+          <i class="icon icon-bitbucket"></i>
+          Sign in with Bitbucket
+        </a>
+      # endif
     </div>
   </div>
 # endblock

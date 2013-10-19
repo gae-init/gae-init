@@ -15,6 +15,8 @@ class ConfigUpdateForm(wtf.Form):
   analytics_id = wtf.TextField('Analytics ID', filters=[util.strip_filter])
   announcement_html = wtf.TextAreaField('Announcement HTML', filters=[util.strip_filter])
   announcement_type = wtf.SelectField('Announcement Type', choices=[(t, t.title()) for t in model.Config.announcement_type._choices])
+  bitbucket_key = wtf.TextField('Bitbucket Key', filters=[util.strip_filter])
+  bitbucket_secret = wtf.TextField('Bitbucket Secret', filters=[util.strip_filter])
   brand_name = wtf.TextField('Brand Name', [wtf.validators.required()], filters=[util.strip_filter])
   facebook_app_id = wtf.TextField('Facebook App ID', filters=[util.strip_filter])
   facebook_app_secret = wtf.TextField('Facebook App Secret', filters=[util.strip_filter])
