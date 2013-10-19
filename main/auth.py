@@ -125,6 +125,7 @@ def signin():
   twitter_signin_url = flask.url_for('signin_twitter', next=next_url)
   facebook_signin_url = flask.url_for('signin_facebook', next=next_url)
   github_signin_url = flask.url_for('signin_github', next=next_url)
+  bitbucket_signin_url = flask.url_for('signin_bitbucket', next=next_url)
 
   return flask.render_template(
       'signin.html',
@@ -134,6 +135,7 @@ def signin():
       twitter_signin_url=twitter_signin_url,
       facebook_signin_url=facebook_signin_url,
       github_signin_url=github_signin_url,
+      bitbucket_signin_url=bitbucket_signin_url,
       next_url=next_url,
     )
 
@@ -357,6 +359,64 @@ def retrieve_user_from_github(response):
       response['login'],
       response['email'] or '',
       github_id=str(response['id']),
+    )
+
+################################################################################
+# Bitbucket
+################################################################################
+bitbucket_oauth = oauth.OAuth()
+
+bitbucket = bitbucket_oauth.remote_app(
+    'bitbucket',
+    base_url='https://api.bitbucket.org/1.0/',
+    request_token_url='https://bitbucket.org/!api/1.0/oauth/request_token',
+    access_token_url='https://bitbucket.org/!api/1.0/oauth/access_token',
+    authorize_url='https://bitbucket.org/!api/1.0/oauth/authenticate',
+    consumer_key=config.CONFIG_DB.bitbucket_key,
+    consumer_secret=config.CONFIG_DB.bitbucket_secret
+  )
+
+
+@app.route('/_s/callback/bitbucket/oauth-authorized/')
+@bitbucket.authorized_handler
+def bitbucket_authorized(resp):
+  print resp
+  if resp is None:
+    return 'Access denied'
+  flask.session['oauth_token'] = (resp['oauth_token'], resp['oauth_token_secret'])
+  me = bitbucket.get('user')
+  user_db = retrieve_user_from_bitbucket(me.data['user'])
+  return signin_user_db(user_db)
+
+
+@bitbucket.tokengetter
+def get_bitbucket_oauth_token():
+  return flask.session.get('oauth_token')
+
+
+@app.route('/signin/bitbucket/')
+def signin_bitbucket():
+  flask.session['oauth_token'] = None
+  return bitbucket.authorize(
+    callback=flask.url_for('bitbucket_authorized',
+      next=util.get_next_url(),
+      _external=True
+    )
+  )
+
+
+def retrieve_user_from_bitbucket(response):
+  user_db = model.User.retrieve_one_by('bitbucket_id', response['username'])
+  if user_db:
+    return user_db
+  if response['first_name'] or response['last_name']:
+    name = ' '.join((response['first_name'], response['last_name'])).strip()
+  else:
+    name = response['username']
+  return create_user_db(
+      name,
+      response['username'],
+      bitbucket_id=response['username']
     )
 
 
