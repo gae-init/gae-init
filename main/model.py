@@ -71,6 +71,7 @@ class User(Base, modelx.UserX):
   facebook_id = ndb.StringProperty(indexed=True, default='')
   twitter_id = ndb.StringProperty(indexed=True, default='')
   github_id = ndb.StringProperty(indexed=True, default='')
+  bitbucket_id = ndb.StringProperty(indexed=True, default='')
 
   _PROPERTIES = Base._PROPERTIES.union(set([
       'name',
