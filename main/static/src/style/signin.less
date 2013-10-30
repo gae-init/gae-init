@@ -1,14 +1,14 @@
-.btn-social {
+.btn-social(@bgcolor: @gray) {
   @height: @line-height-computed + @padding-base-vertical * 2;
   position: relative;
   padding-left: @height + @padding-base-horizontal;
   padding-right: @padding-base-horizontal;
-  background-color: @gray;
+  background-color: @bgcolor;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  .button-variant(white, @gray, rgba(0, 0, 0, 0.2));
+  .button-variant(white, @bgcolor, rgba(0, 0, 0, 0.2));
   :first-child {
     position: absolute;
     left: 0;
@@ -50,11 +50,6 @@
       font-size: 1.2em;
     }
   }
-}
-
-.btn-social(@color) {
-  background-color: @color;
-  .button-variant(white, @color, rgba(0, 0, 0, 0.2));
 }
 
 
