@@ -14,17 +14,6 @@ import urllib2
 from code import interact
 import argparse
 
-
-parser = argparse.ArgumentParser()
-parser.add_argument('-l', dest='shell', action='store_true',
-    help='Start a new interactive python shell',
- )
-parser.add_argument('-r', dest='rshell', action='store_true',
-    help='Start a new interactive remote python shell',
- )
-args = parser.parse_args()
-
-
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
 PROJECT_DIR = os.path.join(CURRENT_DIR, "main")
 PROJECT_LIBS = os.path.join(PROJECT_DIR, "lib")
@@ -228,6 +217,15 @@ def rshell(storage_path=STORAGE_DIR):
 
 
 if __name__ == "__main__":
+  parser = argparse.ArgumentParser()
+  parser.add_argument('-l', dest='shell', action='store_true',
+      help='Start a new interactive python shell',
+  )
+  parser.add_argument('-r', dest='rshell', action='store_true',
+      help='Start a new interactive remote python shell',
+  )
+  args = parser.parse_args()
+
   if len(sys.argv) == 1:
     parser.print_help()
     sys.exit(1)
