@@ -17,17 +17,17 @@ import auth
 import admin
 
 
-################################################################################
+##############################################################################
 # Main page
-################################################################################
+##############################################################################
 @app.route('/')
 def welcome():
   return flask.render_template('welcome.html', html_class='welcome')
 
 
-################################################################################
+##############################################################################
 # Sitemap stuff
-################################################################################
+##############################################################################
 @app.route('/sitemap.xml')
 def sitemap():
   response = flask.make_response(flask.render_template(
@@ -39,14 +39,16 @@ def sitemap():
   return response
 
 
-################################################################################
+##############################################################################
 # Profile stuff
-################################################################################
+##############################################################################
 class ProfileUpdateForm(wtf.Form):
-  name = wtf.TextField('Name',
+  name = wtf.TextField(
+      'Name',
       [wtf.validators.required()], filters=[util.strip_filter],
     )
-  email = wtf.TextField('Email',
+  email = wtf.TextField(
+      'Email',
       [wtf.validators.optional(), wtf.validators.email()],
       filters=[util.email_filter],
     )
@@ -77,17 +79,20 @@ def profile():
     )
 
 
-################################################################################
+##############################################################################
 # Feedback
-################################################################################
+##############################################################################
 class FeedbackForm(wtf.Form):
-  subject = wtf.TextField('Subject',
+  subject = wtf.TextField(
+      'Subject',
       [wtf.validators.required()], filters=[util.strip_filter],
     )
-  message = wtf.TextAreaField('Message',
+  message = wtf.TextAreaField(
+      'Message',
       [wtf.validators.required()], filters=[util.strip_filter],
     )
-  email = wtf.TextField('Email (optional)',
+  email = wtf.TextField(
+      'Email (optional)',
       [wtf.validators.optional(), wtf.validators.email()],
       filters=[util.strip_filter],
     )
@@ -123,9 +128,9 @@ def feedback():
     )
 
 
-################################################################################
+##############################################################################
 # User Stuff
-################################################################################
+##############################################################################
 @app.route('/_s/user/', endpoint='user_list_service')
 @app.route('/user/')
 @auth.admin_required
@@ -152,9 +157,9 @@ def user_list():
     )
 
 
-################################################################################
+##############################################################################
 # Error Handling
-################################################################################
+##############################################################################
 @app.errorhandler(400)  # Bad Request
 @app.errorhandler(401)  # Unauthorized
 @app.errorhandler(403)  # Forbidden
