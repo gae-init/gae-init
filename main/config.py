@@ -16,15 +16,16 @@ try:
 except:
   pass
 
-PRODUCTION = os.environ.get('SERVER_SOFTWARE', '').startswith('Google App Engine')
+PRODUCTION = os.environ.get('SERVER_SOFTWARE',
+                            '').startswith('Google App Engine')
 DEVELOPMENT = not PRODUCTION
 DEBUG = DEVELOPMENT
 
 DEFAULT_DB_LIMIT = 64
 
-################################################################################
+##############################################################################
 # Client modules, also used by the run.py script.
-################################################################################
+##############################################################################
 STYLES = [
     'src/style/style.less',
   ]
