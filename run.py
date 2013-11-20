@@ -10,38 +10,45 @@ import sys
 import time
 
 
-################################################################################
+##############################################################################
 # Options
-################################################################################
+##############################################################################
 parser = argparse.ArgumentParser()
-parser.add_argument('-w', '--watch', dest='watch', action='store_true',
+parser.add_argument(
+    '-w', '--watch', dest='watch', action='store_true',
     help='watch files for changes when running the development web server',
   )
-parser.add_argument('-c', '--clean', dest='clean', action='store_true',
+parser.add_argument(
+    '-c', '--clean', dest='clean', action='store_true',
     help='''recompiles files when running the development web server, but
     obsolete if -s is used''',
   )
-parser.add_argument('-m', '--minify', dest='minify', action='store_true',
+parser.add_argument(
+    '-m', '--minify', dest='minify', action='store_true',
     help='compiles files into minified version before deploying'
   )
-parser.add_argument('-s', '--start', dest='start', action='store_true',
+parser.add_argument(
+    '-s', '--start', dest='start', action='store_true',
     help='starts the dev_appserver.py with storage_path pointing to temp',
   )
-parser.add_argument('-o', '--host', dest='host', action='store', default='127.0.0.1',
+parser.add_argument(
+    '-o', '--host', dest='host', action='store', default='127.0.0.1',
     help='the host to start the dev_appserver.py',
   )
-parser.add_argument('-p', '--port', dest='port', action='store', default='8080',
+parser.add_argument(
+    '-p', '--port', dest='port', action='store', default='8080',
     help='the port to start the dev_appserver.py',
   )
-parser.add_argument('-f', '--flush', dest='flush', action='store_true',
+parser.add_argument(
+    '-f', '--flush', dest='flush', action='store_true',
     help='clears the datastore, blobstore, etc',
   )
 args = parser.parse_args()
 
 
-################################################################################
+##############################################################################
 # Directories
-################################################################################
+##############################################################################
 DIR_MAIN = 'main'
 DIR_STATIC = 'static'
 DIR_SRC = 'src'
@@ -85,9 +92,9 @@ file_uglifyjs = os.path.join(dir_bin, FILE_UGLIFYJS)
 dir_storage = os.path.join(DIR_TEMP, DIR_STORAGE)
 
 
-################################################################################
+##############################################################################
 # Helpers
-################################################################################
+##############################################################################
 def print_out(script, filename=''):
   timestamp = datetime.now().strftime('%H:%M:%S')
   if not filename:
@@ -128,7 +135,8 @@ def merge_files(source, target):
 
 def os_execute(executable, params, source, target, append=False):
   operator = '>>' if append else '>'
-  os.system('"%s" %s %s %s %s' % (executable, params, source, operator, target))
+  os.system('"%s" %s %s %s %s'
+            % (executable, params, source, operator, target))
 
 
 def compile_script(source, target_dir):
@@ -234,9 +242,9 @@ def update_missing_args():
     args.clean = True
 
 
-################################################################################
+##############################################################################
 # Main
-################################################################################
+##############################################################################
 SCRIPTS = config.SCRIPTS
 STYLES = config.STYLES
 
@@ -270,7 +278,8 @@ if args.minify:
     compile_style(os.path.join(dir_static, source), dir_min_style)
 
   for module in config.SCRIPTS:
-    coffees = ' '.join([os.path.join(dir_static, script)
+    coffees = ' '.join([
+        os.path.join(dir_static, script)
         for script in config.SCRIPTS[module] if script.endswith('.coffee')
       ])
 
