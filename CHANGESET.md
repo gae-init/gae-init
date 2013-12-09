@@ -1,5 +1,6 @@
 Version 0.9.0 - tbd
 --------------------------
+- Updated Flask-WTF to 0.9.3
 - Updated Bootstrap to 3.0.3
 - Updated Font Awesome to 4.0.3
 - Updated Moment.js to 2.4.0
