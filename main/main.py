@@ -3,7 +3,9 @@
 from google.appengine.api import mail
 import logging
 from werkzeug import exceptions
-from flaskext import wtf
+from flask.ext import wtf
+import wtforms
+import wtforms.validators
 import flask
 import config
 import model
@@ -46,11 +48,11 @@ def sitemap():
 # Profile stuff
 ###############################################################################
 class ProfileUpdateForm(wtf.Form):
-  name = wtf.StringField('Name',
-      [wtf.validators.required()], filters=[util.strip_filter],
+  name = wtforms.StringField('Name',
+      [wtforms.validators.required()], filters=[util.strip_filter],
     )
-  email = wtf.StringField('Email',
-      [wtf.validators.optional(), wtf.validators.email()],
+  email = wtforms.StringField('Email',
+      [wtforms.validators.optional(), wtforms.validators.email()],
       filters=[util.email_filter],
     )
 
@@ -84,14 +86,14 @@ def profile():
 # Feedback
 ###############################################################################
 class FeedbackForm(wtf.Form):
-  subject = wtf.StringField('Subject',
-      [wtf.validators.required()], filters=[util.strip_filter],
+  subject = wtforms.StringField('Subject',
+      [wtforms.validators.required()], filters=[util.strip_filter],
     )
-  message = wtf.TextAreaField('Message',
-      [wtf.validators.required()], filters=[util.strip_filter],
+  message = wtforms.TextAreaField('Message',
+      [wtforms.validators.required()], filters=[util.strip_filter],
     )
-  email = wtf.StringField('Email (optional)',
-      [wtf.validators.optional(), wtf.validators.email()],
+  email = wtforms.StringField('Email (optional)',
+      [wtforms.validators.optional(), wtforms.validators.email()],
       filters=[util.strip_filter],
     )
 
