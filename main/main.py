@@ -3,7 +3,7 @@
 from google.appengine.api import mail
 import logging
 from werkzeug import exceptions
-from flaskext import wtf
+from flask.ext import wtf
 import wtforms
 import wtforms.validators
 import flask
