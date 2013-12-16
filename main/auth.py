@@ -189,17 +189,16 @@ def retrieve_user_from_google(google_user):
 ###############################################################################
 twitter_oauth = OAuth(app)
 
-
-twitter = twitter_oauth.remote_app(
-    'twitter',
+app.config['TWITTER'] = dict(
     base_url='https://api.twitter.com/1.1/',
     request_token_url='https://api.twitter.com/oauth/request_token',
     access_token_url='https://api.twitter.com/oauth/access_token',
     authorize_url='https://api.twitter.com/oauth/authorize',
-    app_key='twitter',
     consumer_key=config.CONFIG_DB.twitter_consumer_key,
     consumer_secret=config.CONFIG_DB.twitter_consumer_secret,
   )
+
+twitter = twitter_oauth.remote_app('twitter', app_key='TWITTER')
 
 
 @app.route('/_s/callback/twitter/oauth-authorized/')
@@ -256,17 +255,17 @@ def retrieve_user_from_twitter(response):
 ###############################################################################
 facebook_oauth = OAuth(app)
 
-facebook = facebook_oauth.remote_app(
-    'facebook',
+app.config['FACEBOOK'] = dict(
     base_url='https://graph.facebook.com/',
     request_token_url=None,
     access_token_url='/oauth/access_token',
     authorize_url='https://www.facebook.com/dialog/oauth',
-    app_key='facebook',
     consumer_key=config.CONFIG_DB.facebook_app_id,
     consumer_secret=config.CONFIG_DB.facebook_app_secret,
     request_token_params={'scope': 'email'},
   )
+
+facebook = facebook_oauth.remote_app('facebook', app_key='FACEBOOK')
 
 
 @app.route('/_s/callback/facebook/oauth-authorized/')
