@@ -22,6 +22,11 @@ import auth
 import user
 
 
+if config.DEBUG:
+  from werkzeug import debug
+  app.wsgi_app = debug.DebuggedApplication(app.wsgi_app, evalex=True)
+
+
 ###############################################################################
 # Main page
 ###############################################################################
