@@ -4,9 +4,10 @@ import functools
 import re
 
 from flask.ext import login
-from flask.ext import oauth
+from flask.ext.oauthlib.client import OAuth
 from google.appengine.api import users
 from google.appengine.ext import ndb
+from main import app
 import flask
 
 import config
@@ -186,7 +187,7 @@ def retrieve_user_from_google(google_user):
 ###############################################################################
 # Twitter
 ###############################################################################
-twitter_oauth = oauth.OAuth()
+twitter_oauth = OAuth(app)
 
 
 twitter = twitter_oauth.remote_app(
@@ -195,6 +196,7 @@ twitter = twitter_oauth.remote_app(
     request_token_url='https://api.twitter.com/oauth/request_token',
     access_token_url='https://api.twitter.com/oauth/access_token',
     authorize_url='https://api.twitter.com/oauth/authorize',
+    app_key='twitter',
     consumer_key=config.CONFIG_DB.twitter_consumer_key,
     consumer_secret=config.CONFIG_DB.twitter_consumer_secret,
   )
@@ -252,7 +254,7 @@ def retrieve_user_from_twitter(response):
 ###############################################################################
 # Facebook
 ###############################################################################
-facebook_oauth = oauth.OAuth()
+facebook_oauth = OAuth(app)
 
 facebook = facebook_oauth.remote_app(
     'facebook',
@@ -260,6 +262,7 @@ facebook = facebook_oauth.remote_app(
     request_token_url=None,
     access_token_url='/oauth/access_token',
     authorize_url='https://www.facebook.com/dialog/oauth',
+    app_key='facebook',
     consumer_key=config.CONFIG_DB.facebook_app_id,
     consumer_secret=config.CONFIG_DB.facebook_app_secret,
     request_token_params={'scope': 'email'},
