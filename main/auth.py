@@ -7,7 +7,6 @@ from flask.ext import login
 from flask.ext.oauthlib.client import OAuth
 from google.appengine.api import users
 from google.appengine.ext import ndb
-from main import app
 import flask
 
 import config
