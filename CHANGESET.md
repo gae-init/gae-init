@@ -1,3 +1,7 @@
+Version 0.9.2 - tbd
+--------------------------
+- Update Flask-WTF to 0.9.4
+
 Version 0.9.1 - 2013-12-18
 --------------------------
 - Updating the `admin` and `active` states of the User model
