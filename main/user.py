@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask.ext import wtf
+import wtforms
 from google.appengine.ext import ndb
 import flask
 
@@ -44,19 +45,19 @@ def user_list():
 # User Update
 ###############################################################################
 class UserUpdateForm(wtf.Form):
-  username = wtf.StringField('Username',
-      [wtf.validators.required(), wtf.validators.length(min=3)],
+  username = wtforms.StringField('Username',
+      [wtforms.validators.required(), wtforms.validators.length(min=3)],
       filters=[util.email_filter],
     )
-  name = wtf.StringField('Name',
-      [wtf.validators.required()], filters=[util.strip_filter],
+  name = wtforms.StringField('Name',
+      [wtforms.validators.required()], filters=[util.strip_filter],
     )
-  email = wtf.StringField('Email',
-      [wtf.validators.optional(), wtf.validators.email()],
+  email = wtforms.StringField('Email',
+      [wtforms.validators.optional(), wtforms.validators.email()],
       filters=[util.email_filter],
     )
-  admin = wtf.BooleanField('Admin')
-  active = wtf.BooleanField('Active')
+  admin = wtforms.BooleanField('Admin')
+  active = wtforms.BooleanField('Active')
 
 
 @app.route('/user/<int:user_id>/update/', methods=['GET', 'POST'])
