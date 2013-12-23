@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from flask.ext.wtf import Form
-from wtforms import BooleanField, StringField
-import wtforms.validators
+from flask.ext import wtf
+import wtforms
 from google.appengine.ext import ndb
 import flask
 
@@ -45,20 +44,20 @@ def user_list():
 ###############################################################################
 # User Update
 ###############################################################################
-class UserUpdateForm(Form):
-  username = StringField('Username',
+class UserUpdateForm(wtf.Form):
+  username = wtforms.StringField('Username',
       [wtforms.validators.required(), wtforms.validators.length(min=3)],
       filters=[util.email_filter],
     )
-  name = StringField('Name',
+  name = wtforms.StringField('Name',
       [wtforms.validators.required()], filters=[util.strip_filter],
     )
-  email = StringField('Email',
+  email = wtforms.StringField('Email',
       [wtforms.validators.optional(), wtforms.validators.email()],
       filters=[util.email_filter],
     )
-  admin = BooleanField('Admin')
-  active = BooleanField('Active')
+  admin = wtforms.BooleanField('Admin')
+  active = wtforms.BooleanField('Active')
 
 
 @app.route('/user/<int:user_id>/update/', methods=['GET', 'POST'])
