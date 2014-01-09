@@ -14,7 +14,7 @@ from main import app
 
 class ConfigUpdateForm(wtf.Form):
   analytics_id = wtf.StringField('Analytics ID', filters=[util.strip_filter])
-  announcement_html = wtf.TextAreaField('Announcement HTML', filters=[util.strip_filter])
+  announcement_html = wtf.TextAreaField('Announcement HTML', filters=[util.strip_filter, util.bleach_filter])
   announcement_type = wtf.SelectField('Announcement Type', choices=[(t, t.title()) for t in model.Config.announcement_type._choices])
   brand_name = wtf.StringField('Brand Name', [wtf.validators.required()], filters=[util.strip_filter])
   facebook_app_id = wtf.StringField('Facebook App ID', filters=[util.strip_filter])

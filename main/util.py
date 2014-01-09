@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import bleach
 from datetime import datetime
 from uuid import uuid4
 import re
@@ -204,3 +205,11 @@ def is_valid_username(username):
 ###############################################################################
 strip_filter = lambda x: x.strip() if x else ''
 email_filter = lambda x: x.lower().strip() if x else ''
+
+# Default tags and attributes to allow in HTML sanitization
+SANITIZE_TAGS = ['p', 'br', 'strong', 'em', 'sup', 'sub', 'h3', 'h4', 'h5',
+                 'h6', 'ul', 'ol', 'li', 'a', 'blockquote', 'code']
+SANITIZE_ATTRIBUTES = {'a': ['href', 'title', 'target']}
+
+bleach_filter = lambda x: bleach.clean(x, tags=SANITIZE_TAGS,
+                                       attributes=SANITIZE_ATTRIBUTES)
