@@ -1,3 +1,8 @@
+Version 0.10.x - TBD
+---------------------------
+- Added Bleach 1.2.2 as whitelist based HTML sanitizer
+- Added html5lib-python 0.9.5 (specific version required by Bleach)
+
 Version 0.10.0 - 2013-12-30
 ---------------------------
 - Updated Moment.js to 2.5.0
