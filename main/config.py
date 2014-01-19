@@ -2,6 +2,10 @@
 
 import os
 
+PRODUCTION = os.environ.get('SERVER_SOFTWARE', '').startswith('Google App Eng')
+DEVELOPMENT = not PRODUCTION
+DEBUG = DEVELOPMENT
+
 try:
   # This part is surrounded in try/except because the config.py file is
   # also used in the run.py script which is used to compile/minify the client
@@ -13,13 +17,12 @@ try:
   CURRENT_VERSION_ID = os.environ.get('CURRENT_VERSION_ID')
   CURRENT_VERSION_NAME = CURRENT_VERSION_ID.split('.')[0]
   CURRENT_VERSION_TIMESTAMP = long(CURRENT_VERSION_ID.split('.')[1]) >> 28
+  if DEVELOPMENT:
+    CURRENT_VERSION_NAME += " [running on dev server]"
+    CURRENT_VERSION_TIMESTAMP = long(datetime.now())
   CURRENT_VERSION_DATE = datetime.fromtimestamp(CURRENT_VERSION_TIMESTAMP)
 except:
   pass
-
-PRODUCTION = os.environ.get('SERVER_SOFTWARE', '').startswith('Google App Eng')
-DEVELOPMENT = not PRODUCTION
-DEBUG = DEVELOPMENT
 
 DEFAULT_DB_LIMIT = 64
 
