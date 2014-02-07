@@ -318,6 +318,7 @@ def create_user_db(auth_id, name, username, email='', **params):
     n += 1
 
   user_db = model.User(
+      parent=ndb.Key('Users', '0'),
       name=name,
       email=email.lower(),
       username=new_username,
