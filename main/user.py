@@ -20,7 +20,7 @@ from main import app
 @auth.admin_required
 def user_list():
   user_dbs, more_cursor = util.retrieve_dbs(
-      model.User.query(),
+      model.User.query(ancestor=ndb.Key('Users', '0')),
       limit=util.param('limit', int),
       cursor=util.param('cursor'),
       order=util.param('order') or '-created',
@@ -64,7 +64,7 @@ class UserUpdateForm(wtf.Form):
 @app.route('/user/<int:user_id>/update/', methods=['GET', 'POST'])
 @auth.admin_required
 def user_update(user_id):
-  user_db = model.User.get_by_id(user_id)
+  user_db = model.User.get_by_id(user_id, parent=ndb.Key('Users', '0'))
   if not user_db:
     flask.abort(404)
 
@@ -210,7 +210,7 @@ def merge_user_dbs(user_db, depricated_keys):
 ###############################################################################
 def is_username_available(username, self_db=None):
   user_dbs, more_cursor = util.retrieve_dbs(
-      model.User.query(),
+      model.User.query(ancestor=ndb.Key('Users', '0')),
       username=username,
       limit=2,
     )
