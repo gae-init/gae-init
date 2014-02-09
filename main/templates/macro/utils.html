@@ -63,11 +63,11 @@
 
 # macro html_element(name, content)
   <{{name}}
-    # for arg in kwargs
+    #- for arg in kwargs
       {{arg}}="{{kwargs[arg]}}"
-    # endfor
+    #- endfor
   >
-  # if content
+  #- if content
     {{content}}</{{name}}>
-  # endif
+  #- endif
 # endmacro
