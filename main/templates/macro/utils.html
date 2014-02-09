@@ -61,14 +61,14 @@
 # endmacro
 
 
-{% macro html_element(name, content) -%}
+# macro html_element(name, content)
   <{{name}}
-    {%- for arg in kwargs -%}
-      {{' '}}{{arg}}="{{kwargs[arg]}}"
-    {%- endfor -%}
-  {%- if content -%}
+    # for arg in kwargs
+      {{arg}}="{{kwargs[arg]}}"
+    # endfor
+  # if content
     >{{content}}</{{name}}>
-  {%- else -%}
+  # else
     />
-  {%- endif -%}
-{%- endmacro %}
+  # endif
+# endmacro
