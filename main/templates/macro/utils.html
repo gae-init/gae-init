@@ -66,9 +66,8 @@
     # for arg in kwargs
       {{arg}}="{{kwargs[arg]}}"
     # endfor
+  >
   # if content
-    >{{content}}</{{name}}>
-  # else
-    />
+    {{content}}</{{name}}>
   # endif
 # endmacro
