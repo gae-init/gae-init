@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-import copy
 
 from flask.ext import wtf
 from google.appengine.ext import ndb
 import flask
 
 import auth
+import copy
 import model
 import util
 
