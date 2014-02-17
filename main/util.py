@@ -192,6 +192,9 @@ _slugify_hyphenate_re = re.compile(r'[-\s]+')
 
 
 def slugify(text):
+  '''Generate (part of) a valid URL, aka "slug": the part of a URL which
+  identifies a page using human readable keywords
+  '''
   if not isinstance(text, unicode):
     text = unicode(text)
   text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
