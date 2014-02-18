@@ -19,8 +19,8 @@ try:
   CURRENT_VERSION_ID = os.environ.get('CURRENT_VERSION_ID')
   CURRENT_VERSION_NAME = CURRENT_VERSION_ID.split('.')[0]
   if PRODUCTION:
-    ts = long(CURRENT_VERSION_ID.split('.')[1]) >> 28
-    CURRENT_VERSION_DATE = datetime.fromtimestamp(ts)
+    CURRENT_VERSION_DATE = datetime.fromtimestamp(
+      long(CURRENT_VERSION_ID.split('.')[1]) >> 28)
   else:
     CURRENT_VERSION_DATE = datetime.utcnow()
   APPLICATION_ID = app_identity.get_application_id()
