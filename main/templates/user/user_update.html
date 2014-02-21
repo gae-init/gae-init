@@ -24,6 +24,11 @@
         # if current_user.id != user_db.key.id()
           {{forms.checkbox_field(form.admin)}}
           {{forms.checkbox_field(form.active)}}
+        # else
+          <div class="text-muted" title="Read-only">
+            {{forms.checkbox_field(form.admin, disabled=True)}}
+            {{forms.checkbox_field(form.active, disabled=True)}}
+          </div>
         # endif
       </div>
       <div class="col-md-2 col-sm-6">
