@@ -80,8 +80,13 @@
 
 # macro checkbox_static(field, checked)
   <div class="text-muted" title="{{_('Read-only')}}">
-    <i class="fa fa-fw fa-{{'check-' if checked}}square-o"></i> {{field.label.text}}
-    {{field_description(field)}}
+    <div class="checkbox">
+      <label>
+        <input id="{{field.id}}" name="{{field.name}}" type="checkbox"
+          {{'checked' if checked}} disabled> {{field.label.text}}
+      </label>
+      {{field_description(field)}}
+    </div>
   </div>
 # endmacro
 
