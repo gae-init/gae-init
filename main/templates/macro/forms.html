@@ -78,6 +78,19 @@
 # endmacro
 
 
+# macro checkbox_static(field, checked)
+  <div class="text-muted" title="Read-only">
+    <div class="checkbox">
+      <label>
+        <input id="{{field.id}}" name="{{field.name}}" type="checkbox"
+          {{'checked' if checked}} disabled> {{field.label.text}}
+      </label>
+      {{field_description(field)}}
+    </div>
+  </div>
+# endmacro
+
+
 # macro multiple_checkbox_field(field)
   <div class="form-group {{'has-error' if field.errors}}">
     {{field.label(class='control-label')}}
