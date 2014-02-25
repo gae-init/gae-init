@@ -8,6 +8,7 @@ import os
 import shutil
 import sys
 import time
+import shell
 
 from main import config
 
@@ -44,6 +45,12 @@ parser.add_argument(
 parser.add_argument(
     '-f', '--flush', dest='flush', action='store_true',
     help='clears the datastore, blobstore, etc',
+  )
+parser.add_argument('--shell', dest='shell', action='store_true',
+    help='Start a new interactive python shell',
+  )
+parser.add_argument('--rshell', dest='rshell', action='store_true',
+    help='Start a new interactive remote python shell',
   )
 args = parser.parse_args()
 
@@ -341,3 +348,9 @@ if args.start:
       --skip_sdk_update_check
     ''' % (DIR_MAIN, args.host, port, port + 1, dir_storage, clear)
   os.system(run_command.replace('\n', ' '))
+
+if args.shell:
+  shell.shell()
+
+if args.rshell:
+  shell.rshell()
