@@ -328,6 +328,7 @@ def run_watch():
 def run_flush():
   remove_dir(DIR_STORAGE)
   print_out('STORAGE CLEARED')
+  remove_dir(DIR_TEMP)
 
 
 def run_start():
