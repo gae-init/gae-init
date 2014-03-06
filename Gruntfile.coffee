@@ -20,6 +20,8 @@ module.exports = (grunt)->
           layout: (type, component) ->
             if type is 'fonts'
               path.join '../../vendor-fonts'
+            else if type.search(/{}/) > -1
+              path.join type.replace(/{}/, component)
             else
               path.join type, component
 
