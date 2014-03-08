@@ -31,6 +31,11 @@ PARSER.add_argument(
     them to their latest versions''',
   )
 PARSER.add_argument(
+    '-X', '--extra-clean', dest='extra_clean', action='store_true',
+    help='''eXtra clean removes all the process files and folders, without
+    rebuilding / recompiling them (unless combined with other arguments)''',
+  )
+PARSER.add_argument(
     '-m', '--minify', dest='minify', action='store_true',
     help='compiles files into minified version before deploying'
   )
@@ -62,12 +67,16 @@ DIR_NODE_MODULES = 'node_modules'
 DIR_STYLE = 'style'
 DIR_SCRIPT = 'script'
 DIR_TEMP = 'temp'
+DIR_VENDOR = 'vendor'
+DIR_VENDOR_FONTS = 'vendor-fonts'
 
 DIR_STATIC = os.path.join(DIR_MAIN, 'static')
+DIR_STATIC_VENDOR_FONTS = os.path.join(DIR_STATIC, DIR_VENDOR_FONTS)
 
 DIR_SRC = os.path.join(DIR_STATIC, 'src')
 DIR_SRC_SCRIPT = os.path.join(DIR_SRC, DIR_SCRIPT)
 DIR_SRC_STYLE = os.path.join(DIR_SRC, DIR_STYLE)
+DIR_SRC_VENDOR = os.path.join(DIR_SRC, DIR_VENDOR)
 
 DIR_DST = os.path.join(DIR_STATIC, 'dst')
 DIR_DST_STYLE = os.path.join(DIR_DST, DIR_STYLE)
@@ -175,9 +184,14 @@ def compile_style(source, target_dir, check_modified=False):
   os_execute(FILE_LESS, minified, source, target)
 
 
-def make_lib_zip(force=False):
-  if force and os.path.isfile(FILE_LIB):
+def remove_lib_zip():
+  if os.path.isfile(FILE_LIB):
     os.remove(FILE_LIB)
+
+
+def make_lib_zip(force=False):
+  if force:
+    remove_lib_zip()
   if not os.path.isfile(FILE_LIB):
     print_out('ZIP', FILE_LIB)
     shutil.make_archive(DIR_LIB, 'zip', DIR_LIB)
@@ -262,20 +276,25 @@ def uniq(seq):
 ###############################################################################
 # Main
 ###############################################################################
-def run_clean():
+def run_clean(rebuild=True):
   print_out('CLEAN')
   clean_files()
-  make_lib_zip(force=True)
+  remove_dir(DIR_MIN)
   remove_dir(DIR_DST)
-  make_dirs(DIR_DST)
-  compile_all_dst()
+  if rebuild:
+    make_lib_zip(force=True)
+    make_dirs(DIR_DST)
+    compile_all_dst()
   print_out('DONE')
 
 
 def run_clean_all():
   print_out('CLEAN ALL')
+  remove_lib_zip()
   remove_dir(DIR_BOWER_COMPONENTS)
   remove_dir(DIR_NODE_MODULES)
+  remove_dir(DIR_SRC_VENDOR)
+  remove_dir(DIR_STATIC_VENDOR_FONTS)
 
 
 def run_minify():
@@ -356,24 +375,30 @@ def run():
   update_path_separators()
   update_missing_args()
 
+  if ARGS.extra_clean:
+    run_clean(rebuild=False)
+    run_clean_all()
+
   if ARGS.clean_all:
     run_clean_all()
 
-  install_dependencies()
-
   if ARGS.clean:
+    install_dependencies()
     run_clean()
 
   if ARGS.minify:
+    install_dependencies()
     run_minify()
 
   if ARGS.watch:
+    install_dependencies()
     run_watch()
 
   if ARGS.flush:
     run_flush()
 
   if ARGS.start:
+    install_dependencies()
     run_start()
 
 
