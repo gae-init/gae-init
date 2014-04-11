@@ -85,7 +85,7 @@ DIR_MIN_SCRIPT = os.path.join(DIR_MIN, DIR_SCRIPT)
 
 DIR_LIB = os.path.join(DIR_MAIN, 'lib')
 DIR_LIBX = os.path.join(DIR_MAIN, 'libx')
-FILE_LIB = os.path.join(DIR_MAIN, 'lib.zip')
+FILE_LIB_ZIP = os.path.join(DIR_MAIN, 'lib.zip')
 FILE_LIB_REQUIREMENTS = 'requirements.txt'
 FILE_PIP_RUN = os.path.join(DIR_TEMP, 'pip.guard')
 
@@ -198,11 +198,11 @@ def compile_style(source, target_dir, check_modified=False):
 
 
 def make_lib_zip(force=False):
-  if force and os.path.isfile(FILE_LIB):
-    remove_file_dir(FILE_LIB)
-  if not os.path.isfile(FILE_LIB):
+  if force and os.path.isfile(FILE_LIB_ZIP):
+    remove_file_dir(FILE_LIB_ZIP)
+  if not os.path.isfile(FILE_LIB_ZIP):
     if os.path.exists(DIR_LIB):
-      print_out('ZIP', FILE_LIB)
+      print_out('ZIP', FILE_LIB_ZIP)
       shutil.make_archive(DIR_LIB, 'zip', DIR_LIB)
     else:
       print_out('NOT FOUND', DIR_LIB)
@@ -508,7 +508,7 @@ def run_clean_all():
   remove_file_dir(DIR_NODE_MODULES)
   clean_py_libs()
   clean_files()
-  remove_file_dir(FILE_LIB)
+  remove_file_dir(FILE_LIB_ZIP)
   remove_file_dir(FILE_PIP_RUN)
 
 
