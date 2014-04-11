@@ -22,6 +22,7 @@ from main import config
 # Options
 ###############################################################################
 PARSER = argparse.ArgumentParser()
+PARSER.set_defaults(_install_dependencies=False)
 PARSER.add_argument(
     '-w', '--watch', dest='watch', action='store_true',
     help='watch files for changes when running the development web server',
@@ -575,6 +576,8 @@ def run_start():
 def update_missing_args():
   if ARGS.start or ARGS.clean_all:
     ARGS.clean = True
+  if ARGS.clean or ARGS.minify or ARGS.watch or ARGS.start:
+    ARGS._install_dependencies = True
 
 
 def run():
@@ -590,11 +593,11 @@ def run():
   if ARGS.clean_all:
     run_clean_all()
 
-  if doctor_says_ok():
-    install_dependencies()
-    check_for_update()
-
-  print_out_update()
+  if ARGS._install_dependencies:
+    if doctor_says_ok():
+      install_dependencies()
+      check_for_update()
+    print_out_update()
 
   if ARGS.clean:
     run_clean()
