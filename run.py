@@ -85,7 +85,7 @@ DIR_MIN_SCRIPT = os.path.join(DIR_MIN, DIR_SCRIPT)
 
 DIR_LIB = os.path.join(DIR_MAIN, 'lib')
 DIR_LIBX = os.path.join(DIR_MAIN, 'libx')
-FILE_LIB = '%s.zip' % DIR_LIB
+FILE_LIB = os.path.join(DIR_MAIN, 'lib.zip')
 FILE_LIB_REQUIREMENTS = 'requirements.txt'
 FILE_PIP_RUN = os.path.join(DIR_TEMP, 'pip.guard')
 
