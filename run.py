@@ -198,14 +198,16 @@ def compile_style(source, target_dir, check_modified=False):
 
 
 def make_lib_zip(force=False):
-  if force and os.path.isfile(FILE_LIB_ZIP):
+  if force:
     remove_file_dir(FILE_LIB_ZIP)
-  if not os.path.isfile(FILE_LIB_ZIP):
-    if os.path.exists(DIR_LIB):
-      print_out('ZIP', FILE_LIB_ZIP)
-      shutil.make_archive(DIR_LIB, 'zip', DIR_LIB)
-    else:
-      print_out('NOT FOUND', DIR_LIB)
+  if os.path.isfile(FILE_LIB_ZIP):
+    return
+  if os.path.exists(DIR_LIB):
+    print_out('ZIP', FILE_LIB_ZIP)
+    base_name, fmt = FILE_LIB_ZIP.rsplit('.', 1)
+    shutil.make_archive(base_name, fmt, DIR_LIB)
+  else:
+    print_out('NOT FOUND', DIR_LIB)
 
 
 def is_dirty(source, target):
