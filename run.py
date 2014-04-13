@@ -85,7 +85,7 @@ DIR_MIN_SCRIPT = os.path.join(DIR_MIN, DIR_SCRIPT)
 
 DIR_LIB = os.path.join(DIR_MAIN, 'lib')
 DIR_LIBX = os.path.join(DIR_MAIN, 'libx')
-FILE_LIB = '%s.zip' % DIR_LIB
+FILE_LIB_ZIP = os.path.join(DIR_MAIN, 'lib.zip')
 FILE_LIB_REQUIREMENTS = 'requirements.txt'
 FILE_PIP_RUN = os.path.join(DIR_TEMP, 'pip.guard')
 
@@ -94,8 +94,8 @@ FILE_COFFEE = os.path.join(DIR_BIN, 'coffee')
 FILE_GRUNT = os.path.join(DIR_BIN, 'grunt')
 FILE_LESS = os.path.join(DIR_BIN, 'lessc')
 FILE_UGLIFYJS = os.path.join(DIR_BIN, 'uglifyjs')
-FILE_VENV = os.path.join(DIR_VENV, 'Scripts', 'activate.bat')\
-    if platform.system() is 'Windows'\
+FILE_VENV = os.path.join(DIR_VENV, 'Scripts', 'activate.bat') \
+    if platform.system() is 'Windows' \
     else os.path.join(DIR_VENV, 'bin', 'activate')
 
 DIR_STORAGE = os.path.join(DIR_TEMP, 'storage')
@@ -198,14 +198,16 @@ def compile_style(source, target_dir, check_modified=False):
 
 
 def make_lib_zip(force=False):
-  if force and os.path.isfile(FILE_LIB):
-    remove_file_dir(FILE_LIB)
-  if not os.path.isfile(FILE_LIB):
-    if os.path.exists(DIR_LIB):
-      print_out('ZIP', FILE_LIB)
-      shutil.make_archive(DIR_LIB, 'zip', DIR_LIB)
-    else:
-      print_out('NOT FOUND', DIR_LIB)
+  if force:
+    remove_file_dir(FILE_LIB_ZIP)
+  if os.path.isfile(FILE_LIB_ZIP):
+    return
+  if os.path.exists(DIR_LIB):
+    print_out('ZIP', FILE_LIB_ZIP)
+    base_name, fmt = FILE_LIB_ZIP.rsplit('.', 1)
+    shutil.make_archive(base_name, fmt, DIR_LIB)
+  else:
+    print_out('NOT FOUND', DIR_LIB)
 
 
 def is_dirty(source, target):
@@ -272,7 +274,9 @@ def create_virtualenv(is_windows):
     os.system(echo_to % gae_path)
     os.system(echo_to % os.path.abspath(DIR_LIBX))
     fix_path_cmd = 'import dev_appserver; dev_appserver.fix_sys_path()'
-    os.system(echo_to % (fix_path_cmd if is_windows else '"%s"' % fix_path_cmd))
+    os.system(echo_to % (
+        fix_path_cmd if is_windows else '"%s"' % fix_path_cmd)
+      )
   return True
 
 
@@ -340,7 +344,7 @@ def install_py_libs():
     copy(src_path, _get_dest(dir_))
 
   with open(FILE_PIP_RUN, 'w') as pip_run:
-      pip_run.write('Prevents pip execution if newer than requirements.txt')
+    pip_run.write('Prevents pip execution if newer than requirements.txt')
 
 
 def clean_py_libs():
@@ -505,7 +509,7 @@ def run_clean_all():
   remove_file_dir(DIR_NODE_MODULES)
   clean_py_libs()
   clean_files()
-  remove_file_dir(FILE_LIB)
+  remove_file_dir(FILE_LIB_ZIP)
   remove_file_dir(FILE_PIP_RUN)
 
 
