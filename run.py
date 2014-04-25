@@ -22,6 +22,7 @@ from main import config
 # Options
 ###############################################################################
 PARSER = argparse.ArgumentParser()
+PARSER.set_defaults(_install_dependencies=False)
 PARSER.add_argument(
     '-w', '--watch', dest='watch', action='store_true',
     help='watch files for changes when running the development web server',
@@ -406,11 +407,6 @@ def print_out_update():
     pass
 
 
-def update_missing_args():
-  if ARGS.start or ARGS.clean_all:
-    ARGS.clean = True
-
-
 def uniq(seq):
   seen = set()
   return [e for e in seq if e not in seen and not seen.add(e)]
@@ -579,24 +575,31 @@ def run_start():
   os.system(run_command.replace('\n', ' '))
 
 
+def update_missing_args():
+  if ARGS.start or ARGS.clean_all:
+    ARGS.clean = True
+  if ARGS.clean or ARGS.minify or ARGS.watch or ARGS.start:
+    ARGS._install_dependencies = True
+
+
 def run():
   if len(sys.argv) == 1:
     PARSER.print_help()
     sys.exit(1)
+  update_missing_args()
 
   os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
   update_path_separators()
-  update_missing_args()
 
   if ARGS.clean_all:
     run_clean_all()
 
-  if doctor_says_ok():
-    install_dependencies()
-    check_for_update()
-
-  print_out_update()
+  if ARGS._install_dependencies:
+    if doctor_says_ok():
+      install_dependencies()
+      check_for_update()
+    print_out_update()
 
   if ARGS.clean:
     run_clean()
