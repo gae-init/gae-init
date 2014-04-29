@@ -35,16 +35,17 @@ window.init_announcement = ->
   if sessionStorage?.getItem('closedAnnouncement') == ($ '.alert-announcement').html()
     ($ '.alert-announcement').hide()
 
+$notifications = ($ '#notifications')
 
 window.clear_notifications = ->
-  ($ '#notifications').empty()
+  $notifications.empty()
 
 
 window.show_notification = (message, category='warning') ->
   clear_notifications()
   return if not message
 
-  ($ '#notifications').append """
+  $notifications.append """
       <div class="alert alert-dismissable alert-#{category}">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         #{message}
