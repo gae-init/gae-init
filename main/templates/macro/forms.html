@@ -14,10 +14,39 @@
 
 # macro input_field(field, type='text')
   <div class="form-group {{'has-error' if field.errors}}">
-    {{field.label(class='control-label')}}
+    {{field.label(class='control-label')}}{% if field.flags.required %}*      
+    {{field(class='form-control', type=type, required='required', **kwargs)}}
+      {% else %}    
     {{field(class='form-control', type=type, **kwargs)}}
+      {% endif %}
     {{field_errors(field)}}
     {{field_description(field)}}
+  </div>
+# endmacro
+
+
+# macro cascade_input_field(field, field2, type='text', type2='text')
+  <div class="form-group {{'has-error' if field.errors}}">
+    <div class="row">
+      <div class="col-lg-6">
+          {{field.label(class='control-label')}}{% if field.flags.required %}*      
+          {{field(class='form-control', type=type,  required='required', **kwargs)}}
+            {% else %}    
+          {{field(class='form-control', type=type, **kwargs)}}
+            {% endif %}
+          {{field_errors(field)}}
+          {{field_description(field)}}
+      </div>
+      <div class="col-lg-6">
+          {{field2.label(class='control-label')}}{% if field2.flags.required %}*      
+          {{field2(class='form-control', type=type2,  required='required', **kwargs)}}
+            {% else %}    
+          {{field2(class='form-control', type=type2, **kwargs)}}
+            {% endif %}
+          {{field_errors(field2)}}
+          {{field_description(field2)}}
+      </div>
+    </div>
   </div>
 # endmacro
 
@@ -31,6 +60,9 @@
   {{input_field(field, type='password', **kwargs)}}
 # endmacro
 
+# macro tel_field(field)
+ {{input_field(field, type='tel', **kwargs)}}
+#endmacro
 
 # macro number_field(field)
   {{input_field(field, type='number', **kwargs)}}
@@ -59,8 +91,11 @@
 
 # macro textarea_field(field, rows=4)
   <div class="form-group {{'has-error' if field.errors}}">
-    {{field.label(class='control-label')}}
+    {{field.label(class='control-label')}}{% if field.flags.required %}*
+    {{field(class='form-control', rows=rows,  required='required', **kwargs)}}
+      {% else %}
     {{field(class='form-control', rows=rows, **kwargs)}}
+      {% endif %}
     {{field_errors(field)}}
     {{field_description(field)}}
   </div>
@@ -80,19 +115,44 @@
 
 # macro list_input_field(field, type)
   <div class="form-group {{'has-error' if field.errors}}">
-    {{field.label(class='control-label')}}
+    {{field.label(class='control-label')}}{% if field.flags.required %}*{% endif %}
     {{field_description(field)}}
     # for key, value in field.choices
       <div class="{{type}}">
         <label>
-          <input type="{{type}}" name="{{field.name}}" value="{{key}}"
+          <input type="{{type}}" name="{{field.name}}" value="{{key}}" 
             # if field.data and key in field.data
               checked
             # endif
+             # if field.flags.required
+             required
+             # endif
           > {{value}}
         </label>
       </div>
     # endfor
+    {{field_errors(field)}}
+  </div>
+# endmacro
+
+# macro radio_field(field)
+  <div class="form-group {{'has-error' if field.errors}}">
+    {{field.label(class='control-label')}}{% if field.flags.required %}*{% endif %}
+    {{field_description(field)}}
+    # for key, value, _ in field.iter_choices()
+        <div class="radio">
+            <label>
+                <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ key }}"
+                # if field.data and key in field.data
+                  checked
+                # endif                       
+                 # if field.flags.required
+                 required
+                 # endif
+                >{{ value }}
+            </label>
+        </div>
+    # endfor 
     {{field_errors(field)}}
   </div>
 # endmacro
