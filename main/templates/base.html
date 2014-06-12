@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>
       # block title
-        {{title + ' |' if title}}
+        {{title + ' | ' if title}}{{config.CONFIG_DB.brand_name}}
       # endblock
-      {{config.CONFIG_DB.brand_name}}
     </title>
     # include 'bit/style.html'
     # block head
