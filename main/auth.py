@@ -158,10 +158,10 @@ def permission_required(permission=None, methods=None):
 @app.route('/login/')
 @app.route('/signin/')
 def signin():
-  next_url = util.get_next_url()
-  if flask.url_for('signin') in next_url:
-    next_url = flask.url_for('welcome')
+  if current_user_db():
+    return flask.redirect(flask.url_for('welcome'))  
 
+  next_url = util.get_next_url()
   google_signin_url = flask.url_for('signin_google', next=next_url)
   twitter_signin_url = flask.url_for('signin_twitter', next=next_url)
   facebook_signin_url = flask.url_for('signin_facebook', next=next_url)
