@@ -6,7 +6,6 @@ syntax: glob
 .git*
 .hg*
 bower_components
-main/index.yaml
 main/lib
 main/lib.zip
 main/static/dst
