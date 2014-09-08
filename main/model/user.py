@@ -8,6 +8,7 @@ from google.appengine.ext import ndb
 
 import model
 import util
+import config
 
 
 class User(model.Base):
@@ -18,6 +19,9 @@ class User(model.Base):
   active = ndb.BooleanProperty(default=True)
   admin = ndb.BooleanProperty(default=False)
   permissions = ndb.StringProperty(repeated=True)
+  verified = ndb.BooleanProperty(default=False)
+  token = ndb.StringProperty(default='')
+  password_hash = ndb.StringProperty(default='')
 
   def has_permission(self, perm):
     return self.admin or perm in self.permissions
@@ -35,24 +39,36 @@ class User(model.Base):
       'auth_ids',
       'avatar_url',
       'email',
+      'verified',
       'name',
-      'username',
       'permissions',
+      'username',
     })
 
   @classmethod
-  def get_dbs(cls, admin=None, active=None, permissions=None, **kwargs):
+  def get_dbs(
+      cls, admin=None, active=None, verified=None, permissions=None, **kwargs
+    ):
     return super(User, cls).get_dbs(
         admin=admin or util.param('admin', bool),
         active=active or util.param('active', bool),
+        verified=verified or util.param('verified', bool),
         permissions=permissions or util.param('permissions', list),
         **kwargs
       )
 
   @classmethod
-  def is_username_available(cls, username, self_db=None):
-    if self_db is None:
+  def is_username_available(cls, username, self_key=None):
+    if self_key is None:
       return cls.get_by('username', username) is None
-    user_dbs, _ = util.get_dbs(cls.query(), username=username, limit=2)
-    c = len(user_dbs)
-    return not (c == 2 or c == 1 and self_db.key != user_dbs[0].key)
+    user_keys, _ = util.get_keys(cls.query(), username=username, limit=2)
+    return not user_keys or self_key in user_keys and not user_keys[1:]
+
+  @classmethod
+  def is_email_available(cls, email, self_key=None):
+    if not config.CONFIG_DB.check_unique_email:
+      return True
+    user_keys, _ = util.get_keys(
+        cls.query(), email=email, verified=True, limit=2,
+      )
+    return not user_keys or self_key in user_keys and not user_keys[1:]

@@ -20,7 +20,8 @@
         {{form.csrf_token}}
         {{forms.text_field(form.name, autofocus=True)}}
         {{forms.text_field(form.username, autocomplete='off')}}
-        {{forms.email_field(form.email)}}
+        # include 'user/user_email_field.html'
+        {{forms.checkbox_field(form.verified)}}
         # if current_user.id != user_db.key.id()
           {{forms.checkbox_field(form.admin)}}
           {{forms.checkbox_field(form.active)}}
@@ -51,6 +52,12 @@
               </tr>
             </thead>
             <tbody>
+              # if user_db.password_hash
+                <tr>
+                  <td>{{utils.auth_icon('email_auth')}}</td>
+                  <td>{{'Email Authentication'}}</td>
+                </tr>
+              # endif
               # for auth_id in user_db.auth_ids
                 <tr>
                   <td>{{utils.auth_icon(auth_id)}}</td>

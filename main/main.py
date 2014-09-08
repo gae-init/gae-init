@@ -4,6 +4,7 @@ import logging
 
 from flask.ext import wtf
 import flask
+import wtforms
 
 import config
 import util
@@ -22,6 +23,7 @@ app.jinja_env.globals.update(
 
 import admin
 import auth
+import model
 import task
 import user
 
@@ -29,6 +31,7 @@ import user
 if config.DEVELOPMENT:
   from werkzeug import debug
   app.wsgi_app = debug.DebuggedApplication(app.wsgi_app, evalex=True)
+  app.testing = True
 
 
 ###############################################################################
@@ -57,12 +60,21 @@ def sitemap():
 # Profile stuff
 ###############################################################################
 class ProfileUpdateForm(wtf.Form):
-  name = wtf.StringField('Name',
-      [wtf.validators.required()], filters=[util.strip_filter],
+  name = wtforms.StringField(
+      'Name',
+      [wtforms.validators.required()], filters=[util.strip_filter],
     )
-  email = wtf.StringField('Email',
-      [wtf.validators.optional(), wtf.validators.email()],
+  email = wtforms.StringField(
+      'Email',
+      [wtforms.validators.optional(), wtforms.validators.email()],
       filters=[util.email_filter],
+    )
+  old_password = wtforms.StringField(
+      'Old Password', [wtforms.validators.optional()],
+    )
+  new_password = wtforms.StringField(
+      'New Password',
+      [wtforms.validators.optional(), wtforms.validators.length(min=6)]
     )
 
 
@@ -74,9 +86,34 @@ def profile():
   form = ProfileUpdateForm(obj=user_db)
 
   if form.validate_on_submit():
-    form.populate_obj(user_db)
-    user_db.put()
-    return flask.redirect(flask.url_for('welcome'))
+    email = form.email.data
+    if email and not user_db.is_email_available(email, user_db.key):
+      form.email.errors.append('This email is already taken.')
+
+    errors = False
+    old_password = form.old_password.data
+    new_password = form.new_password.data
+    if new_password or old_password:
+      if user_db.password_hash:
+        if util.password_hash(user_db, old_password) != user_db.password_hash:
+          form.old_password.errors.append('Invalid current password')
+          errors = True
+      if not errors and old_password and not new_password:
+        form.new_password.errors.append('This field is required.')
+        errors = True
+
+      if not (form.errors or errors):
+        user_db.password_hash = util.password_hash(user_db, new_password)
+        flask.flash('Your password has been changed.', category='success')
+
+    if not (form.errors or errors):
+      send_verification = not user_db.token or user_db.email != email
+      form.populate_obj(user_db)
+      if send_verification:
+        user_db.verified = False
+        task.verify_email_notification(user_db)
+      user_db.put()
+      return flask.redirect(flask.url_for('welcome'))
 
   if flask.request.path.startswith('/_s/'):
     return util.jsonify_model_db(user_db)
@@ -95,16 +132,16 @@ def profile():
 # Feedback
 ###############################################################################
 class FeedbackForm(wtf.Form):
-  subject = wtf.StringField('Subject',
-      [wtf.validators.required()], filters=[util.strip_filter],
+  message = wtforms.TextAreaField(
+      'Message',
+      [wtforms.validators.required()], filters=[util.strip_filter],
     )
-  message = wtf.TextAreaField('Message',
-      [wtf.validators.required()], filters=[util.strip_filter],
-    )
-  email = wtf.StringField('Your email (optional)',
-      [wtf.validators.optional(), wtf.validators.email()],
+  email = wtforms.StringField(
+      'Your email (optional)',
+      [wtforms.validators.optional(), wtforms.validators.email()],
       filters=[util.email_filter],
     )
+  recaptcha = wtf.RecaptchaField('Are you human?')
 
 
 @app.route('/feedback/', methods=['GET', 'POST'])
@@ -113,10 +150,12 @@ def feedback():
     return flask.abort(418)
 
   form = FeedbackForm(obj=auth.current_user_db())
+  if not config.CONFIG_DB.has_anonymous_recaptcha or auth.is_logged_in():
+    del form.recaptcha
   if form.validate_on_submit():
     body = '%s\n\n%s' % (form.message.data, form.email.data)
     kwargs = {'reply_to': form.email.data} if form.email.data else {}
-    task.send_mail_notification(form.subject.data, body, **kwargs)
+    task.send_mail_notification('%s...' % body[:48].strip(), body, **kwargs)
     flask.flash('Thank you for your feedback!', category='success')
     return flask.redirect(flask.url_for('welcome'))
 

@@ -1,10 +1,10 @@
 # macro order_by_link(property, title, ignore='cursor')
   # if request.args.get('order') == property
     <a href="{{update_query_argument('order', '-' + property, ignore)}}">{{title}}</a>
-    <i class="fa fa-chevron-up text-muted"></i>
+    <i class="fa fa-sort-up text-muted"></i>
   # elif request.args.get('order') == '-' + property
     <a href="{{update_query_argument('order', property, ignore)}}">{{title}}</a>
-    <i class="fa fa-chevron-down text-muted"></i>
+    <i class="fa fa-sort-down text-muted"></i>
   #else
     <a href="{{update_query_argument('order', property, ignore)}}">{{title}}</a>
   #endif
@@ -41,22 +41,45 @@
 # endmacro
 
 
+# macro signin_button(brand, class_btn, class_icon, url, is_icon=False)
+  # set caption = 'Sign in with %s' % brand
+  <a class="btn btn-lg {{'btn-social-icon' if is_icon else 'btn-block btn-social'}} {{class_btn}}" href="{{url}}" title="{{caption if is_icon}}" rel="nofollow">
+    <i class="fa {{class_icon}}"></i>
+    {{caption if not is_icon}}
+  </a>
+# endmacro
+
+
 # macro auth_icon(auth_id)
-  # if auth_id.startswith('federated')
-    <span class="fa fa-fw fa-google-plus"></span>
+  # if auth_id == 'email_auth'
+    <span class="fa fa-fw fa-lock" title="Password"></span>
+  # elif auth_id.startswith('federated')
+    <span class="fa fa-fw fa-google-plus" title="Google"></span>
   # elif auth_id.startswith('facebook')
-    <span class="fa fa-fw fa-facebook"></span>
+    <span class="fa fa-fw fa-facebook" title="Facebook"></span>
   # elif auth_id.startswith('twitter')
-    <span class="fa fa-fw fa-twitter"></span>
+    <span class="fa fa-fw fa-twitter" title="Twitter"></span>
   # else
-    <span class="fa fa-fw fa-question"></span>
+    <span class="fa fa-fw fa-question" title="Unknown"></span>
   # endif
 # endmacro
 
 
-# macro auth_icons(auth_ids)
-  # for auth_id in auth_ids
-    {{auth_icon(auth_id)}}
+# macro auth_icons(user_db, max=0)
+  # set count = user_db.auth_ids|length
+  # set max = 3 if max > 0 and max < 3 else max
+  # if user_db.password_hash
+    # set max = max - 1 if max else max
+    {{auth_icon('email_auth')}}
+  # endif
+  # set max = max - 1 if max and count > max else max
+  # set more = count - max if max else 0
+  # for auth_id in user_db.auth_ids
+    # if not max or loop.index0 < max
+      {{auth_icon(auth_id)}}
+    # elif max and loop.index0 == max
+      <span class="fa fa-fw fa-ellipsis-h" title="{{'%d more' % more}}"></span>
+    # endif
   # endfor
 # endmacro
 
