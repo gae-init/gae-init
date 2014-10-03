@@ -151,6 +151,9 @@ class UserForgotForm(wtf.Form):
 
 @app.route('/user/forgot/', methods=['GET', 'POST'])
 def user_forgot(token=None):
+  if auth.current_user_db():
+    return flask.redirect(flask.url_for('welcome'))
+  
   if not config.CONFIG_DB.has_email_authentication:
     flask.abort(418)
 
