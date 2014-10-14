@@ -3,6 +3,7 @@
   "dependencies": {
     "bootstrap": "~3",
     "font-awesome": "~4",
+    "intro.js": "~0",
     "jquery": "~2",
     "moment": "~2",
     "nprogress": "https://github.com/lipis/nprogress.git#master"
@@ -17,6 +18,11 @@
     "font-awesome": {
       "less": "less/*.less",
       "font": "fonts/*"
+    },
+    "intro.js": {
+      "css": "*.css",
+      "css/themes": "themes/*.css",
+      "js": "*.js"
     },
     "jquery": {
       "js": "dist/jquery.js"
