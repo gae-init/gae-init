@@ -133,7 +133,9 @@ def admin_required(f):
 permission_registered = _signals.signal('permission-registered')
 
 
-def permission_required(permission=None, methods=None):
+def permission_required(
+    permission=None, methods=None, redirect=None, **redirect_kws
+  ):
   def permission_decorator(f):
     decorator_order_guard(f, 'auth.permission_required')
 
@@ -153,7 +155,9 @@ def permission_required(permission=None, methods=None):
         if flask.request.path.startswith('/_s/'):
           return flask.abort(401)
         return flask.redirect(flask.url_for('signin', next=flask.request.url))
-      return flask.abort(403)
+      if not redirect or flask.request.path.startswith('/_s/'):
+        return flask.abort(403)
+      return flask.redirect(flask.url_for(redirect, **redirect_kws))
     return decorated_function
   return permission_decorator
 
