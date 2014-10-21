@@ -17,6 +17,7 @@ from main import app
 ###############################################################################
 @app.route('/_s/profile/', endpoint='profile_service')
 @app.route('/profile/')
+@auth.ssl_required
 @auth.login_required
 def profile():
   user_db = auth.current_user_db()
@@ -49,6 +50,7 @@ class ProfileUpdateForm(wtf.Form):
 
 
 @app.route('/profile/update/', methods=['GET', 'POST'])
+@auth.ssl_required
 @auth.login_required
 def profile_update():
   user_db = auth.current_user_db()
@@ -91,6 +93,7 @@ class ProfilePasswordForm(wtf.Form):
 
 
 @app.route('/profile/password/', methods=['GET', 'POST'])
+@auth.ssl_required
 @auth.login_required
 def profile_password():
   if not config.CONFIG_DB.has_email_authentication:

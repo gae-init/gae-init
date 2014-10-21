@@ -16,6 +16,7 @@ from main import app
 # Admin Stuff
 ###############################################################################
 @app.route('/admin/')
+@auth.ssl_required
 @auth.admin_required
 def admin():
   return flask.render_template(
@@ -47,6 +48,7 @@ class ConfigUpdateForm(wtf.Form):
 
 @app.route('/_s/admin/config/', endpoint='admin_config_update_service')
 @app.route('/admin/config/', methods=['GET', 'POST'])
+@auth.ssl_required
 @auth.admin_required
 def admin_config():
   config_db = model.Config.get_master_db()
@@ -86,6 +88,7 @@ class AuthUpdateForm(wtf.Form):
 
 @app.route('/_s/admin/auth/', endpoint='admin_auth_service')
 @app.route('/admin/auth/', methods=['GET', 'POST'])
+@auth.ssl_required
 @auth.admin_required
 def admin_auth():
   config_db = model.Config.get_master_db()

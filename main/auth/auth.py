@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 
 import functools
+import logging
 import re
 
 from flask.ext import login
@@ -102,6 +103,21 @@ def is_logged_in():
 ###############################################################################
 # Decorators
 ###############################################################################
+def ssl_required(f):
+  @functools.wraps(f)
+  def decorated_function(*args, **kws):
+    if flask.request.is_secure:
+      return f(*args, **kws)
+    else:
+      redir = httpsify_url(flask.request.url)
+      if config.PRODUCTION:
+        return flask.redirect(redir)
+      else:
+        logging.info('production would redirect to %s' % redir)
+    return f(*args, **kws)
+  return decorated_function
+
+
 def login_required(f):
   decorator_order_guard(f, 'auth.login_required')
 
@@ -180,6 +196,7 @@ class SignInForm(wtf.Form):
 
 
 @app.route('/signin/', methods=['GET', 'POST'], endpoint='signin')
+@ssl_required
 def signin():
   next_url = util.get_next_url()
   form = None
@@ -225,6 +242,7 @@ class SignUpForm(wtf.Form):
 
 
 @app.route('/signup/', methods=['GET', 'POST'], endpoint='signup')
+@ssl_required
 def signup():
   next_url = util.get_next_url()
   form = None
@@ -275,6 +293,20 @@ def signout():
 ###############################################################################
 # Helpers
 ###############################################################################
+def httpsify_url(uri):
+  appspot_version_uri = 'http://%s.%s.appspot.com' % (
+      config.CURRENT_VERSION_NAME,
+      config.APPLICATION_ID
+    )
+  if uri.startswith(appspot_version_uri):
+    appspot_https_compat = 'https://%s-dot-%s.appspot.com' % (
+        config.CURRENT_VERSION_NAME,
+        config.APPLICATION_ID
+      )
+    uri = uri.replace(appspot_version_uri, appspot_https_compat, 1)
+  return uri.replace("http://", "https://", 1)
+
+
 def url_for_signin(service_name, next_url):
   return flask.url_for('signin_%s' % service_name, next=next_url)
 
