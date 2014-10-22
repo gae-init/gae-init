@@ -2,6 +2,7 @@
   "name": "gae-init",
   "dependencies": {
     "bootstrap": "~3",
+    "bootstrap-material-design": "~0",
     "font-awesome": "~4",
     "jquery": "~2",
     "moment": "~2",
@@ -12,6 +13,11 @@
       "js": "js/*.js",
       "less": "less/*.less",
       "less/mixins": "less/mixins/*.less",
+      "font": "fonts/*"
+    },
+    "bootstrap-material-design": {
+      "js": "scripts/*.js",
+      "less": "less/*.less",
       "font": "fonts/*"
     },
     "font-awesome": {
