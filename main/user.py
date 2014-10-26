@@ -23,6 +23,7 @@ from main import app
 ###############################################################################
 @app.route('/_s/user/', endpoint='user_list_service')
 @app.route('/user/')
+@auth.ssl_required
 @auth.admin_required
 def user_list():
   user_dbs, user_cursor = model.User.get_dbs(email=util.param('email'))
@@ -83,6 +84,7 @@ class UserUpdateForm(wtf.Form):
 
 
 @app.route('/user/<int:user_id>/update/', methods=['GET', 'POST'])
+@auth.ssl_required
 @auth.admin_required
 def user_update(user_id):
   user_db = model.User.get_by_id(user_id)
@@ -124,6 +126,7 @@ def user_update(user_id):
 # User Verify
 ###############################################################################
 @app.route('/user/verify/<token>/')
+@auth.ssl_required
 @auth.login_required
 def user_verify(token):
   user_db = auth.current_user_db()
@@ -150,6 +153,7 @@ class UserForgotForm(wtf.Form):
 
 
 @app.route('/user/forgot/', methods=['GET', 'POST'])
+@auth.ssl_required
 def user_forgot(token=None):
   if not config.CONFIG_DB.has_email_authentication:
     flask.abort(418)
@@ -198,6 +202,7 @@ class UserResetForm(wtf.Form):
 
 @app.route('/user/reset/<token>/', methods=['GET', 'POST'])
 @app.route('/user/reset/', methods=['GET', 'POST'])
+@auth.ssl_required
 def user_reset(token=None):
   if token is None:
     flask.abort(404)
@@ -244,6 +249,7 @@ class UserActivateForm(wtf.Form):
 
 
 @app.route('/user/activate/<token>/', methods=['GET', 'POST'])
+@auth.ssl_required
 def user_activate(token):
   if auth.is_logged_in():
     login.logout_user()
@@ -276,6 +282,7 @@ def user_activate(token):
 # User Delete
 ###############################################################################
 @app.route('/_s/user/delete/', methods=['DELETE'])
+@auth.ssl_required
 @auth.admin_required
 def user_delete_service():
   user_keys = util.param('user_keys', list)
@@ -312,6 +319,7 @@ class UserMergeForm(wtf.Form):
 
 @app.route('/_s/user/merge/')
 @app.route('/user/merge/', methods=['GET', 'POST'])
+@auth.ssl_required
 @auth.admin_required
 def user_merge():
   user_keys = util.param('user_keys', list)
