@@ -179,7 +179,7 @@ class SignInForm(wtf.Form):
   next_url = wtforms.HiddenField()
 
 
-@app.route('/signin/', methods=['GET', 'POST'], endpoint='signin')
+@app.route('/signin/', methods=['GET', 'POST'])
 def signin():
   next_url = util.get_next_url()
   form = None
@@ -224,7 +224,7 @@ class SignUpForm(wtf.Form):
   recaptcha = wtf.RecaptchaField('Are you human?')
 
 
-@app.route('/signup/', methods=['GET', 'POST'], endpoint='signup')
+@app.route('/signup/', methods=['GET', 'POST'])
 def signup():
   next_url = util.get_next_url()
   form = None
@@ -281,9 +281,10 @@ def url_for_signin(service_name, next_url):
 
 def urls_for_oauth(next_url):
   return {
+      'facebook_signin_url': url_for_signin('facebook', next_url),
+      'github_signin_url': url_for_signin('github', next_url),
       'google_signin_url': url_for_signin('google', next_url),
       'twitter_signin_url': url_for_signin('twitter', next_url),
-      'facebook_signin_url': url_for_signin('facebook', next_url),
     }
 
 
