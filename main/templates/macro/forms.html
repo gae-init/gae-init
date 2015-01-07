@@ -12,18 +12,16 @@
 # endmacro
 
 
-# macro field_required(field)
-  # if field.flags.required
-    <sup>
-      <span class="fa fa-asterisk small text-muted" title="Required"></span>
-    </sup>
+# macro field_optional(field)
+  # if not field.flags.required
+    <small class="text-muted">(optional)</small>
   # endif
 # endmacro
 
 
 # macro input_field(field, prefix='', suffix='')
   <div class="form-group {{'has-error' if field.errors}}">
-    {{field.label(class='control-label')}} {{field_required(field)}}
+    {{field.label(class='control-label')}} {{field_optional(field)}}
     # if prefix or suffix
       <div class="input-group">
         # if prefix
@@ -97,7 +95,7 @@
 
 # macro textarea_field(field, rows=4)
   <div class="form-group {{'has-error' if field.errors}}">
-    {{field.label(class='control-label')}} {{field_required(field)}}
+    {{field.label(class='control-label')}} {{field_optional(field)}}
     {{field(class='form-control', rows=rows, **kwargs)}}
     {{field_errors(field)}}
     {{field_description(field)}}
@@ -118,7 +116,7 @@
 
 # macro list_input_field(field, type)
   <div class="form-group {{'has-error' if field.errors}}">
-    {{field.label(class='control-label')}} {{field_required(field)}}
+    {{field.label(class='control-label')}} {{field_optional(field)}}
     {{field_description(field)}}
     # for key, value in field.choices
       <div class="{{type}}">
