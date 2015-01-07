@@ -14,7 +14,7 @@
 
 # macro input_field(field, prefix='', suffix='')
   <div class="form-group {{'has-error' if field.errors}}">
-    {{field.label(class='control-label')}}
+    {{field.label(class='control-label')}} {% if field.flags.required %}*{% endif %}
     # if prefix or suffix
       <div class="input-group">
         # if prefix
@@ -88,7 +88,7 @@
 
 # macro textarea_field(field, rows=4)
   <div class="form-group {{'has-error' if field.errors}}">
-    {{field.label(class='control-label')}}
+    {{field.label(class='control-label')}} {% if field.flags.required %}*{% endif %}
     {{field(class='form-control', rows=rows, **kwargs)}}
     {{field_errors(field)}}
     {{field_description(field)}}
@@ -109,7 +109,7 @@
 
 # macro list_input_field(field, type)
   <div class="form-group {{'has-error' if field.errors}}">
-    {{field.label(class='control-label')}}
+    {{field.label(class='control-label')}} {% if field.flags.required %}*{% endif %}
     {{field_description(field)}}
     # for key, value in field.choices
       <div class="{{type}}">
