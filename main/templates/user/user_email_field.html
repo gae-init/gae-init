@@ -1,6 +1,7 @@
+# import 'macro/forms.html' as forms
 # if config.CONFIG_DB.verify_email
   <div class="form-group has-feedback {{'has-error' if form.email.errors}}">
-    {{form.email.label(class='control-label')}} {{field_optional(field)}}
+    {{form.email.label(class='control-label')}} {{forms.field_optional(field)}}
     {{form.email(class='form-control')}}
     # if request.method == 'GET' and user_db.email
       # if user_db.verified
