@@ -76,7 +76,6 @@ IS_WINDOWS = platform.system() == 'Windows'
 DIR_BOWER_COMPONENTS = 'bower_components'
 DIR_MAIN = 'main'
 DIR_NODE_MODULES = 'node_modules'
-DIR_STYLE = 'style'
 DIR_SCRIPT = 'script'
 DIR_TEMP = 'temp'
 DIR_VENV = os.path.join(DIR_TEMP, 'venv')
@@ -85,16 +84,13 @@ DIR_STATIC = os.path.join(DIR_MAIN, 'static')
 
 DIR_SRC = os.path.join(DIR_STATIC, 'src')
 DIR_SRC_SCRIPT = os.path.join(DIR_SRC, DIR_SCRIPT)
-DIR_SRC_STYLE = os.path.join(DIR_SRC, DIR_STYLE)
 
 DIR_DST = os.path.join(DIR_STATIC, 'dst')
-DIR_DST_STYLE = os.path.join(DIR_DST, DIR_STYLE)
 DIR_DST_SCRIPT = os.path.join(DIR_DST, DIR_SCRIPT)
 
 DIR_EXT = os.path.join(DIR_STATIC, 'ext')
 
 DIR_MIN = os.path.join(DIR_STATIC, 'min')
-DIR_MIN_STYLE = os.path.join(DIR_MIN, DIR_STYLE)
 DIR_MIN_SCRIPT = os.path.join(DIR_MIN, DIR_SCRIPT)
 
 DIR_LIB = os.path.join(DIR_MAIN, 'lib')
@@ -110,7 +106,6 @@ FILE_BOWER_GUARD = os.path.join(DIR_TEMP, 'bower.guard')
 DIR_BIN = os.path.join(DIR_NODE_MODULES, '.bin')
 FILE_COFFEE = os.path.join(DIR_BIN, 'coffee')
 FILE_GULP = os.path.join(DIR_BIN, 'gulp')
-FILE_LESS = os.path.join(DIR_BIN, 'lessc')
 FILE_UGLIFYJS = os.path.join(DIR_BIN, 'uglifyjs')
 FILE_VENV = os.path.join(DIR_VENV, 'Scripts', 'activate.bat') \
     if IS_WINDOWS \
@@ -198,29 +193,6 @@ def compile_script(source, target_dir):
   os_execute(FILE_COFFEE, '-cp', source, target)
 
 
-def compile_style(source, target_dir, check_modified=False):
-  if not os.path.isfile(source):
-    print_out('NOT FOUND', source)
-    return
-  if not source.endswith('.less'):
-    return
-
-  target = source.replace(DIR_SRC_STYLE, target_dir).replace('.less', '.css')
-  if check_modified and not is_style_modified(target):
-    return
-
-  minified = ''
-  if target_dir == DIR_MIN_STYLE:
-    minified = '-x'
-    target = target.replace('.css', '.min.css')
-    print_out('LESS MIN', source)
-  else:
-    print_out('LESS', source)
-
-  make_dirs(os.path.dirname(target))
-  os_execute(FILE_LESS, minified, source, target)
-
-
 def make_lib_zip(force=False):
   if force and os.path.isfile(FILE_LIB):
     remove_file_dir(FILE_LIB)
@@ -238,18 +210,7 @@ def is_dirty(source, target):
   return os.stat(source).st_mtime - os.stat(target).st_mtime > 0
 
 
-def is_style_modified(target):
-  for root, _, files in os.walk(DIR_SRC):
-    for filename in files:
-      path = os.path.join(root, filename)
-      if path.endswith('.less') and is_dirty(path, target):
-        return True
-  return False
-
-
 def compile_all_dst():
-  for source in config.STYLES:
-    compile_style(os.path.join(DIR_STATIC, source), DIR_DST_STYLE, True)
   for _, scripts in config.SCRIPTS:
     for source in scripts:
       compile_script(os.path.join(DIR_STATIC, source), DIR_DST_SCRIPT)
@@ -258,9 +219,6 @@ def compile_all_dst():
 def update_path_separators():
   def fixit(path):
     return path.replace('\\', '/').replace('/', os.sep)
-
-  for idx in xrange(len(config.STYLES)):
-    config.STYLES[idx] = fixit(config.STYLES[idx])
 
   for _, scripts in config.SCRIPTS:
     for idx in xrange(len(scripts)):
@@ -528,7 +486,7 @@ def run_clean():
   clean_files()
   make_lib_zip(force=True)
   if IS_WINDOWS:
-    clean_files(['css', 'js'], DIR_DST)
+    clean_files(['js'], DIR_DST)
   else:
     remove_file_dir(DIR_DST)
   make_dirs(DIR_DST)
@@ -554,9 +512,6 @@ def run_minify():
   make_lib_zip(force=True)
   remove_file_dir(DIR_MIN)
   make_dirs(DIR_MIN_SCRIPT)
-
-  for source in config.STYLES:
-    compile_style(os.path.join(DIR_STATIC, source), DIR_MIN_STYLE)
 
   cat, separator = ('type', ',') if IS_WINDOWS else ('cat', ' ')
 
