@@ -25,7 +25,6 @@
     "gulp-load-plugins": "~0",
     "gulp-minify-css": "~0",
     "gulp-plumber": "~0.6",
-    "main-bower-files": "~2",
-    "minimist": "~1"
+    "main-bower-files": "~2"
   }
 }
