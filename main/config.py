@@ -38,10 +38,6 @@ SIGNIN_RETRY_LIMIT = 4
 ###############################################################################
 # Client modules, also used by the run.py script.
 ###############################################################################
-STYLES = [
-    'src/style/style.less',
-  ]
-
 SCRIPTS = [
     ('libs', [
         'ext/jquery/dist/jquery.js',

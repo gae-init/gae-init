@@ -1,10 +1,12 @@
 gulp = require('gulp')
-$ = require('gulp-load-plugins')()
+$ = require('gulp-load-plugins')(
+  rename:
+    'gulp-minify-css': 'min_css'
+)
 main_bower_files = require 'main-bower-files'
 del = require 'del'
 exec = require('child_process').exec
 minimist = require 'minimist'
-
 
 root_dir = './main'
 static_dir = "#{root_dir}/static"
@@ -15,8 +17,8 @@ paths =
       "#{static_dir}/min"
     ]
   watch: [
-      "#{static_dir}/**/*.css"
-      "#{static_dir}/**/*.js"
+      "#{static_dir}/dst/style/**/*.css"
+      "#{static_dir}/dst/script/**/*.js"
       "#{root_dir}/**/*.html"
       "#{root_dir}/**/*.py"
     ]
@@ -39,11 +41,19 @@ gulp.task 'ext', ['bower_install'], ->
     base: 'bower_components'
   ).pipe gulp.dest("#{static_dir}/ext")
 
+gulp.task 'less', ->
+  gulp.src("#{static_dir}/src/style/style.less")
+    .pipe($.less())
+    .pipe(gulp.dest("#{static_dir}/dst/style/"))
+    .pipe($.min_css({keepBreaks:true}))
+    .pipe(gulp.dest("#{static_dir}/min/style/"))
+
 gulp.task 'reload', ->
   $.livereload.listen()
   gulp.watch(paths.watch).on 'change', $.livereload.changed
 
 gulp.task 'watch', ->
+  gulp.watch("#{static_dir}/src/style/**/*.less", ['less'])
   run 'w'
 
 gulp.task 'run', ->
@@ -66,4 +76,4 @@ gulp.task 'run', ->
         run k
         break
 
-gulp.task 'default', ['reload', 'run', 'watch']
+gulp.task 'default', ['reload', 'run', 'watch', 'less']
