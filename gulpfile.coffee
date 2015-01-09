@@ -19,6 +19,7 @@ paths =
   watch: [
       "#{static_dir}/dst/style/**/*.css"
       "#{static_dir}/dst/script/**/*.js"
+      "#{static_dir}/src/**/*.less"
       "#{root_dir}/**/*.html"
       "#{root_dir}/**/*.py"
     ]
@@ -28,7 +29,6 @@ run = (option) ->
   proc = exec "python -u run.py -#{option}"
   proc.stderr.on 'data', (data) -> process.stderr.write data
   proc.stdout.on 'data', (data) -> process.stdout.write data
-
 
 gulp.task 'clean', ->
   del paths.clean
@@ -43,10 +43,11 @@ gulp.task 'ext', ['bower_install'], ->
 
 gulp.task 'less', ->
   gulp.src("#{static_dir}/src/style/style.less")
-    .pipe($.less())
-    .pipe(gulp.dest("#{static_dir}/dst/style/"))
-    .pipe($.min_css({keepBreaks:true}))
-    .pipe(gulp.dest("#{static_dir}/min/style/"))
+    .pipe $.plumber()
+    .pipe $.less()
+    .pipe gulp.dest("#{static_dir}/dst/style/")
+    .pipe $.min_css(keepBreaks: true)
+    .pipe gulp.dest("#{static_dir}/min/style/")
 
 gulp.task 'reload', ->
   $.livereload.listen()
@@ -54,7 +55,7 @@ gulp.task 'reload', ->
 
 gulp.task 'watch', ->
   gulp.watch("#{static_dir}/src/style/**/*.less", ['less'])
-  run 'w'
+  # run 'w'
 
 gulp.task 'run', ->
   argv = process.argv.slice(2)
@@ -76,4 +77,4 @@ gulp.task 'run', ->
         run k
         break
 
-gulp.task 'default', ['reload', 'run', 'watch', 'less']
+gulp.task 'default', ['reload', 'watch', 'less']
