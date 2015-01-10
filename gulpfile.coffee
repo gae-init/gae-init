@@ -76,23 +76,16 @@ gulp.task 'coffee', ->
     .pipe $.coffee(bare:true)
     .pipe gulp.dest("#{static_dir}/dst/script/")
 
-
-gulp.task 'minify', ->
-  del "#{static_dir}/min"
-  gulp.src(paths.bower_components)
-    .pipe $.plumber()
-    .pipe $.concat("libs.min.js")
-    .pipe $.uglify()
-    .pipe gulp.dest("#{static_dir}/min/script/")
-
   gulp.src(paths.scripts)
     .pipe $.concat("script.min.js")
     .pipe $.uglify()
     .pipe gulp.dest("#{static_dir}/min/script/")
 
-  gulp.src(paths.styles)
-    .pipe $.min_css(keepBreaks: true)
-    .pipe gulp.dest("#{static_dir}/min/style/")
+  gulp.src(paths.bower_components)
+    .pipe $.plumber()
+    .pipe $.concat("libs.min.js")
+    .pipe $.uglify()
+    .pipe gulp.dest("#{static_dir}/min/script/")
 
 
 gulp.task 'inject', ->
@@ -120,5 +113,4 @@ gulp.task 'watch', ->
   gulp.watch("#{script_dir}/**/*.coffee", ['coffee'])
 
 
-gulp.task 'default', ['reload', 'watch', 'less', 'coffee', 'inject']
-gulp.task 'min', ['less', 'coffee', 'minify']
+gulp.task 'default', ['less', 'coffee', 'inject', 'reload', 'watch']

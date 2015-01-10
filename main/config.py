@@ -2,7 +2,6 @@
 
 import os
 
-
 PRODUCTION = os.environ.get('SERVER_SOFTWARE', '').startswith('Google App Eng')
 DEBUG = DEVELOPMENT = not PRODUCTION
 
