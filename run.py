@@ -65,7 +65,7 @@ IS_WINDOWS = platform.system() == 'Windows'
 ###############################################################################
 # Directories
 ###############################################################################
-DIR_BOWER_COMPONENTS = 'bower_components'
+DIR_BOWER_COMPONENTS = 'main/static/bower_components'
 DIR_MAIN = 'main'
 DIR_NODE_MODULES = 'node_modules'
 DIR_TEMP = 'temp'
