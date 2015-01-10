@@ -9,6 +9,8 @@ exec = require('child_process').exec
 
 root_dir = './main'
 static_dir = "#{root_dir}/static"
+style_dir = "#{static_dir}/src/style"
+script_dir = "#{static_dir}/src/script"
 paths =
   clean: [
       "#{static_dir}/dst"
@@ -18,7 +20,6 @@ paths =
   watch: [
       "#{static_dir}/dst/style/**/*.css"
       "#{static_dir}/dst/script/**/*.js"
-      "#{static_dir}/src/**/*.less"
       "#{root_dir}/**/*.html"
       "#{root_dir}/**/*.py"
     ]
@@ -35,18 +36,39 @@ gulp.task 'ext', ['bower_install'], ->
   ).pipe gulp.dest("#{static_dir}/ext")
 
 gulp.task 'less', ->
-  gulp.src("#{static_dir}/src/style/style.less")
+  gulp.src("#{style_dir}/style.less")
     .pipe $.plumber()
     .pipe $.less()
     .pipe gulp.dest("#{static_dir}/dst/style/")
     .pipe $.min_css(keepBreaks: true)
     .pipe gulp.dest("#{static_dir}/min/style/")
 
+gulp.task 'coffee', ->
+  gulp.src("#{script_dir}/**/*.coffee")
+    .pipe $.plumber()
+    .pipe $.coffee(bare:true)
+    .pipe gulp.dest("#{static_dir}/dst/script/")
+    .pipe $.concat("script.min.js")
+    .pipe $.uglify()
+    .pipe gulp.dest("#{static_dir}/min/script/")
+
+gulp.task 'inject', ->
+  sources = gulp.src("#{static_dir}/dst/script/**/*.js",
+    read: false
+  )
+  gulp.src("#{root_dir}/templates/bit/script.html")
+    .pipe $.inject(sources,
+      ignorePath: '/main/static'
+      addPrefix: '/p'
+    )
+    .pipe gulp.dest("#{root_dir}/templates/bit/")
+
 gulp.task 'reload', ->
   $.livereload.listen()
   gulp.watch(paths.watch).on 'change', $.livereload.changed
 
 gulp.task 'watch', ->
-  gulp.watch("#{static_dir}/src/style/**/*.less", ['less'])
+  gulp.watch("#{style_dir}/**/*.less", ['less'])
+  gulp.watch("#{script_dir}/**/*.coffee", ['coffee'])
 
-gulp.task 'default', ['reload', 'watch', 'less']
+gulp.task 'default', ['reload', 'watch', 'less', 'coffee']
