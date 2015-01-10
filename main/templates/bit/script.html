@@ -1,23 +1,29 @@
-# for module, scripts in config.SCRIPTS
-  # if config.DEVELOPMENT
-    # for script in scripts
-      <script src="/p/{{script.replace('.coffee', '.js').replace('src/script/', 'dst/script/')}}?{{config.CURRENT_VERSION_ID}}"></script>
-    # endfor
-  # else
-    <script src="/p/min/script/{{module}}.min.js?{{config.CURRENT_VERSION_ID}}"></script>
-  # endif
-# endfor
-
+<!-- You javascript dependencies will be automatically injected from gulp -->
 # if config.DEVELOPMENT
   <script src="http://{{request.host.split(':')[0]}}:35729/livereload.js"></script>
-# endif
+  <!-- bower:js -->
+  <script src="/p/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/p/bower_components/moment/moment.js"></script>
+  <script src="/p/bower_components/nprogress/nprogress.js"></script>
+  <script src="/p/bower_components/bootstrap-sweetalert/lib/sweet-alert.js"></script>
+  <script src="/p/bower_components/bootstrap/js/alert.js"></script>
+  <script src="/p/bower_components/bootstrap/js/button.js"></script>
+  <script src="/p/bower_components/bootstrap/js/transition.js"></script>
+  <script src="/p/bower_components/bootstrap/js/collapse.js"></script>
+  <script src="/p/bower_components/bootstrap/js/dropdown.js"></script>
+  <script src="/p/bower_components/bootstrap/js/tooltip.js"></script>
+  <!-- endinject -->
 
-<!-- inject:js -->
-<script src="/p/dst/script/common/service.js"></script>
-<script src="/p/dst/script/common/util.js"></script>
-<script src="/p/dst/script/site/admin.js"></script>
-<script src="/p/dst/script/site/app.js"></script>
-<script src="/p/dst/script/site/auth.js"></script>
-<script src="/p/dst/script/site/profile.js"></script>
-<script src="/p/dst/script/site/user.js"></script>
-<!-- endinject -->
+  <!-- inject:js -->
+  <script src="/p/dst/script/common/service.js"></script>
+  <script src="/p/dst/script/common/util.js"></script>
+  <script src="/p/dst/script/site/app.js"></script>
+  <script src="/p/dst/script/site/admin.js"></script>
+  <script src="/p/dst/script/site/profile.js"></script>
+  <script src="/p/dst/script/site/auth.js"></script>
+  <script src="/p/dst/script/site/user.js"></script>
+  <!-- endinject -->
+# else
+  <script src="/p/min/script/libs.min.js?{{config.CURRENT_VERSION_ID}}"></script>
+  <script src="/p/min/script/script.min.js?{{config.CURRENT_VERSION_ID}}"></script>
+# endif
