@@ -23,10 +23,6 @@ from main import config
 ###############################################################################
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument(
-    '-w', '--watch', dest='watch', action='store_true',
-    help='watch files for changes when running the development web server',
-  )
-PARSER.add_argument(
     '-c', '--clean', dest='clean', action='store_true',
     help='recompiles files when running the development web server',
   )
@@ -34,10 +30,6 @@ PARSER.add_argument(
     '-C', '--clean-all', dest='clean_all', action='store_true',
     help='''Cleans all the pip, Node & Bower related tools / libraries and
     updates them to their latest versions''',
-  )
-PARSER.add_argument(
-    '-m', '--minify', dest='minify', action='store_true',
-    help='compiles files into minified version before deploying'
   )
 PARSER.add_argument(
     '-s', '--start', dest='start', action='store_true',
@@ -73,25 +65,11 @@ IS_WINDOWS = platform.system() == 'Windows'
 ###############################################################################
 # Directories
 ###############################################################################
-DIR_BOWER_COMPONENTS = 'bower_components'
+DIR_BOWER_COMPONENTS = 'main/static/bower_components'
 DIR_MAIN = 'main'
 DIR_NODE_MODULES = 'node_modules'
-DIR_SCRIPT = 'script'
 DIR_TEMP = 'temp'
 DIR_VENV = os.path.join(DIR_TEMP, 'venv')
-
-DIR_STATIC = os.path.join(DIR_MAIN, 'static')
-
-DIR_SRC = os.path.join(DIR_STATIC, 'src')
-DIR_SRC_SCRIPT = os.path.join(DIR_SRC, DIR_SCRIPT)
-
-DIR_DST = os.path.join(DIR_STATIC, 'dst')
-DIR_DST_SCRIPT = os.path.join(DIR_DST, DIR_SCRIPT)
-
-DIR_EXT = os.path.join(DIR_STATIC, 'ext')
-
-DIR_MIN = os.path.join(DIR_STATIC, 'min')
-DIR_MIN_SCRIPT = os.path.join(DIR_MIN, DIR_SCRIPT)
 
 DIR_LIB = os.path.join(DIR_MAIN, 'lib')
 DIR_LIBX = os.path.join(DIR_MAIN, 'libx')
@@ -104,9 +82,7 @@ FILE_NPM_GUARD = os.path.join(DIR_TEMP, 'npm.guard')
 FILE_BOWER_GUARD = os.path.join(DIR_TEMP, 'bower.guard')
 
 DIR_BIN = os.path.join(DIR_NODE_MODULES, '.bin')
-FILE_COFFEE = os.path.join(DIR_BIN, 'coffee')
 FILE_GULP = os.path.join(DIR_BIN, 'gulp')
-FILE_UGLIFYJS = os.path.join(DIR_BIN, 'uglifyjs')
 FILE_VENV = os.path.join(DIR_VENV, 'Scripts', 'activate.bat') \
     if IS_WINDOWS \
     else os.path.join(DIR_VENV, 'bin', 'activate')
@@ -164,33 +140,9 @@ def clean_files(bad_endings=BAD_ENDINGS, in_dir='.'):
           remove_file_dir(os.path.join(root, filename))
 
 
-def merge_files(source, target):
-  fout = open(target, 'a')
-  for line in open(source):
-    fout.write(line)
-  fout.close()
-
-
 def os_execute(executable, args, source, target, append=False):
   operator = '>>' if append else '>'
   os.system('%s %s %s %s %s' % (executable, args, source, operator, target))
-
-
-def compile_script(source, target_dir):
-  if not os.path.isfile(source):
-    print_out('NOT FOUND', source)
-    return
-
-  target = source.replace(DIR_SRC_SCRIPT, target_dir).replace('.coffee', '.js')
-  if not is_dirty(source, target):
-    return
-  make_dirs(os.path.dirname(target))
-  if not source.endswith('.coffee'):
-    print_out('COPYING', source)
-    shutil.copy(source, target)
-    return
-  print_out('COFFEE', source)
-  os_execute(FILE_COFFEE, '-cp', source, target)
 
 
 def make_lib_zip(force=False):
@@ -202,27 +154,6 @@ def make_lib_zip(force=False):
       shutil.make_archive(DIR_LIB, 'zip', DIR_LIB)
     else:
       print_out('NOT FOUND', DIR_LIB)
-
-
-def is_dirty(source, target):
-  if not os.access(target, os.O_RDONLY):
-    return True
-  return os.stat(source).st_mtime - os.stat(target).st_mtime > 0
-
-
-def compile_all_dst():
-  for _, scripts in config.SCRIPTS:
-    for source in scripts:
-      compile_script(os.path.join(DIR_STATIC, source), DIR_DST_SCRIPT)
-
-
-def update_path_separators():
-  def fixit(path):
-    return path.replace('\\', '/').replace('/', os.sep)
-
-  for _, scripts in config.SCRIPTS:
-    for idx in xrange(len(scripts)):
-      scripts[idx] = fixit(scripts[idx])
 
 
 def listdir(directory, split_ext=False):
@@ -351,7 +282,7 @@ def install_dependencies():
     os.system('npm install')
   if check_if_bower_should_run():
     make_guard(FILE_BOWER_GUARD, 'bower', FILE_BOWER)
-    os.system('"%s" ext' % FILE_GULP)
+    os.system('"%s" bower_install' % FILE_GULP)
   install_py_libs()
 
 
@@ -485,71 +416,19 @@ def run_clean():
   print_out('CLEAN')
   clean_files()
   make_lib_zip(force=True)
-  if IS_WINDOWS:
-    clean_files(['js'], DIR_DST)
-  else:
-    remove_file_dir(DIR_DST)
-  make_dirs(DIR_DST)
-  compile_all_dst()
   print_out('DONE')
 
 
 def run_clean_all():
   print_out('CLEAN ALL')
   remove_file_dir([
-      DIR_BOWER_COMPONENTS, DIR_NODE_MODULES, DIR_EXT, DIR_MIN, DIR_DST
+      DIR_BOWER_COMPONENTS, DIR_NODE_MODULES
     ])
   remove_file_dir([
       FILE_PIP_GUARD, FILE_NPM_GUARD, FILE_BOWER_GUARD
     ])
   clean_py_libs()
   clean_files()
-
-
-def run_minify():
-  print_out('MINIFY')
-  clean_files()
-  make_lib_zip(force=True)
-  remove_file_dir(DIR_MIN)
-  make_dirs(DIR_MIN_SCRIPT)
-
-  cat, separator = ('type', ',') if IS_WINDOWS else ('cat', ' ')
-
-  for module, scripts in config.SCRIPTS:
-    scripts = uniq(scripts)
-    coffees = separator.join([
-        os.path.join(DIR_STATIC, script)
-        for script in scripts if script.endswith('.coffee')
-      ])
-
-    pretty_js = os.path.join(DIR_MIN_SCRIPT, '%s.js' % module)
-    ugly_js = os.path.join(DIR_MIN_SCRIPT, '%s.min.js' % module)
-    print_out('COFFEE MIN', ugly_js)
-
-    if len(coffees):
-      os_execute(cat, coffees, ' | %s --compile --stdio' % FILE_COFFEE, pretty_js, append=True)
-    for script in scripts:
-      if not script.endswith('.js'):
-        continue
-      script_file = os.path.join(DIR_STATIC, script)
-      merge_files(script_file, pretty_js)
-    os_execute(FILE_UGLIFYJS, pretty_js, '-cm', ugly_js)
-    remove_file_dir(pretty_js)
-  print_out('DONE')
-
-
-def run_watch():
-  print_out('WATCHING')
-  make_lib_zip()
-  make_dirs(DIR_DST)
-
-  compile_all_dst()
-  print_out('DONE', 'and watching for changes (Ctrl+C to stop)')
-  while True:
-    time.sleep(0.5)
-    reload(config)
-    update_path_separators()
-    compile_all_dst()
 
 
 def run_flush():
@@ -581,7 +460,6 @@ def run():
 
   os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-  update_path_separators()
   update_missing_args()
 
   if ARGS.clean_all:
@@ -595,12 +473,6 @@ def run():
 
   if ARGS.clean:
     run_clean()
-
-  if ARGS.minify:
-    run_minify()
-
-  if ARGS.watch:
-    run_watch()
 
   if ARGS.flush:
     run_flush()
