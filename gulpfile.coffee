@@ -61,7 +61,7 @@ gulp.task 'bower_install', ->
 
 
 # Building the style, styles from bower_components are imported in style.less
-gulp.task 'less', ->
+gulp.task 'css', ->
   gulp.src("#{style_dir}/style.less")
     .pipe $.plumber()
     .pipe $.less()
@@ -70,7 +70,7 @@ gulp.task 'less', ->
     .pipe gulp.dest("#{static_dir}/min/style/")
 
 
-gulp.task 'coffee', ->
+gulp.task 'js', ->
   gulp.src("#{script_dir}/**/*.coffee")
     .pipe $.plumber()
     .pipe $.coffee(bare:true)
@@ -109,8 +109,8 @@ gulp.task 'reload', ->
 
 
 gulp.task 'watch', ->
-  gulp.watch("#{style_dir}/**/*.less", ['less'])
-  gulp.watch("#{script_dir}/**/*.coffee", ['coffee'])
+  gulp.watch("#{style_dir}/**/*.less", ['css'])
+  gulp.watch("#{script_dir}/**/*.coffee", ['js'])
 
 
-gulp.task 'default', ['less', 'coffee', 'inject', 'reload', 'watch']
+gulp.task 'default', ['css', 'js', 'inject', 'reload', 'watch']
