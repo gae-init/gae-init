@@ -120,5 +120,5 @@ gulp.task 'watch', ->
   gulp.watch("#{script_dir}/**/*.coffee", ['coffee'])
 
 
-gulp.task 'default', ['clean', 'reload', 'watch', 'less', 'coffee', 'inject']
+gulp.task 'default', ['reload', 'watch', 'less', 'coffee', 'inject']
 gulp.task 'min', ['less', 'coffee', 'minify']

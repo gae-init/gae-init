@@ -11,10 +11,6 @@
     "type": "git",
     "url": "http://github.com/gae-init"
   },
-  "dependencies": {
-    "coffee-script": "~1",
-    "uglify-js": "~2"
-  },
   "devDependencies": {
     "bower": "~1",
     "del": "~0",
@@ -29,6 +25,7 @@
     "gulp-plumber": "~0.6",
     "gulp-uglify": "~1",
     "main-bower-files": "~2",
-    "gulp-concat": "~2"
+    "gulp-concat": "~2",
+    "coffee-script": "~1"
   }
 }

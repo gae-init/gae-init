@@ -1,5 +1,4 @@
 $ ->
-  log "skata"
   init_common()
 
 $ -> $('html.welcome').each ->
