@@ -219,7 +219,7 @@ def create_name_from_email(email):
 def password_hash(password, salt):
   m = hashlib.sha256()
   m.update(password.encode('utf-8'))
-  m.update(salt)
+  m.update(salt + config.CONFIG_DB.salt)
   return m.hexdigest()
 
 
