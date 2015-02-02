@@ -41,6 +41,7 @@ class ConfigUpdateForm(wtf.Form):
   notify_on_new_user = wtforms.BooleanField('Send an email notification when a user signs up')
   recaptcha_private_key = wtforms.StringField('Private Key', filters=[util.strip_filter])
   recaptcha_public_key = wtforms.StringField('Public Key', filters=[util.strip_filter])
+  salt = wtforms.StringField('Salt', [wtforms.validators.optional()], filters=[util.strip_filter])
   verify_email = wtforms.BooleanField('Verify user emails')
 
 
@@ -54,6 +55,8 @@ def admin_config():
     form.populate_obj(config_db)
     if not config_db.flask_secret_key:
       config_db.flask_secret_key = util.uuid()
+    if not config_db.salt:
+      config_db.salt = util.uuid()
     config_db.put()
     reload(config)
     app.config.update(CONFIG_DB=config_db)
