@@ -24,7 +24,6 @@ class Config(model.Base, model.ConfigAuth):
   notify_on_new_user = ndb.BooleanProperty(default=True)
   recaptcha_private_key = ndb.StringProperty(default='')
   recaptcha_public_key = ndb.StringProperty(default='')
-  salt = ndb.StringProperty(default=util.uuid())
   verify_email = ndb.BooleanProperty(default=True)
 
   @property
@@ -52,7 +51,6 @@ class Config(model.Base, model.ConfigAuth):
       'notify_on_new_user',
       'recaptcha_private_key',
       'recaptcha_public_key',
-      'salt',
       'verify_email',
     }).union(model.ConfigAuth._PROPERTIES)
 
