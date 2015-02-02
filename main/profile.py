@@ -104,7 +104,7 @@ def profile_password():
     new_password = form.new_password.data
     if new_password or old_password:
       if user_db.password_hash:
-        if util.password_hash(user_db, old_password) != user_db.password_hash:
+        if util.password_hash(old_password, user_db.password_salt) != user_db.password_hash:
           form.old_password.errors.append('Invalid current password')
           errors = True
       if not errors and old_password and not new_password:
@@ -112,7 +112,8 @@ def profile_password():
         errors = True
 
       if not (form.errors or errors):
-        user_db.password_hash = util.password_hash(user_db, new_password)
+        user_db.password_salt = util.password_salt()
+        user_db.password_hash = util.password_hash(new_password, user_db.password_salt)
         flask.flash('Your password has been changed.', category='success')
 
     if not (form.errors or errors):
