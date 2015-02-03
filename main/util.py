@@ -233,7 +233,7 @@ def user_salt(user_db):
   return m.hexdigest()
 
 
-  def password_salt(n_bytes=32):
+def password_salt(n_bytes=32):
   return binascii.hexlify(os.urandom(n_bytes))
 
 
