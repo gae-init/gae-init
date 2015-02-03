@@ -411,6 +411,6 @@ def get_user_db_from_email(email, password):
     return False
 
   user_db = user_dbs[0]
-  if util.constant_time_compare(user_db.password_hash, util.password_hash(password, user_db.password_salt)):
+  if user_db.password_hash == util.password_hash(user_db, password):
     return user_db
   return None
