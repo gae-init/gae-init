@@ -215,7 +215,7 @@ def user_reset(token=None):
   form = UserResetForm()
   if form.validate_on_submit():
     user_db.password_salt = util.password_salt()
-    user_db.password_hash = util.password_hash(form.new_password.data, user_db.password_salt)
+    user_db.password_hash = util.password_hash(user_db, form.new_password.data)
     user_db.token = util.uuid()
     user_db.verified = True
     user_db.put()
@@ -260,7 +260,7 @@ def user_activate(token):
   if form.validate_on_submit():
     form.populate_obj(user_db)
     user_db.password_salt = util.password_salt()
-    user_db.password_hash = util.password_hash(form.password.data, user_db.password_salt)
+    user_db.password_hash = util.password_hash(user_db, form.password.data)
     user_db.token = util.uuid()
     user_db.verified = True
     user_db.put()

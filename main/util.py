@@ -216,14 +216,24 @@ def create_name_from_email(email):
   return re.sub(r'_+|-+|\.+|\++', ' ', email.split('@')[0]).title()
 
 
-def password_hash(password, salt):
+def password_hash(user_db, password):
   m = hashlib.sha256()
   m.update(password.encode('utf-8'))
-  m.update(salt + config.CONFIG_DB.salt)
+  m.update(user_salt(user_db))
   return m.hexdigest()
 
 
-def password_salt(n_bytes=32):
+def user_salt(user_db):
+  m = hashlib.sha256()
+  m.update(user_db.key.urlsafe())
+  m.update(user_db.created.isoformat())
+  m.update(user_db.password_salt)
+  m.update(m.hexdigest())
+  m.update(config.CONFIG_DB.salt)
+  return m.hexdigest()
+
+
+  def password_salt(n_bytes=32):
   return binascii.hexlify(os.urandom(n_bytes))
 
 
