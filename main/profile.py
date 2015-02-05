@@ -112,6 +112,7 @@ def profile_password():
         errors = True
 
       if not (form.errors or errors):
+        user_db.password_salt = util.password_salt()
         user_db.password_hash = util.password_hash(user_db, new_password)
         flask.flash('Your password has been changed.', category='success')
 
