@@ -38,9 +38,12 @@ FILE_CONTROL_INIT = os.path.join(DIR_CONTROL, '__init__.py')
 DIR_MODEL = os.path.join(DIR_MAIN, 'model')
 FILE_MODEL_INIT = os.path.join(DIR_MODEL, '__init__.py')
 
+<<<<<<< HEAD
 DIR_API = os.path.join(DIR_MAIN, 'api', 'v1')
 FILE_API_INIT = os.path.join(DIR_API, '__init__.py')
 
+=======
+>>>>>>> 184f7a9... Magic in the air
 DIR_TEMPLATES = os.path.join(DIR_MAIN, 'templates')
 FILE_HEADER = os.path.join(DIR_TEMPLATES, 'bit', 'header.html')
 FILE_ADMIN = os.path.join(DIR_TEMPLATES, 'admin', 'admin.html')
