@@ -1,31 +1,83 @@
 # extends 'base.html'
 
 # block header
-  <div class="jumbotron">
+  <div class="jumbotron text-center">
     <div class="container">
       <h1>{{config.CONFIG_DB.brand_name}}</h1>
-      <p>Hello, world!</p>
+      <p>Suggest an app and I will implement it :)</p>
     </div>
   </div>
 # endblock
 
 # block content
   <div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <div class="col-md-6">
+      <h2>1. Compose</h2>
+      <p class="lead">
+        Describe your models in a simple way and choose a them from
+        <a href="http://bootswatch.com/" target="_bootswatch">Bootswatch</a>.
+      </p>
+<pre>
+<strong>Project Name (Theme)<br>--------------------</strong>
+Foo
+  foo1*
+  foo2
+  ...
+Bar
+  bar1*
+  bar2: type
+  foo_key: [foo-1, foo-2, ...]
+  ...
+...
+</pre>
+    <ul>
+      <li>Project name could be anything</li>
+      <li>Theme should be <a href="http://bootswatch.com/" target="_bootswatch">Bootswatch</a></li>
+      <li>Models should use CamelCase</li>
+      <li>Properties should use snake_case</li>
+      <li>If the field is required use <strong>*</strong></li>
+      <li>If the type is not obvious <strong>: type</strong> </li>
+    </ul>
+
     </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <div class="col-md-6">
+      <h2>2. Examples</h2>
+<pre>
+<strong>Phonebook (Cosmo)<br>-----------------</strong>
+<strong>Contact</strong>
+  name*
+  email
+  phone
+  address
+  birthdate
+</pre>
+<pre>
+<strong>Issue Tracker (Sandstone)<br>-------------------------</strong>
+<strong>Status</strong>
+  name*
+  active: boolean
+<strong>Category</strong>
+  name*
+<strong>Priority</strong>
+  name*
+  value
+<strong>Issue</strong>
+  name*
+  description
+  deadline: date
+  status_key: [started, fixed, wont-fix]
+  category_key: [bug, feature, inquiry]
+  priority_key: [high, medium, low]
+</pre>
     </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div class="col-sm-6 col-md-12 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
+  </div>
+
+  <hr>
+  <div class="text-center">
+    <h2>3. Submit</h2>
+
+    <p class="lead">
+      Post your idea on Reddit as a comment and I'll implement it :)
+    </p>
   </div>
 # endblock
