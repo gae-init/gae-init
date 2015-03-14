@@ -14,16 +14,9 @@ Running the Development Environment
 -----------------------------------
 
     $ cd /path/to/project-name
-    $ gulp run
+    $ gulp
 
 To test it visit `http://localhost:8080/` in your browser.
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-To watch for changes of your `*.less` & `*.coffee` files and compile them
-automatically to `*.css` & `*.js` execute:
-
-    $ gulp
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -31,22 +24,31 @@ For a complete list of commands:
 
     $ gulp help
 
+
+Initializing or Reseting the project
+------------------------------------
+
+    $ cd /path/to/project-name
+    $ npm install
+    $ gulp
+
+If something goes wrong you can always do:
+
+    $ gulp init
+    $ npm install
+    $ gulp
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-Gulp is used only for watching for changes and live reloading the page.
-Install [Gulp][] as a global package:
+To install [Gulp][] as a global package:
 
     $ npm install -g gulp
-
-and then from the root execute with no arguments:
-
-    $ gulp
 
 Deploying on Google App Engine
 ------------------------------
 
 Before deploying make sure that the `app.yaml` and `config.py` are up to date
-and you ran the `gulp` to minify all the static files:
+and you ran the `gulp` to build and minify all the related files:
 
     $ gulp build
     $ appcfg.py update main
