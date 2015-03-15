@@ -74,6 +74,7 @@ paths =
 
 gulp.task 'script', false, ->
   gulp.src paths.script
+    .pipe $.plumber()
     .pipe $.coffee().on 'error', $.util.log
     .pipe $.concat 'script.js'
     .pipe do $.uglify
@@ -82,6 +83,7 @@ gulp.task 'script', false, ->
 
 gulp.task 'script_dev', false, ->
   gulp.src paths.script
+    .pipe $.plumber()
     .pipe do $.sourcemaps.init
     .pipe $.coffee().on 'error', $.util.log
     .pipe $.concat 'script.dev.js'
@@ -91,6 +93,7 @@ gulp.task 'script_dev', false, ->
 
 gulp.task 'ext', false, ->
   gulp.src paths.ext
+    .pipe $.plumber()
     .pipe $.concat 'ext.js'
     .pipe do $.uglify
     .pipe gulp.dest "#{dir_min}/script"
@@ -98,6 +101,7 @@ gulp.task 'ext', false, ->
 
 gulp.task 'ext_dev', false, ->
   gulp.src paths.ext
+    .pipe $.plumber()
     .pipe do $.sourcemaps.init
     .pipe $.concat 'ext.dev.js'
     .pipe do $.sourcemaps.write
@@ -140,11 +144,15 @@ gulp.task 'bower', false, ->
     start_map = [{match: /bower.json$/, cmd: 'node_modules\\.bin\\bower install'}]
   else
     start_map = [{match: /bower.json$/, cmd: 'node_modules/.bin/bower install'}]
-  gulp.src('bower.json').pipe $.start start_map
+  gulp.src('bower.json')
+    .pipe $.plumber()
+    .pipe $.start start_map
 
 
 gulp.task 'npm', false, ->
-  gulp.src('package.json').pipe do $.start
+  gulp.src('package.json')
+    .pipe $.plumber()
+    .pipe do $.start
 
 
 gulp.task 'pip', false, ->
@@ -196,6 +204,7 @@ gulp.task 'zip', false, ->
       fs.exists dir_lib, (exists) ->
         if exists
           gulp.src "#{dir_lib}/**"
+              .pipe $.plumber()
               .pipe $.zip 'lib.zip'
               .pipe gulp.dest dir_main
 
