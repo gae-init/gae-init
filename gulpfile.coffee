@@ -42,6 +42,7 @@ paths =
       "#{dir_ext}/bootstrap/js/tooltip.js"
     ]
   clean: [
+      dir_ext
       dir_min
       './**/*.pyc'
       './**/*.pyo'
