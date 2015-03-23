@@ -72,10 +72,16 @@ paths =
     ]
 
 
+onError = (err) ->
+  do $.util.beep
+  console.log err
+  this.emit 'end'
+
+
 gulp.task 'script', false, ->
   gulp.src paths.script
-    .pipe $.plumber()
-    .pipe $.coffee().on 'error', $.util.log
+    .pipe $.plumber(errorHandler: onError)
+    .pipe $.coffee()
     .pipe $.concat 'script.js'
     .pipe do $.uglify
     .pipe gulp.dest "#{dir_min}/script"
@@ -83,9 +89,9 @@ gulp.task 'script', false, ->
 
 gulp.task 'script_dev', false, ->
   gulp.src paths.script
-    .pipe $.plumber()
+    .pipe $.plumber(errorHandler: onError)
     .pipe do $.sourcemaps.init
-    .pipe $.coffee().on 'error', $.util.log
+    .pipe $.coffee()
     .pipe $.concat 'script.dev.js'
     .pipe do $.sourcemaps.write
     .pipe gulp.dest "#{dir_min}/script"
@@ -93,7 +99,7 @@ gulp.task 'script_dev', false, ->
 
 gulp.task 'ext', false, ->
   gulp.src paths.ext
-    .pipe $.plumber()
+    .pipe $.plumber(errorHandler: onError)
     .pipe $.concat 'ext.js'
     .pipe do $.uglify
     .pipe gulp.dest "#{dir_min}/script"
@@ -101,7 +107,7 @@ gulp.task 'ext', false, ->
 
 gulp.task 'ext_dev', false, ->
   gulp.src paths.ext
-    .pipe $.plumber()
+    .pipe $.plumber(errorHandler: onError)
     .pipe do $.sourcemaps.init
     .pipe $.concat 'ext.dev.js'
     .pipe do $.sourcemaps.write
@@ -110,15 +116,17 @@ gulp.task 'ext_dev', false, ->
 
 gulp.task 'style', false, ->
   gulp.src paths.style
-    .pipe $.less().on 'error', $.util.log
+    .pipe $.plumber(errorHandler: onError)
+    .pipe $.less()
     .pipe do $.minifyCss
     .pipe gulp.dest "#{dir_min}/style"
 
 
 gulp.task 'style_dev', false, ->
   gulp.src paths.style
+    .pipe $.plumber(errorHandler: onError)
     .pipe do $.sourcemaps.init
-    .pipe $.less().on 'error', $.util.log
+    .pipe $.less()
     .pipe do $.sourcemaps.write
     .pipe $.rename 'style.dev.css'
     .pipe gulp.dest "#{dir_min}/style"
