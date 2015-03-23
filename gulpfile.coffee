@@ -34,7 +34,6 @@ paths =
       "#{dir_ext}/jquery/dist/jquery.js"
       "#{dir_ext}/moment/moment.js"
       "#{dir_ext}/nprogress/nprogress.js"
-      "#{dir_ext}/bootstrap-sweetalert/lib/sweet-alert.js"
       "#{dir_ext}/bootstrap/js/alert.js"
       "#{dir_ext}/bootstrap/js/button.js"
       "#{dir_ext}/bootstrap/js/transition.js"
