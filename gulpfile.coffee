@@ -84,6 +84,7 @@ gulp.task 'script', false, ->
     .pipe $.coffee()
     .pipe $.concat 'script.js'
     .pipe do $.uglify
+    .pipe $.size {title: 'Minified scripts'}
     .pipe gulp.dest "#{dir_min}/script"
 
 
@@ -102,6 +103,7 @@ gulp.task 'ext', false, ->
     .pipe $.plumber(errorHandler: onError)
     .pipe $.concat 'ext.js'
     .pipe do $.uglify
+    .pipe $.size {title: 'Minified ext libs'}
     .pipe gulp.dest "#{dir_min}/script"
 
 
@@ -119,6 +121,7 @@ gulp.task 'style', false, ->
     .pipe $.plumber(errorHandler: onError)
     .pipe $.less()
     .pipe do $.minifyCss
+    .pipe $.size {title: 'Minified styles'}
     .pipe gulp.dest "#{dir_min}/style"
 
 
