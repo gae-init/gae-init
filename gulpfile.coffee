@@ -120,6 +120,7 @@ gulp.task 'style', false, ->
   gulp.src paths.style
     .pipe $.plumber(errorHandler: onError)
     .pipe $.less()
+    .pipe $.autoprefixer {cascade: false}
     .pipe do $.minifyCss
     .pipe $.size {title: 'Minified styles'}
     .pipe gulp.dest "#{dir_min}/style"
@@ -130,6 +131,7 @@ gulp.task 'style_dev', false, ->
     .pipe $.plumber(errorHandler: onError)
     .pipe do $.sourcemaps.init
     .pipe $.less()
+    .pipe do $.autoprefixer
     .pipe do $.sourcemaps.write
     .pipe $.rename 'style.dev.css'
     .pipe gulp.dest "#{dir_min}/style"
