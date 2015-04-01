@@ -196,7 +196,8 @@ gulp.task 'reload', false, ->
   gulp.watch(paths.watch).on 'change', $.livereload.changed
 
 
-gulp.task 'ext_watch_rebuild', false, $.sequence 'ext_install', 'ext_dev', 'style_dev'
+gulp.task 'ext_watch_rebuild', false, (callback) ->
+  $.sequence('ext_install', 'ext_dev', 'style_dev') callback
 
 
 gulp.task 'watch', false, ->
