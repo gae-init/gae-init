@@ -201,6 +201,7 @@ gulp.task 'ext_watch_rebuild', false, (callback) ->
 
 
 gulp.task 'watch', false, ->
+  gulp.watch 'requirements.txt', ['pip']
   gulp.watch 'package.json', ['npm']
   gulp.watch 'bower.json', ['ext_watch_rebuild']
   gulp.watch paths.script, ['script_dev']
