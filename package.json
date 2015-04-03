@@ -25,6 +25,7 @@
     "gulp-coffee": "~2",
     "gulp-concat": "~2",
     "gulp-help": "~1",
+    "gulp-inject": "~1",
     "gulp-less": "~3",
     "gulp-livereload": "~3",
     "gulp-load-plugins": "~0",
@@ -39,6 +40,7 @@
     "gulp-util": "~3",
     "gulp-zip": "~2",
     "main-bower-files": "~2",
+    "merge-stream": "~0",
     "minimist": "~1"
   }
 }

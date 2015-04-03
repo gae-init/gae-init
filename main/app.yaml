@@ -55,9 +55,9 @@ skip_files:
 - ^(.*/)?index\.yaml
 - ^(.*/)?index\.yml
 - ^lib/.*
-- ^static/ext/.*\.coffee
-- ^static/ext/.*\.css
-- ^static/ext/.*\.js
-- ^static/ext/.*\.less
-- ^static/ext/.*\.json
+- ^static/build/ext/.*\.coffee
+- ^static/build/ext/.*\.css
+- ^static/build/ext/.*\.js
+- ^static/build/ext/.*\.less
+- ^static/build/ext/.*\.json
 - ^static/src/.*

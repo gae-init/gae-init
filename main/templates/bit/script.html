@@ -1,7 +1,25 @@
+<!-- The development scripts are generated automatically from gulp -->
 # if config.DEVELOPMENT
-  <script src="/p/min/script/ext.dev.js?{{config.CURRENT_VERSION_ID}}"></script>
-  <script src="/p/min/script/script.dev.js?{{config.CURRENT_VERSION_ID}}"></script>
   <script src="http://{{request.host.split(':')[0]}}:35729/livereload.js"></script>
+  <!-- ext:js -->
+  <script src="/p/build/ext/jquery/dist/jquery.js"></script>
+  <script src="/p/build/ext/moment/moment.js"></script>
+  <script src="/p/build/ext/nprogress/nprogress.js"></script>
+  <script src="/p/build/ext/bootstrap/js/alert.js"></script>
+  <script src="/p/build/ext/bootstrap/js/button.js"></script>
+  <script src="/p/build/ext/bootstrap/js/transition.js"></script>
+  <script src="/p/build/ext/bootstrap/js/collapse.js"></script>
+  <script src="/p/build/ext/bootstrap/js/dropdown.js"></script>
+  <script src="/p/build/ext/bootstrap/js/tooltip.js"></script>
+  <!-- endinject -->
+  <!-- script:js -->
+  <script src="/p/build/script/common/api.js"></script>
+  <script src="/p/build/script/common/util.js"></script>
+  <script src="/p/build/script/site/admin.js"></script>
+  <script src="/p/build/script/site/auth.js"></script>
+  <script src="/p/build/script/site/user.js"></script>
+  <script src="/p/build/script/site/app.js"></script>
+  <!-- endinject -->
 # else
   <script src="/p/min/script/ext.js?{{config.CURRENT_VERSION_ID}}"></script>
   <script src="/p/min/script/script.js?{{config.CURRENT_VERSION_ID}}"></script>
