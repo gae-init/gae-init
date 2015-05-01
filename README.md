@@ -14,43 +14,42 @@ Running the Development Environment
 -----------------------------------
 
     $ cd /path/to/project-name
-    $ gulp
+    $ ./run.py -s
 
 To test it visit `http://localhost:8080/` in your browser.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-For a complete list of commands:
+To watch for changes of your `*.less` & `*.coffee` files and compile them
+automatically to `*.css` & `*.js` execute in another bash:
 
-    $ gulp help
-
-
-Initializing or Resetting the project
-------------------------------------
-
-    $ cd /path/to/project-name
-    $ npm install
-    $ gulp
-
-If something goes wrong you can always do:
-
-    $ gulp initial
-    $ npm install
-    $ gulp
+    $ ./run.py -w
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-To install [Gulp][] as a global package:
+For a complete list of commands:
+
+    $ ./run.py -h
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Gulp is used only for watching for changes and live reloading the page.
+Install [Gulp][] as a global package:
 
     $ npm install -g gulp
+
+and then from the root execute with no arguments:
+
+    $ gulp
 
 Deploying on Google App Engine
 ------------------------------
 
-    $ gulp deploy
+Before deploying make sure that the `app.yaml` and `config.py` are up to date
+and you ran the `run.py` script to minify all the static files:
 
-Before deploying make sure that the `main/app.yaml` and `gulp/config.coffee`
-are up to date.
+    $ ./run.py -m
+    $ appcfg.py update main
 
 Tech Stack
 ----------
