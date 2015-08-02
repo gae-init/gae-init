@@ -45,7 +45,7 @@
           <div class="alert alert-warning {{'hide' if user_db.password_hash or user_db.auth_ids}}">
             No associated accounts
           </div>
-          <table class="table table-bordered table-hover {{'hide' if not (user_db.password_hash or user_db.auth_ids)}}">
+          <table class="table table-bordered table-hover table-align-middle {{'hide' if not (user_db.password_hash or user_db.auth_ids)}}">
             <thead>
               <tr>
                 <th><span class="fa fa-key"></span></th>

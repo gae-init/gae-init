@@ -1,10 +1,4 @@
-# set lorem = '''
-The quick brown fox jumps over the lazy dog.
-%s lorem ipsum dolor sit amet, consectetur adipiscing elit, feugiat nec metus.
-''' % config.CONFIG_DB.brand_name
-
-
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover table-align-middle">
   <thead>
     <tr>
       <th>Weight</th>
@@ -18,10 +12,10 @@ The quick brown fox jumps over the lazy dog.
       <tr style="font-weight: {{weight}};">
         <td>{{weight}}</td>
         <td>
-          <p>{{lorem}}</p>
+          <p>{% include 'test/lorem.html' %}</p>
         </td>
         <td style="font-style: italic;">
-          <p>{{lorem}}</p>
+          <p>{% include 'test/lorem.html' %}</p>
         </td>
       </tr>
     # endfor
