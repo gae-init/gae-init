@@ -4,7 +4,7 @@ html {
 }
 
 body {
-  margin-bottom: @footer-height;
+  margin-bottom: $footer-height;
 }
 
 .footer {
@@ -12,10 +12,10 @@ body {
   bottom: 0;
   display: table;
   width: 100%;
-  height: @footer-height;
-  border-top: 1px solid @hr-border;
-  color: @text-muted;
-  background-color: @well-bg;
+  height: $footer-height;
+  border-top: 1px solid $hr-border-color;
+  color: $text-muted;
+  background-color: $gray-lightest;
   text-align: center;
   & > .container {
     display: table-cell;

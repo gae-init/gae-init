@@ -1,0 +1,48 @@
+.test {
+  section {
+    padding: $line-height-computed 0;
+    > h2 {
+      margin-bottom: $line-height-computed;
+      border-bottom: 1px solid $hr-border-color;
+      a {
+        color: $headings-color;
+        text-decoration: none;
+      }
+
+      .on-hover {
+        display: none;
+      }
+      &:hover {
+        .on-hover {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  .test-button,
+  .test-social {
+    .btn {
+      margin-bottom: ($line-height-computed / 2);
+    }
+  }
+
+  .test-grid {
+    .cell {
+      @extend .bg-info;
+      @extend .text-info;
+      @extend .small;
+      text-align: center;
+      border-radius: $border-radius;
+      border: 1px solid darken($brand-info, 20%);
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+  }
+
+  .test-font {
+    p::first-line {
+      font-size: $font-size-lg;
+    }
+  }
+}
