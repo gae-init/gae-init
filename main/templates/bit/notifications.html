@@ -1,7 +1,10 @@
 <div id="notifications">
   # for message in get_flashed_messages(with_categories=True)
-    <div class="alert alert-dismissable alert-{{'warning' if message[0] == 'message' else message[0]}}">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <div class="alert alert-dismissible fade in alert-{{'warning' if message[0] == 'message' else message[0]}}" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">Close</span>
+      </button>
       {{message[1]}}
     </div>
   # endfor

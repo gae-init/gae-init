@@ -1,7 +1,10 @@
 # if config.CONFIG_DB.announcement_html
-  <div class="alert-{{config.CONFIG_DB.announcement_type}}">
-    <div class="container alert alert-dismissable alert-announcement">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <div class="alert-{{config.CONFIG_DB.announcement_type}}" role="alert">
+    <div class="container alert alert-dismissable alert-announcement fade in">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">Close</span>
+      </button>
       {{config.CONFIG_DB.announcement_html|safe}}
     </div>
   </div>

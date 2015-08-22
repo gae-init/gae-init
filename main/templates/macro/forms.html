@@ -1,13 +1,13 @@
 # macro field_errors(field)
   # for error in field.errors
-    <p class="help-block">{{error}}</p>
+    <div class="small help-block">{{error}}</div>
   # endfor
 # endmacro
 
 
 # macro field_description(field)
   # if field.description
-    <p class="help-block">{{field.description}}</p>
+    <div class="small text-muted">{{field.description}}</div>
   # endif
 # endmacro
 
@@ -59,7 +59,7 @@
     <div class="input-group {{'input-group-%s' % size if size}}">
       {{field(class='form-control', type='password', autocomplete='off', **kwargs)}}
       <span class="input-group-btn">
-        <button class="btn btn-default btn-password-show" type="button" data-target="#{{field.name}}" data-toggle="button" title="Show/Hide Password" tabindex="-1">
+        <button class="btn btn-secondary btn-password-show" type="button" data-target="#{{field.name}}" data-toggle="button" title="Show/Hide Password" tabindex="-1">
           <span class="fa fa-eye"></span>
         </button>
       </span>
