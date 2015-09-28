@@ -11,12 +11,12 @@ from main import app
 
 
 bitbucket_config = dict(
-    access_token_url='https://bitbucket.org/api/1.0/oauth/access_token',
-    authorize_url='https://bitbucket.org/api/1.0/oauth/authenticate',
-    base_url='https://api.bitbucket.org/1.0/',
+    access_token_method='POST',
+    access_token_url='https://bitbucket.org/site/oauth2/access_token',
+    authorize_url='https://bitbucket.org/site/oauth2/authorize',
+    base_url='https://api.bitbucket.org/2.0/',
     consumer_key=config.CONFIG_DB.bitbucket_key,
     consumer_secret=config.CONFIG_DB.bitbucket_secret,
-    request_token_url='https://bitbucket.org/api/1.0/oauth/request_token',
   )
 
 bitbucket = auth.create_oauth_app(bitbucket_config, 'bitbucket')
