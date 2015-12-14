@@ -12,37 +12,46 @@
 
   # if current_user.id == 0
     <div class="row">
-      <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-        # if config.CONFIG_DB.has_email_authentication
+      # set social_class = 'col-sm-6 col-md-offset-1 col-md-4'
+      # if not config.CONFIG_DB.has_email_authentication
+        # set social_class = 'col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4'
+      # endif
+      <div class="{{social_class}}">
+        <div class="text-center">
+          # if config.CONFIG_DB.has_email_authentication
+            <h3 class="text-muted text-center">Something familiar</h3>
+          # endif
+
+          {{utils.signin_button('GAE' if config.CONFIG_DB.has_google else 'Google', 'btn-google', 'fa-google', gae_signin_url)}}
+          {{utils.signin_button('Facebook', 'btn-facebook', 'fa-facebook', facebook_signin_url) if config.CONFIG_DB.has_facebook}}
+          {{utils.signin_button('Twitter', 'btn-twitter', 'fa-twitter', twitter_signin_url) if config.CONFIG_DB.has_twitter}}
+          {{utils.signin_button('Bitbucket', 'btn-bitbucket', 'fa-bitbucket', bitbucket_signin_url) if config.CONFIG_DB.has_bitbucket}}
+          {{utils.signin_button('Dropbox', 'btn-dropbox', 'fa-dropbox', dropbox_signin_url) if config.CONFIG_DB.has_dropbox}}
+          {{utils.signin_button('GitHub', 'btn-github', 'fa-github', github_signin_url) if config.CONFIG_DB.has_github}}
+          {{utils.signin_button('Google', 'btn-google', 'fa-google-plus', google_signin_url) if config.CONFIG_DB.has_google}}
+          {{utils.signin_button('Instagram', 'btn-instagram', 'fa-instagram', instagram_signin_url) if config.CONFIG_DB.has_instagram}}
+          {{utils.signin_button('LinkedIn', 'btn-linkedin', 'fa-linkedin', linkedin_signin_url) if config.CONFIG_DB.has_linkedin}}
+          {{utils.signin_button('Microsoft', 'btn-microsoft', 'fa-windows', microsoft_signin_url) if config.CONFIG_DB.has_microsoft}}
+          {{utils.signin_button('Reddit', 'btn-reddit', 'fa-reddit', reddit_signin_url) if config.CONFIG_DB.has_reddit}}
+          {{utils.signin_button('VK', 'btn-vk', 'fa-vk', vk_signin_url) if config.CONFIG_DB.has_vk}}
+          {{utils.signin_button('Yahoo!', 'btn-yahoo', 'fa-yahoo', yahoo_signin_url) if config.CONFIG_DB.has_yahoo}}
+        </div>
+      </div>
+
+      # if config.CONFIG_DB.has_email_authentication
+        <div class="col-sm-6 col-md-offset-2 col-md-4">
+          <h3 class="text-muted text-center">or your email</h3>
           # if form_type == 'signin'
             # include 'auth/signin_form.html'
           # else
             # include 'auth/signup_form.html'
           # endif
-          <legend class="text-muted text-center">or</legend>
-        # endif
-
-        # set is_icon = config.CONFIG_DB.has_email_authentication
-        <div class="text-center">
-          {{utils.signin_button('GAE' if config.CONFIG_DB.has_google else 'Google', 'btn-google', 'fa-google', gae_signin_url, is_icon)}}
-          {{utils.signin_button('Facebook', 'btn-facebook', 'fa-facebook', facebook_signin_url, is_icon) if config.CONFIG_DB.has_facebook}}
-          {{utils.signin_button('Twitter', 'btn-twitter', 'fa-twitter', twitter_signin_url, is_icon) if config.CONFIG_DB.has_twitter}}
-          {{utils.signin_button('Bitbucket', 'btn-bitbucket', 'fa-bitbucket', bitbucket_signin_url, is_icon) if config.CONFIG_DB.has_bitbucket}}
-          {{utils.signin_button('Dropbox', 'btn-dropbox', 'fa-dropbox', dropbox_signin_url, is_icon) if config.CONFIG_DB.has_dropbox}}
-          {{utils.signin_button('GitHub', 'btn-github', 'fa-github', github_signin_url, is_icon) if config.CONFIG_DB.has_github}}
-          {{utils.signin_button('Google', 'btn-google', 'fa-google-plus', google_signin_url, is_icon) if config.CONFIG_DB.has_google}}
-          {{utils.signin_button('Instagram', 'btn-instagram', 'fa-instagram', instagram_signin_url, is_icon) if config.CONFIG_DB.has_instagram}}
-          {{utils.signin_button('LinkedIn', 'btn-linkedin', 'fa-linkedin', linkedin_signin_url, is_icon) if config.CONFIG_DB.has_linkedin}}
-          {{utils.signin_button('Microsoft', 'btn-microsoft', 'fa-windows', microsoft_signin_url, is_icon) if config.CONFIG_DB.has_microsoft}}
-          {{utils.signin_button('Reddit', 'btn-reddit', 'fa-reddit', reddit_signin_url, is_icon) if config.CONFIG_DB.has_reddit}}
-          {{utils.signin_button('VK', 'btn-vk', 'fa-vk', vk_signin_url, is_icon) if config.CONFIG_DB.has_vk}}
-          {{utils.signin_button('Yahoo!', 'btn-yahoo', 'fa-yahoo', yahoo_signin_url, is_icon) if config.CONFIG_DB.has_yahoo}}
         </div>
-        <hr>
-        <div class="checkbox remember">
-          <label><input type="checkbox" checked>Keep me signed in</label>
-        </div>
-      </div>
+      # endif
+    </div>
+    <hr>
+    <div class="checkbox remember">
+      <label><input type="checkbox" checked>Keep me signed in</label>
     </div>
   # else
     <div class="alert alert-warning text-center">
