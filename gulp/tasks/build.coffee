@@ -25,7 +25,7 @@ gulp.task 'deploy', 'Deploy project to Google App Engine.', ['build'], ->
     options_str += if k.length > 1 then " --#{k} #{options[k]}" else " -#{k} #{options[k]}"
 
   gulp.src('run.py').pipe $.start [
-      {match: /run.py$/, cmd: "appcfg.py update main #{options_str}"}
+      {match: /run.py$/, cmd: "python run.py --deploy"}
     ]
 
 

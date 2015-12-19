@@ -29,6 +29,10 @@ PARSER.add_argument(
     help='starts the dev_appserver.py with storage_path pointing to temp',
   )
 PARSER.add_argument(
+  '--deploy', dest='deploy', action='store_true',
+  help=' deploy your app to Google App Engine',
+)
+PARSER.add_argument(
     '-o', '--host', dest='host', action='store', default='127.0.0.1',
     help='the host to start the dev_appserver.py',
   )
@@ -52,6 +56,7 @@ ARGS = PARSER.parse_args()
 ###############################################################################
 BAD_ENDINGS = ['pyc', 'pyo', '~']
 GAE_PATH = ''
+GAE_CMD = ''
 IS_WINDOWS = platform.system() == 'Windows'
 
 
@@ -278,28 +283,29 @@ def check_requirement(check_func):
   return True
 
 
+def find_env_executable_path(file_name):
+  if IS_WINDOWS:
+    for path in os.environ['PATH'].split(os.pathsep):
+      file_path = os.path.join(path, file_name)
+      if os.path.isfile(file_path):
+        return file_path
+  else:
+    path = spawn.find_executable(file_name)
+    if path:
+      return os.path.realpath(path)
+  return ''
+
+
 def find_gae_path():
-  global GAE_PATH
+  global GAE_PATH, GAE_CMD
   if GAE_PATH:
     return GAE_PATH
-  if IS_WINDOWS:
-    gae_path = None
-    for path in os.environ['PATH'].split(os.pathsep):
-      if os.path.isfile(os.path.join(path, 'dev_appserver.py')):
-        gae_path = path
-  else:
-    gae_path = spawn.find_executable('dev_appserver.py')
-    if gae_path:
-      gae_path = os.path.dirname(os.path.realpath(gae_path))
-  if not gae_path:
-    return ''
-  gcloud_exec = 'gcloud.cmd' if IS_WINDOWS else 'gcloud'
-  if not os.path.isfile(os.path.join(gae_path, gcloud_exec)):
-    GAE_PATH = gae_path
-  else:
-    gae_path = os.path.join(gae_path, '..', 'platform', 'google_appengine')
-    if os.path.exists(gae_path):
-      GAE_PATH = os.path.realpath(gae_path)
+  GAE_CMD = find_env_executable_path('dev_appserver.py')
+  if not GAE_CMD:
+    gcloud_exec = 'gcloud.cmd' if IS_WINDOWS else 'gcloud'
+    GAE_CMD = find_env_executable_path(gcloud_exec)
+  if GAE_CMD:
+    GAE_PATH = os.path.dirname(GAE_CMD)
   return GAE_PATH
 
 
@@ -337,20 +343,59 @@ def doctor_says_ok():
 ###############################################################################
 # Main
 ###############################################################################
+def get_project_id():
+  with open(os.path.join(DIR_MAIN, 'app.yaml')) as app_yaml:
+    return app_yaml.readline().split(':')[1].strip()
+
+def get_project_version():
+  with open(os.path.join(DIR_MAIN, 'app.yaml')) as app_yaml:
+    return app_yaml.readlines()[1].split(':')[1].strip()
+
 def run_start():
   make_dirs(DIR_STORAGE)
   port = int(ARGS.port)
-  run_command = ' '.join(map(str, [
-      'dev_appserver.py',
-      DIR_MAIN,
-      '--host %s' % ARGS.host,
-      '--port %s' % port,
-      '--admin_port %s' % (port + 1),
-      '--storage_path=%s' % DIR_STORAGE,
-      '--skip_sdk_update_check',
-    ] + ARGS.args))
+  if GAE_CMD.endswith('dev_appserver.py'):
+    run_command = [
+        GAE_CMD,
+        DIR_MAIN,
+        '--host %s' % ARGS.host,
+        '--port %s' % port,
+        '--admin_port %s' % (port + 1),
+        '--storage_path=%s' % DIR_STORAGE,
+        '--skip_sdk_update_check',
+      ]
+  else:
+    os.environ['CLOUDSDK_CORE_PROJECT'] = get_project_id()
+    run_command = [
+        GAE_CMD,
+        'preview app run',
+        '--host %s:%s' % (ARGS.host, port),
+        '--admin-host %s:%s' % (ARGS.host, port + 1),
+        '--storage-path %s' % DIR_STORAGE,
+        os.path.join(DIR_MAIN, 'app.yaml'),
+    ]
+
+  run_command = run_command + ARGS.args
+  run_command = ' '.join(map(str, run_command))
   os.system(run_command)
 
+
+def run_deploy():
+  if GAE_CMD.endswith('dev_appserver.py'):
+    run_command = [
+        os.path.join(GAE_PATH, 'appcfg.py'),
+        'update',
+        DIR_MAIN
+      ]
+  else:
+    os.environ['CLOUDSDK_CORE_PROJECT'] = get_project_id()
+    run_command = [
+      GAE_CMD,
+      'preview app deploy --set-default --version %s' % get_project_version(),
+      os.path.join(DIR_MAIN, 'app.yaml')
+    ]
+  run_command = ' '.join(map(str, run_command))
+  os.system(run_command)
 
 def run():
   if len(sys.argv) == 1 or (ARGS.args and not ARGS.start):
@@ -370,6 +415,9 @@ def run():
 
   if ARGS.start:
     run_start()
+
+  if ARGS.deploy:
+    run_deploy()
 
   if ARGS.install_dependencies:
     install_dependencies()
