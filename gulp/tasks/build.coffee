@@ -18,14 +18,14 @@ gulp.task 'rebuild',
 gulp.task 'deploy', 'Deploy project to Google App Engine.', ['build'], ->
   options = minimist process.argv
   delete options['_']
-  options_str = '--skip_sdk_update_check'
+  options_str = ''
   for k of options
     if options[k] == true
       options[k] = ''
     options_str += if k.length > 1 then " --#{k} #{options[k]}" else " -#{k} #{options[k]}"
 
   gulp.src('run.py').pipe $.start [
-      {match: /run.py$/, cmd: "appcfg.py update main #{options_str}"}
+      {match: /run.py$/, cmd: "gcloud preview app deploy main/app.yaml #{options_str}"}
     ]
 
 
