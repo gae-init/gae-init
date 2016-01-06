@@ -2,7 +2,7 @@
   "name": "gae-init",
   "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
   "license": "MIT",
-   "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/gae-init"
   },
@@ -35,7 +35,7 @@
     "gulp-uglify": "~1",
     "gulp-util": "~3",
     "gulp-zip": "~3",
-    "main-bower-files": "~2",
+    "main-bower-files": "~2.11.1",
     "minimist": "~1",
     "require-dir": "~0"
   }
