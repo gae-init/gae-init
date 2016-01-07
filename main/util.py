@@ -18,7 +18,7 @@ import config
 ###############################################################################
 def param(name, cast=None):
   value = None
-  if flask.request.json:
+  if flask.request.json and flask.request.method == 'GET':
     return flask.request.json.get(name, None)
 
   if value is None:
