@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from datetime import datetime
+from datetime import timedelta
 from urlparse import urlparse
 from uuid import uuid4
 import hashlib
@@ -228,3 +230,41 @@ def parse_tags(tags, separator=None):
 strip_filter = lambda x: x.strip() if x else ''
 email_filter = lambda x: x.lower().strip() if x else ''
 sort_filter = lambda x: sorted(x) if x else []
+
+
+###############################################################################
+# Dates Utils
+###############################################################################
+def date_code(timestamp, duration='day', prefix=''):
+  if duration == 'week':
+    year, week, day = timestamp.isocalendar()
+    code = '%d-%02d' % (year, week)
+  elif duration == 'month':
+    code = '%d-%02d' % (timestamp.year, timestamp.month)
+  elif duration == 'year':
+    code = '%d' % (timestamp.year)
+  else:
+    code = '%d-%02d-%02d' % (timestamp.year, timestamp.month, timestamp.day)
+
+  if prefix:
+    return '%s-%s-%s' % (prefix, duration, code)
+  return '%s-%s' % (duration, code)
+
+
+def date_limits(timestamp, duration='day'):
+  if duration == 'week':
+    delta = timedelta(days=timestamp.isoweekday() - 1)
+    start = datetime(timestamp.year, timestamp.month, timestamp.day) - delta
+    finish = start + timedelta(days=7)
+  elif duration == 'month':
+    start = datetime(timestamp.year, timestamp.month, 1)
+    year = start.year + (1 if start.month == 12 else 0)
+    month = (timestamp.month + 12) % 12 + 1
+    finish = datetime(year, month, 1)
+  elif duration == 'year':
+    start = datetime(timestamp.year, 1, 1)
+    finish = datetime(start.year + 1, 1, 1)
+  else:
+    start = datetime(timestamp.year, timestamp.month, timestamp.day)
+    finish = start + timedelta(days=1)
+  return (start, finish)

@@ -400,6 +400,7 @@ def create_user_db(auth_id, name, username, email='', verified=False, **props):
   )
   user_db.put()
   task.new_user_notification(user_db)
+  task.task_calculate_stats(user_db.created)
   return user_db
 
 
