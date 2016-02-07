@@ -1,0 +1,4 @@
+cron:
+- description: yesterday
+  url: /admin/stats/calc/yesterday/
+  schedule: every day 01:00

@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from datetime import datetime
+from datetime import timedelta
 import flask
 import flask_wtf
 import wtforms
@@ -7,6 +9,7 @@ import wtforms
 import auth
 import config
 import model
+import task
 import util
 
 from main import app
@@ -131,3 +134,69 @@ def admin_auth():
     form=form,
     api_url=flask.url_for('api.admin.config'),
   )
+
+
+###############################################################################
+# Stats Stuff
+###############################################################################
+@app.route('/admin/stats/<string:duration>/')
+@app.route('/admin/stats/')
+def admin_stats(duration='day'):
+  if duration not in ['day', 'week', 'month', 'year']:
+    flask.abort(404)
+
+  stats_dbs, stats_cursor = model.Stats.get_dbs(
+    duration=duration,
+    order=util.param('order') or '-timestamp',
+    limit=util.param('limit', int) or 60 if duration == 'day' else -1,
+  )
+
+  return flask.render_template(
+    'admin/stats.html',
+    html_class='admin-stats admin-stats-%s' % duration,
+    title='Stats - %s' % duration.title(),
+    stats_dbs=stats_dbs,
+    duration=duration,
+  )
+
+
+@app.route('/admin/stats/calc/<int:year>-<int:month>-<int:day>/')
+@app.route('/admin/stats/calc/<int:year>-<int:month>/')
+@app.route('/admin/stats/calc/<string:when>/')
+@app.route('/admin/stats/calc/<int:year>/')
+@app.route('/admin/stats/calc/')
+@auth.cron_required
+def admin_stats_calc(when='', year=0, month=0, day=0):
+  if not year:
+    utc_now = datetime.utcnow()
+    year = utc_now.year
+    month = utc_now.month
+    day = utc_now.day
+
+  duration = 'day'
+
+  if when == 'yesterday':
+    timestamp = datetime.utcnow() + timedelta(-1)
+  else:
+    if day == 0:
+      duration = 'month'
+      day = 1
+    if month == 0:
+      duration = 'year'
+      month = 1
+    timestamp = datetime(year, month, day)
+
+  start, finish = util.date_limits(timestamp, duration)
+
+  total = 0
+  while start < finish:
+    task.task_calculate_stats(start)
+    start += timedelta(1)
+    total += 1
+
+  if util.param('redirect', bool):
+    flask.flash('Started %d task(s) for the %s: %s' % (
+      total, duration, timestamp.strftime('%d %B %Y')
+    ), category='success')
+    return flask.redirect(flask.url_for('admin_stats'))
+  return '%d tasks in %s - %s' % (total, duration, timestamp.strftime('%d %B %Y'))
