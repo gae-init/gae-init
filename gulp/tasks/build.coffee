@@ -20,7 +20,10 @@ gulp.task 'deploy', 'Deploy project to Google App Engine.', ['build'], ->
   delete options['_']
   options_str = ''
   for k of options
-    if options[k] in [true, false]
+    if options[k] == false
+      options_str += " --no-#{k}"
+      continue
+    if options[k] == true
       options[k] = ''
     options_str += " #{if k.length > 1 then '-' else ''}-#{k} #{options[k]}"
 
