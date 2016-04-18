@@ -20,13 +20,14 @@ gulp.task 'deploy', 'Deploy project to Google App Engine.', ['build'], ->
   delete options['_']
   options_str = ''
   for k of options
-    if options[k] == true
+    if options[k] in [true, false]
       options[k] = ''
-    options_str += if k.length > 1 then " --#{k} #{options[k]}" else " -#{k} #{options[k]}"
+    options_str += " #{if k.length > 1 then '-' else ''}-#{k} #{options[k]}"
 
-  gulp.src('run.py').pipe $.start [
-      {match: /run.py$/, cmd: "gcloud preview app deploy main/app.yaml #{options_str}"}
-    ]
+  gulp.src('run.py').pipe $.start [{
+    match: /run.py$/
+    cmd: "gcloud preview app deploy main/*.yaml #{options_str}"
+  }]
 
 
 gulp.task 'run',
@@ -53,4 +54,7 @@ gulp.task 'run',
           else
             options_str += " -#{k} #{options[k]}"
 
-      gulp.src('run.py').pipe $.start [{match: /run.py$/, cmd: "python run.py #{options_str}"}]
+      gulp.src('run.py').pipe $.start [{
+        match: /run.py$/
+        cmd: "python run.py #{options_str}"
+      }]
