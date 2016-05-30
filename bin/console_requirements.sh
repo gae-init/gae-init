@@ -16,7 +16,11 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # Gulp.js
-sudo npm install -g gulp
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  sudo npm install -g gulp
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  npm install -g gulp
+fi
 
 # Python related
 curl -O https://bootstrap.pypa.io/get-pip.py
