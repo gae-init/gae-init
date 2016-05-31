@@ -5,7 +5,7 @@ curl https://sdk.cloud.google.com | bash
 gcloud components install app-engine-python
 
 # Node.js
-brew install node
+sudo port install nodejs
 
 # Gulp.js
 npm install -g gulp
@@ -15,4 +15,4 @@ curl https://bootstrap.pypa.io/get-pip.py | python
 pip install virtualenv
 
 # Git
-brew install git
+sudo port install git-core

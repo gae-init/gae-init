@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Init
-mkdir -p ~/temp/gae-init-temp
-cd ~/temp/gae-init-temp
-
 # Cloud SDK and App Engine
 curl https://sdk.cloud.google.com | bash
 gcloud components install app-engine-python
@@ -15,12 +11,8 @@ sudo apt-get install nodejs
 sudo npm install -g gulp
 
 # Python related
-curl -O https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
+curl https://bootstrap.pypa.io/get-pip.py | sudo python
 sudo pip install virtualenv
 
 # Git
 sudo apt-get install git
-
-# Clean up
-rm -rf ~/temp/gae-init-temp
