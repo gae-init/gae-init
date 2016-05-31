@@ -21,13 +21,13 @@ curl https://raw.githubusercontent.com/gae-init/gae-init/master/bin/requirements
 
 ### OS X
 
-#### Homebrew
+#### [Homebrew](http://brew.sh/)
 
 ```bash
 curl https://raw.githubusercontent.com/gae-init/gae-init/master/bin/requirements_osx_brew.sh | bash
 ```
 
-#### MacPorts
+#### [MacPorts](https://www.macports.org/)
 
 ```bash
 curl https://raw.githubusercontent.com/gae-init/gae-init/master/bin/requirements_osx_port.sh | bash
