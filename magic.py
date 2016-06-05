@@ -42,8 +42,14 @@ DIR_API = os.path.join(DIR_MAIN, 'api', 'v1')
 FILE_API_INIT = os.path.join(DIR_API, '__init__.py')
 
 DIR_TEMPLATES = os.path.join(DIR_MAIN, 'templates')
+DIR_STATIC = os.path.join(DIR_MAIN, 'static')
+DIR_SCRIPT = os.path.join(DIR_STATIC, 'src', 'script')
 FILE_HEADER = os.path.join(DIR_TEMPLATES, 'bit', 'header.html')
 FILE_ADMIN = os.path.join(DIR_TEMPLATES, 'admin', 'admin.html')
+FILE_CORE_MODULE = os.path.join(DIR_SCRIPT, 'app', 'core', 'core.module.js')
+FILE_APP_MODULE = os.path.join(DIR_SCRIPT, 'app', 'app.module.js')
+FILE_APP_CONFIG = os.path.join(DIR_SCRIPT, 'app', 'app.config.js')
+FILE_ANGULAR = os.path.join(DIR_TEMPLATES, 'angular.html')
 
 
 ###############################################################################
@@ -144,6 +150,12 @@ def sync_from_magic(project_db):
   insert_to(project_url, FILE_HEADER, '<ul class="nav navbar-nav">', 2)
   insert_to(project_url, FILE_ADMIN, "url_for('user_list'")
 
+  if project_db['include_angular']:
+    insert_to(project_url, FILE_CORE_MODULE, "angular.module('core', [")
+    insert_to(project_url, FILE_APP_MODULE, "'userList',")
+    insert_to(project_url, FILE_APP_CONFIG, "  $routeProvider")
+    insert_to(project_url, FILE_ANGULAR, "User</a></li>")
+
   for index, model_db in enumerate(model_dbs):
     print_out('%d of %d' % (index + 1, project_db['model_count']))
     name = model_db['variable_name']
@@ -157,6 +169,13 @@ def sync_from_magic(project_db):
     create_file(project_url, os.path.join(root, '%s_list.html' % name))
     create_file(project_url, os.path.join(root, 'admin_%s_update.html' % name))
     create_file(project_url, os.path.join(root, 'admin_%s_list.html' % name))
+
+    if project_db['include_angular']:
+      create_file(project_url, os.path.join(DIR_SCRIPT, 'app', name, '%s-list.template.html' % name))
+      create_file(project_url, os.path.join(DIR_SCRIPT, 'app', name, '%s-list.component.js' % name))
+      create_file(project_url, os.path.join(DIR_SCRIPT, 'app', name, '%s-list.module.js' % name))
+      create_file(project_url, os.path.join(DIR_SCRIPT, 'app', 'core', name, '%s.module.js' % name))
+      create_file(project_url, os.path.join(DIR_SCRIPT, 'app', 'core', name, '%s.service.js' % name))
 
 
 ###############################################################################
