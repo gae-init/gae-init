@@ -6,7 +6,7 @@
   {{$ctrl.error.data.error_code}} - {{$ctrl.error.data.description}}
 </div>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" ng-if="$ctrl.config_db">
   <tbody>
     <tr>
       <th class="text-nowrap col-xs-2">Analytics ID</th>
