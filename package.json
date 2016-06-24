@@ -9,6 +9,11 @@
   "scripts": {
     "install": "gulp init"
   },
+  "dependencies": {
+    "bootstrap": "~3",
+    "jquery": "~2",
+    "moment": "~2"
+  },
   "devDependencies": {
     "bower": "~1",
     "coffee-script": "~1",
