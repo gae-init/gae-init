@@ -2,14 +2,14 @@ paths = require './paths'
 
 config =
   ext: [
-    "#{paths.static.ext}/jquery/dist/jquery.js"
-    "#{paths.static.ext}/moment/moment.js"
-    "#{paths.static.ext}/bootstrap/js/alert.js"
-    "#{paths.static.ext}/bootstrap/js/button.js"
-    "#{paths.static.ext}/bootstrap/js/transition.js"
-    "#{paths.static.ext}/bootstrap/js/collapse.js"
-    "#{paths.static.ext}/bootstrap/js/dropdown.js"
-    "#{paths.static.ext}/bootstrap/js/tooltip.js"
+    "#{paths.dep.node_modules}/jquery/dist/jquery.js"
+    "#{paths.dep.node_modules}/moment/moment.js"
+    "#{paths.dep.node_modules}/bootstrap/js/alert.js"
+    "#{paths.dep.node_modules}/bootstrap/js/button.js"
+    "#{paths.dep.node_modules}/bootstrap/js/transition.js"
+    "#{paths.dep.node_modules}/bootstrap/js/collapse.js"
+    "#{paths.dep.node_modules}/bootstrap/js/dropdown.js"
+    "#{paths.dep.node_modules}/bootstrap/js/tooltip.js"
   ]
   style: [
     "#{paths.src.style}/style.less"
