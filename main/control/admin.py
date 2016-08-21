@@ -54,7 +54,7 @@ class ConfigUpdateForm(flask_wtf.Form):
   recaptcha_private_key = wtforms.StringField(model.Config.recaptcha_private_key._verbose_name, filters=[util.strip_filter])
   recaptcha_public_key = wtforms.StringField(model.Config.recaptcha_public_key._verbose_name, filters=[util.strip_filter])
   salt = wtforms.StringField(model.Config.salt._verbose_name, [wtforms.validators.optional()], filters=[util.strip_filter])
-  tag_manager_id = wtforms.StringField(model.Config.tagmanager_id._verbose_name, filters=[util.strip_filter])
+  tag_manager_id = wtforms.StringField(model.Config.tag_manager_id._verbose_name, filters=[util.strip_filter])
   verify_email = wtforms.BooleanField(model.Config.verify_email._verbose_name)
 
 
