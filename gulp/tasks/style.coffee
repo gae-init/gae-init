@@ -9,8 +9,9 @@ gulp.task 'style', false, ->
   gulp.src config.style
   .pipe $.plumber errorHandler: util.onError
   .pipe do $.less
-  .pipe $.autoprefixer {cascade: false}
-  .pipe do $.minifyCss
+  .pipe $.cssnano
+    discardComments: removeAll: true
+    zindex: false
   .pipe $.size {title: 'Minified styles'}
   .pipe gulp.dest "#{paths.static.min}/style"
 

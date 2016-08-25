@@ -17,6 +17,7 @@ from main import app
 @app.errorhandler(405)  # Method Not Allowed
 @app.errorhandler(410)  # Gone
 @app.errorhandler(418)  # I'm a Teapot
+@app.errorhandler(422)  # Unprocessable Entity
 @app.errorhandler(500)  # Internal Server Error
 def error_handler(e):
   logging.exception(e)
@@ -30,11 +31,11 @@ def error_handler(e):
     return helpers.handle_error(e)
 
   return flask.render_template(
-      'error.html',
-      title='Error %d (%s)!!1' % (e.code, e.name),
-      html_class='error-page',
-      error=e,
-    ), e.code
+    'error.html',
+    title='Error %d (%s)!!1' % (e.code, e.name),
+    html_class='error-page',
+    error=e,
+  ), e.code
 
 
 if config.PRODUCTION:

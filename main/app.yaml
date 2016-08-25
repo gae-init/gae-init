@@ -1,15 +1,13 @@
-application: gae-init
-version: 1
-module: default
+service: default
 instance_class: F1
 runtime: python27
 api_version: 1
 threadsafe: true
 
 builtins:
-- remote_api: on
-- deferred: on
 - appstats: on
+- deferred: on
+- remote_api: on
 
 inbound_services:
 - warmup
@@ -34,21 +32,22 @@ handlers:
   static_files: static/\1
   upload: static/(.*\.ttf)
   mime_type: font/ttf
-  expiration: 1000d
+  expiration: "365d"
 
 - url: /p/(.*\.woff2)
   static_files: static/\1
   upload: static/(.*\.woff2)
   mime_type: font/woff2
-  expiration: 1000d
+  expiration: "365d"
 
 - url: /p/
   static_dir: static/
-  expiration: 1000d
+  expiration: "365d"
 
 - url: /.*
   script: main.app
   secure: always
+  redirect_http_response_code: 301
 
 skip_files:
 - ^(.*/)?#.*#
