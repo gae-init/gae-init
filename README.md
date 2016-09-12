@@ -2,6 +2,7 @@ gae-init
 ========
 
 [![Slack Status](https://gae-init-slack.herokuapp.com/badge.svg)](https://gae-init-slack.herokuapp.com)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](https://tldrlegal.com/license/mit-license)
 
 > **gae-init** is the easiest boilerplate to kick start new applications on Google
 App Engine using Python, Flask, RESTful, Bootstrap and tons of other cool features.
