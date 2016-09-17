@@ -1,0 +1,172 @@
+<div class="page-header">
+  <h1>Config</h1>
+</div>
+
+<div class="alert alert-danger" ng-if="$ctrl.error">
+  {{$ctrl.error.data.error_code}} - {{$ctrl.error.data.description}}
+</div>
+
+<table class="table table-bordered table-striped" ng-if="$ctrl.config_db">
+  <tbody>
+    <tr>
+      <th class="text-nowrap col-xs-2">Analytics ID</th>
+      <td class="col-xs-10">{{$ctrl.config_db.analytics_id}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Announcement HTML</th>
+      <td class="col-xs-10">{{$ctrl.config_db.announcement_html}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Announcement Type</th>
+      <td class="col-xs-10">{{$ctrl.config_db.announcement_type}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Use reCAPTCHA in forms for unauthorized users</th>
+      <td class="col-xs-10">{{$ctrl.config_db.anonymous_recaptcha}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Bitbucket Key</th>
+      <td class="col-xs-10">{{$ctrl.config_db.bitbucket_key}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Bitbucket Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.bitbucket_secret}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Brand Name</th>
+      <td class="col-xs-10">{{$ctrl.config_db.brand_name}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Check for uniqueness of the verified emails</th>
+      <td class="col-xs-10">{{$ctrl.config_db.check_unique_email}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Dropbox App Key</th>
+      <td class="col-xs-10">{{$ctrl.config_db.dropbox_app_key}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Dropbox App Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.dropbox_app_secret}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Email authentication for sign in/sign up</th>
+      <td class="col-xs-10">{{$ctrl.config_db.email_authentication}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Facebook App ID</th>
+      <td class="col-xs-10">{{$ctrl.config_db.facebook_app_id}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Facebook App Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.facebook_app_secret}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Feedback Email</th>
+      <td class="col-xs-10">{{$ctrl.config_db.feedback_email}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Flask Secret Key</th>
+      <td class="col-xs-10">{{$ctrl.config_db.flask_secret_key}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">GitHub Client ID</th>
+      <td class="col-xs-10">{{$ctrl.config_db.github_client_id}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">GitHub Client Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.github_client_secret}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Google Client ID</th>
+      <td class="col-xs-10">{{$ctrl.config_db.google_client_id}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Google Client Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.google_client_secret}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Instagram Client ID</th>
+      <td class="col-xs-10">{{$ctrl.config_db.instagram_client_id}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Instagram Client Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.instagram_client_secret}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Let's Encrypt Challenge</th>
+      <td class="col-xs-10">{{$ctrl.config_db.letsencrypt_challenge}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Let's Encrypt Response</th>
+      <td class="col-xs-10">{{$ctrl.config_db.letsencrypt_response}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">LinkedIn API Key</th>
+      <td class="col-xs-10">{{$ctrl.config_db.linkedin_api_key}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">LinkedIn Secret Key</th>
+      <td class="col-xs-10">{{$ctrl.config_db.linkedin_secret_key}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Microsoft Client ID</th>
+      <td class="col-xs-10">{{$ctrl.config_db.microsoft_client_id}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Microsoft Client Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.microsoft_client_secret}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Send an email notification when a user signs up</th>
+      <td class="col-xs-10">{{$ctrl.config_db.notify_on_new_user}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Recaptcha Private Key</th>
+      <td class="col-xs-10">{{$ctrl.config_db.recaptcha_private_key}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Recaptcha Public Key</th>
+      <td class="col-xs-10">{{$ctrl.config_db.recaptcha_public_key}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Reddit Client ID</th>
+      <td class="col-xs-10">{{$ctrl.config_db.reddit_client_id}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Reddit Client Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.reddit_client_secret}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Salt</th>
+      <td class="col-xs-10">{{$ctrl.config_db.salt}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Twitter Consumer Key</th>
+      <td class="col-xs-10">{{$ctrl.config_db.twitter_consumer_key}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Twitter Consumer Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.twitter_consumer_secret}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Verify user emails</th>
+      <td class="col-xs-10">{{$ctrl.config_db.verify_email}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">VK App ID</th>
+      <td class="col-xs-10">{{$ctrl.config_db.vk_app_id}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">VK App Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.vk_app_secret}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Yahoo Consumer Key</th>
+      <td class="col-xs-10">{{$ctrl.config_db.yahoo_consumer_key}}</td>
+    </tr>
+    <tr>
+      <th class="text-nowrap col-xs-2">Yahoo Consumer Secret</th>
+      <td class="col-xs-10">{{$ctrl.config_db.yahoo_consumer_secret}}</td>
+    </tr>
+  </tbody>
+</table>

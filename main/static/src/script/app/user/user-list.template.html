@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h1>User</h1>
+</div>
+
+<div class="alert alert-danger" ng-if="$ctrl.error">
+  {{$ctrl.error.data.error_code}} - {{$ctrl.error.data.description}}
+</div>
+
+<div class="table-responsive" ng-if="$ctrl.user_dbs">
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr class="text-nowrap">
+        <th class="col-xs-4">Name</th>
+        <th class="col-xs-3">Email</th>
+        <th class="col-xs-3">Username</th>
+        <th class="col-xs-2">Modified<br><small>Created</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user_db in $ctrl.user_dbs">
+        <td>{{user_db.name}}</td>
+        <td>{{user_db.email}}</td>
+        <td>{{user_db.username}}</td>
+        <td>
+          <time am-time-ago="user_db.modified"></time><br>
+          <time class="small" am-time-ago="user_db.created"></time>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

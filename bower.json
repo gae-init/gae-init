@@ -1,6 +1,10 @@
 {
   "name": "gae-init",
   "dependencies": {
+    "angular": "~1",
+    "angular-moment": "~1",
+    "angular-resource": "~1",
+    "angular-route": "~1",
     "bootstrap": "~3",
     "font-awesome": "~4",
     "jquery": "~3",

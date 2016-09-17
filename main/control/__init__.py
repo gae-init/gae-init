@@ -3,6 +3,7 @@
 from .user import *
 
 from .admin import *
+from .angular import *
 from .error import *
 from .feedback import *
 from .letsencrypt import *
