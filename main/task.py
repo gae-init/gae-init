@@ -5,6 +5,8 @@ import logging
 import flask
 from google.appengine.api import mail
 from google.appengine.ext import deferred
+import httplib2
+from urllib import urlencode
 
 import config
 import util
@@ -27,7 +29,25 @@ def send_mail_notification(subject, body, to=None, **kwargs):
       '#####################################################################',
       sender, to or sender, subject, body
     )
-  deferred.defer(mail.send_mail, sender, to or sender, subject, body, **kwargs)
+  if config.CONFIG_DB.mailgun_api_key and config.CONFIG_DB.mailgun_api_base_url:
+    send_mailgun_message(sender, to or sender, subject, body)
+  else:
+    deferred.defer(mail.send_mail, sender, to or sender, subject, body, **kwargs)
+
+def send_mailgun_message(sender, to, subject, body):
+  mailgun_api_key = config.CONFIG_DB.mailgun_api_key
+  mailgun_api_base_url = config.CONFIG_DB.mailgun_api_base_url
+  http = httplib2.Http()
+  http.add_credentials('api', mailgun_api_key)
+  url = '{}/messages'.format(mailgun_api_base_url)
+  data = {"from": sender,
+          "to": to,
+          "subject": subject,
+          "text": body}
+  resp, content = http.request(url, 'POST', urlencode(data))
+  if resp.status != 200:
+    logging.error('Problem sending e-mail, status code: {0}'.format(resp.status_code)
+                  + '\n' + str(resp) + '\n' + str(data))
 
 
 ###############################################################################

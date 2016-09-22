@@ -22,6 +22,8 @@ class Config(model.Base, model.ConfigAuth):
   flask_secret_key = ndb.StringProperty(default=util.uuid())
   letsencrypt_challenge = ndb.StringProperty(default='', verbose_name=u'Let’s Encrypt Challenge')
   letsencrypt_response = ndb.StringProperty(default='', verbose_name=u'Let’s Encrypt Response')
+  mailgun_api_key = ndb.StringProperty(default='', verbose_name=u'Mailgun API key')
+  mailgun_api_base_url = ndb.StringProperty(default='', verbose_name=u'Mailgun API base URL')
   notify_on_new_user = ndb.BooleanProperty(default=True, verbose_name='Send an email notification when a user signs up')
   recaptcha_private_key = ndb.StringProperty(default='', verbose_name='Private Key')
   recaptcha_public_key = ndb.StringProperty(default='', verbose_name='Public Key')
