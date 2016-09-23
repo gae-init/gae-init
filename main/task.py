@@ -38,8 +38,8 @@ def send_mail_notification(subject, body, to=None, **kwargs):
 
 def send_mailgun_message(sender, to, subject, body):
   data = {'from': sender, 'to': to, 'subject': subject, 'text': body}
-  encoded = base64.b64encode("api:%s" % config.CONFIG_DB.mailgun_api_key)
-  headers = {"Authorization": "Basic %s" % encoded}
+  encoded = base64.b64encode('api:%s' % config.CONFIG_DB.mailgun_api_key)
+  headers = {'Authorization': 'Basic %s' % encoded}
   try:
     resp = urlfetch.fetch(
       url='%s/messages' % config.CONFIG_DB.mailgun_api_base_url,
@@ -49,8 +49,8 @@ def send_mailgun_message(sender, to, subject, body):
       validate_certificate=True,
     )
     if resp.status_code != 200:
-      logging.error(
-        'Problem sending email, status code: %s \n %s \n %s' % (resp.status_code, str(resp), str(data)))
+      logging.error('Problem sending email, status code: %s \n %s \n %s' % (
+        resp.status_code, str(resp), str(data)))
   except urlfetch.Error:
     logging.exception('Exception raised when sending email')
 
