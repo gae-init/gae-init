@@ -2,10 +2,11 @@
 
 import logging
 
+from base64 import b64encode
 import flask
+from google.appengine.api import urlfetch
 from google.appengine.api import mail
 from google.appengine.ext import deferred
-import httplib2
 from urllib import urlencode
 
 import config
@@ -34,20 +35,30 @@ def send_mail_notification(subject, body, to=None, **kwargs):
   else:
     deferred.defer(mail.send_mail, sender, to or sender, subject, body, **kwargs)
 
+
 def send_mailgun_message(sender, to, subject, body):
   mailgun_api_key = config.CONFIG_DB.mailgun_api_key
   mailgun_api_base_url = config.CONFIG_DB.mailgun_api_base_url
-  http = httplib2.Http()
-  http.add_credentials('api', mailgun_api_key)
   url = '{}/messages'.format(mailgun_api_base_url)
   data = {"from": sender,
           "to": to,
           "subject": subject,
           "text": body}
-  resp, content = http.request(url, 'POST', urlencode(data))
-  if resp.status != 200:
-    logging.error('Problem sending e-mail, status code: {0}'.format(resp.status_code)
-                  + '\n' + str(resp) + '\n' + str(data))
+  headers = {"Authorization":
+               "Basic {}".format(b64encode("api:" + mailgun_api_key))}
+  try:
+    resp = urlfetch.fetch(
+      url=url,
+      payload=urlencode(data),
+      method=urlfetch.POST,
+      headers=headers,
+      validate_certificate=True)
+    if resp.status_code != 200:
+      logging.error(
+        'Problem sending e-mail, status code: {} \n {} \n {}'.format(resp.status_code, str(resp), str(data)))
+  except urlfetch.Error:
+    logging.exception('Exception raised when sending e-mail')
+
 
 
 ###############################################################################
