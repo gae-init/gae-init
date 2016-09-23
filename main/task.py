@@ -44,15 +44,15 @@ def send_mailgun_message(sender, to, subject, body):
     'to': to,
     'subject': subject,
     'text': body}
-  headers = {"Authorization":
-               "Basic %s" % b64encode("api:%s" % mailgun_api_key)}
+  headers = {"Authorization": "Basic %s" % b64encode("api:%s" % mailgun_api_key)}
   try:
     resp = urlfetch.fetch(
       url=url,
       payload=urlencode(data),
       method=urlfetch.POST,
       headers=headers,
-      validate_certificate=True,)
+      validate_certificate=True,
+    )
     if resp.status_code != 200:
       logging.error(
         'Problem sending e-mail, status code: %s \n %s \n %s' % (resp.status_code, str(resp), str(data)))

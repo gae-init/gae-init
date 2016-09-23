@@ -1,10 +1,10 @@
 {{
   forms.panel_fields(
-      'Mailgun',
-      (form.mailgun_api_base_url, form.mailgun_api_key),
-      '''
-        Find the API key at
-        <a href="https://mailgun.com/app/domains/%s" target="_blank">https://mailgun.com/app/domains/%s</a>.
-      ''' % (request.host, request.host)
+    'Mailgun',
+    (form.mailgun_api_base_url, form.mailgun_api_key),
+    '''
+      Find the API key at
+      <a href="https://mailgun.com/app/domains/%s" target="_blank">https://mailgun.com/app/domains/%s</a>.
+    ''' % (request.host, request.host)
     )
 }}
