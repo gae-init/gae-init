@@ -1,13 +1,13 @@
 # coding: utf-8
 
+import base64
 import logging
+import urllib
 
-from base64 import b64encode
 import flask
 from google.appengine.api import urlfetch
 from google.appengine.api import mail
 from google.appengine.ext import deferred
-from urllib import urlencode
 
 import config
 import util
@@ -37,28 +37,22 @@ def send_mail_notification(subject, body, to=None, **kwargs):
 
 
 def send_mailgun_message(sender, to, subject, body):
-  mailgun_api_key = config.CONFIG_DB.mailgun_api_key
-  mailgun_api_base_url = config.CONFIG_DB.mailgun_api_base_url
-  url = '%s/messages' % mailgun_api_base_url
-  data = {'from': sender,
-    'to': to,
-    'subject': subject,
-    'text': body}
-  headers = {"Authorization": "Basic %s" % b64encode("api:%s" % mailgun_api_key)}
+  data = {'from': sender, 'to': to, 'subject': subject, 'text': body}
+  encoded = base64.b64encode("api:%s" % config.CONFIG_DB.mailgun_api_key)
+  headers = {"Authorization": "Basic %s" % encoded}
   try:
     resp = urlfetch.fetch(
-      url=url,
-      payload=urlencode(data),
+      url='%s/messages' % config.CONFIG_DB.mailgun_api_base_url,
+      payload=urllib.urlencode(data),
       method=urlfetch.POST,
       headers=headers,
       validate_certificate=True,
     )
     if resp.status_code != 200:
       logging.error(
-        'Problem sending e-mail, status code: %s \n %s \n %s' % (resp.status_code, str(resp), str(data)))
+        'Problem sending email, status code: %s \n %s \n %s' % (resp.status_code, str(resp), str(data)))
   except urlfetch.Error:
-    logging.exception('Exception raised when sending e-mail')
-
+    logging.exception('Exception raised when sending email')
 
 
 ###############################################################################
