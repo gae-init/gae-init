@@ -31,7 +31,7 @@ def send_mail_notification(subject, body, to=None, **kwargs):
       sender, to or sender, subject, body
     )
   if config.CONFIG_DB.mailgun_api_key and config.CONFIG_DB.mailgun_api_base_url:
-    send_mailgun_message(sender, to or sender, subject, body)
+    deferred.defer(send_mailgun_message, sender, to or sender, subject, body)
   else:
     deferred.defer(mail.send_mail, sender, to or sender, subject, body, **kwargs)
 
@@ -39,23 +39,23 @@ def send_mail_notification(subject, body, to=None, **kwargs):
 def send_mailgun_message(sender, to, subject, body):
   mailgun_api_key = config.CONFIG_DB.mailgun_api_key
   mailgun_api_base_url = config.CONFIG_DB.mailgun_api_base_url
-  url = '{}/messages'.format(mailgun_api_base_url)
-  data = {"from": sender,
-          "to": to,
-          "subject": subject,
-          "text": body}
+  url = '%s/messages' % mailgun_api_base_url
+  data = {'from': sender,
+    'to': to,
+    'subject': subject,
+    'text': body}
   headers = {"Authorization":
-               "Basic {}".format(b64encode("api:" + mailgun_api_key))}
+               "Basic %s" % b64encode("api:%s" % mailgun_api_key)}
   try:
     resp = urlfetch.fetch(
       url=url,
       payload=urlencode(data),
       method=urlfetch.POST,
       headers=headers,
-      validate_certificate=True)
+      validate_certificate=True,)
     if resp.status_code != 200:
       logging.error(
-        'Problem sending e-mail, status code: {} \n {} \n {}'.format(resp.status_code, str(resp), str(data)))
+        'Problem sending e-mail, status code: %s \n %s \n %s' % (resp.status_code, str(resp), str(data)))
   except urlfetch.Error:
     logging.exception('Exception raised when sending e-mail')
 
