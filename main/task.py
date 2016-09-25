@@ -163,7 +163,7 @@ def email_conflict_notification(email):
 ###############################################################################
 def task_calculate_stats(timestamp, duration='day'):
   if duration == 'day' and timestamp < datetime.utcnow():
-    if timestamp > datetime(2012, 1, 1):
+    if timestamp >= datetime(2012, 1, 1):
       deferred.defer(calculate_stats, timestamp, duration)
 
 
