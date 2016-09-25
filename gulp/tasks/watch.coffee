@@ -31,7 +31,7 @@ gulp.task 'watch', false, ->
     $.sequence('ext:dev', ['style:dev', 'script:dev'])()
   $.watch paths.static.ext, ->
     $.sequence('ext:dev')()
-  $.watch "#{paths.src.script}/**/*.{coffee,js}", ->
+  $.watch "#{paths.src.script}/**/*.{coffee,js,ts}", ->
     $.sequence('script:dev')()
   $.watch "#{paths.src.style}/**/*.less", ->
     $.sequence('style:dev')()

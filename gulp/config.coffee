@@ -19,6 +19,7 @@ config =
   script: [
     "#{paths.src.script}/**/*.coffee"
     "#{paths.src.script}/**/*.js"
+    "#{paths.src.script}/**/*.ts"
   ]
 
 
