@@ -1,14 +1,15 @@
 gulp = require('gulp-help') require 'gulp'
-$ = require('gulp-load-plugins')()
+$ = do require 'gulp-load-plugins'
 paths = require '../paths'
 
+POLL_INTERVAL = 500
 
 gulp.task 'reload', false, ->
-  $.livereload.listen 35729
+  do $.livereload.listen
   gulp.watch([
     "#{paths.static.dev}/**/*.{css,js}"
     "#{paths.main}/**/*.{html,py}"
-  ]).on 'change', $.livereload.changed
+  ], { interval: POLL_INTERVAL }).on 'change', $.livereload.changed
 
 
 gulp.task 'ext_watch_rebuild', false, (callback) ->
@@ -16,10 +17,10 @@ gulp.task 'ext_watch_rebuild', false, (callback) ->
 
 
 gulp.task 'watch', false, ->
-  gulp.watch 'requirements.txt', ['pip']
-  gulp.watch 'package.json', ['npm']
-  gulp.watch 'bower.json', ['ext_watch_rebuild']
-  gulp.watch 'gulp/config.coffee', ['ext:dev', 'style:dev', 'script:dev']
-  gulp.watch paths.static.ext, ['ext:dev']
-  gulp.watch "#{paths.src.script}/**/*.{coffee,js}", ['script:dev']
-  gulp.watch "#{paths.src.style}/**/*.less", ['style:dev']
+  gulp.watch 'requirements.txt', { interval: POLL_INTERVAL }, ['pip']
+  gulp.watch 'package.json', { interval: POLL_INTERVAL }, ['npm']
+  gulp.watch 'bower.json', { interval: POLL_INTERVAL }, ['ext_watch_rebuild']
+  gulp.watch 'gulp/config.coffee', { interval: POLL_INTERVAL }, ['ext:dev', 'style:dev', 'script:dev']
+  gulp.watch paths.static.ext, { interval: POLL_INTERVAL }, ['ext:dev']
+  gulp.watch "#{paths.src.script}/**/*.coffee", { interval: POLL_INTERVAL }, ['script:dev']
+  gulp.watch "#{paths.src.style}/**/*.less", { interval: POLL_INTERVAL }, ['style:dev']
