@@ -7,7 +7,8 @@
     "url": "https://github.com/gae-init"
   },
   "scripts": {
-    "install": "gulp init"
+    "install": "gulp init",
+    "postinstall": "gulp"
   },
   "devDependencies": {
     "bower": "~1",
