@@ -5,7 +5,7 @@ paths = require '../paths'
 POLL_INTERVAL = 500
 
 gulp.task 'reload', false, ->
-  do $.livereload.listen
+  $.livereload.listen 35729
   gulp.watch([
     "#{paths.static.dev}/**/*.{css,js}"
     "#{paths.main}/**/*.{html,py}"
@@ -22,5 +22,5 @@ gulp.task 'watch', false, ->
   gulp.watch 'bower.json', { interval: POLL_INTERVAL }, ['ext_watch_rebuild']
   gulp.watch 'gulp/config.coffee', { interval: POLL_INTERVAL }, ['ext:dev', 'style:dev', 'script:dev']
   gulp.watch paths.static.ext, { interval: POLL_INTERVAL }, ['ext:dev']
-  gulp.watch "#{paths.src.script}/**/*.coffee", { interval: POLL_INTERVAL }, ['script:dev']
+  gulp.watch "#{paths.src.script}/**/*.{coffee,js}", { interval: POLL_INTERVAL }, ['script:dev']
   gulp.watch "#{paths.src.style}/**/*.less", { interval: POLL_INTERVAL }, ['style:dev']
