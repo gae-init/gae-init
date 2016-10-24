@@ -8,7 +8,7 @@
   },
   "scripts": {
     "install": "gulp init",
-    "postinstall": "gulp"
+    "postinstall": "echo 'Run `gulp` to start or `gulp help` for more.'"
   },
   "devDependencies": {
     "bower": "~1",
