@@ -50,7 +50,8 @@ def send_mailgun_message(sender, to, subject, body):
     )
     if resp.status_code != 200:
       logging.error('Problem sending email, status code: %s \n %s \n %s' % (
-        resp.status_code, str(resp), str(data)))
+        resp.status_code, str(resp), str(data),
+      ))
   except urlfetch.Error:
     logging.exception('Exception raised when sending email')
 
