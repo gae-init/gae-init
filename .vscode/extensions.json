@@ -1,13 +1,7 @@
 {
   "recommendations": [
     "EditorConfig.EditorConfig",
-    "Tyriar.sort-lines",
     "donjayamanne.python",
-    "lonefy.vscode-JS-CSS-HTML-formatter",
-    "mohsen1.prettify-json",
-    "msjsdiag.debugger-for-chrome",
-    "robertohuertasm.vscode-icons",
-    "spywhere.guides",
-    "wmaurer.change-case"
+    "msjsdiag.debugger-for-chrome"
   ]
 }
