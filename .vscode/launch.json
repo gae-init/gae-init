@@ -7,7 +7,7 @@
       "request": "launch",
       "port": 9222,
       "sourceMaps": true,
-      "url": "localhost:8080/",
+      "url": "http://localhost:8080",
       "webRoot": "${workspaceRoot}/main/static/dev/script",
       "sourceMapPathOverrides": {
         "*": "${workspaceRoot}/main/static/src/script/*"
