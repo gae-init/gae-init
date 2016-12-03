@@ -39,3 +39,34 @@ else:
 DEFAULT_DB_LIMIT = 64
 SIGNIN_RETRY_LIMIT = 4
 TAG_SEPARATOR = ' '
+
+
+##############################################################################
+# HTTP Security Headers
+##############################################################################
+CSP = {
+  'default-src': "'self'",
+  'font-src': [
+    "'self'",
+    'data:',
+  ],
+  'img-src': [
+    "'self'",
+    '*.google-analytics.com',
+  ],
+  'script-src': [
+    "'self'",
+    'unsafe-inline',
+  ]
+}
+
+if DEVELOPMENT:
+  CSP_DEVELOPMENT = {
+    'connect-src': "ws:",
+  }
+
+  for key in dict.fromkeys(CSP_DEVELOPMENT.keys()):
+    if key in CSP:
+      CSP[key] += ' %s' % (CSP_DEVELOPMENT.pop(key))
+
+  CSP.update(CSP_DEVELOPMENT)
