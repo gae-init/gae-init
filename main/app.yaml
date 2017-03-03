@@ -16,6 +16,9 @@ libraries:
 - name: jinja2
   version: latest
 
+- name: ssl
+  version: latest
+
 error_handlers:
 - file: templates/error_static.html
 
@@ -69,3 +72,5 @@ skip_files:
 - ^static/ext/.*\.less
 - ^static/ext/.*\.json
 - ^static/src/.*
+- ^venv/bin/.*
+- ^venv/include/.*
