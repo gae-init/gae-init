@@ -9,6 +9,7 @@ import util
 
 from main import app
 
+
 microsoft_config = dict(
   access_token_method='POST',
   access_token_url='https://login.live.com/oauth20_token.srf',
@@ -60,5 +61,5 @@ def retrieve_user_from_microsoft(response):
     name=response.get('name', ''),
     username=email,
     email=email,
-    verified=bool(email),
+    email_verified=bool(email),
   )

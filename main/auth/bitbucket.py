@@ -56,5 +56,5 @@ def retrieve_user_from_bitbucket(response):
     name=response['display_name'],
     username=response['username'],
     email=email,
-    verified=bool(email),
+    email_verified=bool(email),
   )

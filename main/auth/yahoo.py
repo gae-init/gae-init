@@ -8,6 +8,7 @@ import util
 
 from main import app
 
+
 yahoo_config = dict(
   access_token_url='https://api.login.yahoo.com/oauth/v2/get_token',
   authorize_url='https://api.login.yahoo.com/oauth/v2/request_auth',
@@ -73,5 +74,5 @@ def retrieve_user_from_yahoo(response):
     name=' '.join(names).strip() or response['nickname'],
     username=response['nickname'],
     email=email,
-    verified=bool(email),
+    email_verified=bool(email),
   )

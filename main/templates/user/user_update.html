@@ -19,7 +19,7 @@
         {{forms.text_field(form.name, autofocus=True)}}
         {{forms.text_field(form.username, autocomplete='off')}}
         # include 'user/user_email_field.html'
-        {{forms.checkbox_field(form.verified)}}
+        {{forms.checkbox_field(form.email_verified)}}
         # if current_user.user_db.key != user_db.key
           {{forms.checkbox_field(form.admin)}}
           {{forms.checkbox_field(form.active)}}

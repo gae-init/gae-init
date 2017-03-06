@@ -9,6 +9,7 @@ import util
 
 from main import app
 
+
 github_config = dict(
   access_token_method='POST',
   access_token_url='https://github.com/login/oauth/access_token',
@@ -52,5 +53,5 @@ def retrieve_user_from_github(response):
     name=response['name'] or response['login'],
     username=response['login'],
     email=response.get('email', ''),
-    verified=bool(response.get('email', '')),
+    email_verified=bool(response.get('email', '')),
   )

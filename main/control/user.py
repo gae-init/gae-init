@@ -67,7 +67,7 @@ class UserUpdateForm(flask_wtf.FlaskForm):
   )
   admin = wtforms.BooleanField(model.User.admin._verbose_name)
   active = wtforms.BooleanField(model.User.active._verbose_name)
-  verified = wtforms.BooleanField(model.User.verified._verbose_name)
+  email_verified = wtforms.BooleanField(model.User.email_verified._verbose_name)
   permissions = wtforms.SelectMultipleField(
     model.User.permissions._verbose_name,
     filters=[util.sort_filter],

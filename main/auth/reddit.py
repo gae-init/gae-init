@@ -13,6 +13,7 @@ import util
 
 from main import app
 
+
 reddit_config = dict(
   access_token_method='POST',
   access_token_params={'grant_type': 'authorization_code'},

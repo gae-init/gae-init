@@ -8,6 +8,7 @@ import util
 
 from main import app
 
+
 instagram_config = dict(
   access_token_method='POST',
   access_token_url='https://api.instagram.com/oauth/access_token',

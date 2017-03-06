@@ -9,6 +9,7 @@ import util
 
 from main import app
 
+
 vk_config = dict(
   access_token_url='https://oauth.vk.com/access_token',
   authorize_url='https://oauth.vk.com/authorize',
