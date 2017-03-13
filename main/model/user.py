@@ -31,7 +31,7 @@ class User(model.Base):
 
   def has_facebook(self):
     for auth_id in self.auth_ids:
-      if auth_id.find('facebook') == 0:
+      if 'facebook' in auth_id:
         return auth_id
     return None
 
