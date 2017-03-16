@@ -69,3 +69,5 @@ skip_files:
 - ^static/ext/.*\.less
 - ^static/ext/.*\.json
 - ^static/src/.*
+- run_helper.py
+
