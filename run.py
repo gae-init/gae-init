@@ -13,7 +13,7 @@ import sys
 import urllib
 import urllib2
 
-import main
+main = imp.load_source('main', 'main/run_helper.py')
 
 
 ###############################################################################
