@@ -12,6 +12,7 @@
         {{forms.select_field(form.announcement_type)}}
       </fieldset>
       <fieldset class="col-sm-6">
+        {{forms.text_field(form.trusted_hosts, autofocus=True)}}
         {{forms.checkbox_field(form.notify_on_new_user)}}
         {{forms.checkbox_field(form.verify_email)}}
         {{forms.checkbox_field(form.check_unique_email)}}
