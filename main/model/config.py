@@ -26,6 +26,7 @@ class Config(model.Base, model.ConfigAuth):
   recaptcha_private_key = ndb.StringProperty(default='', verbose_name='Private Key')
   recaptcha_public_key = ndb.StringProperty(default='', verbose_name='Public Key')
   salt = ndb.StringProperty(default=util.uuid())
+  tag_manager_id = ndb.StringProperty(default='', verbose_name='Tag Manager ID')
   verify_email = ndb.BooleanProperty(default=True, verbose_name='Verify user emails')
 
   @property
@@ -60,6 +61,7 @@ class Config(model.Base, model.ConfigAuth):
     'recaptcha_private_key': fields.String,
     'recaptcha_public_key': fields.String,
     'salt': fields.String,
+    'tag_manager_id': fields.String,
     'verify_email': fields.Boolean,
   }
 
