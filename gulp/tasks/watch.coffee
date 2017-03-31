@@ -1,12 +1,13 @@
 gulp = require('gulp-help') require 'gulp'
 browserSync = require('browser-sync')
 $ = require('gulp-load-plugins')()
+config = require '../config'
 paths = require '../paths'
 
 
 gulp.task 'browser-sync', false, ->
   browserSync.init
-    proxy: "127.0.0.1:8080"
+    proxy: "#{config.host}:#{config.port}"
     notify: false
   $.watch [
     "#{paths.static.dev}/**/*.{css,js}"
