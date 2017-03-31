@@ -11,6 +11,7 @@
     "postinstall": "echo 'Run `gulp` to start or `gulp help` for more.'"
   },
   "devDependencies": {
+    "browser-sync": "2.18.8",
     "bower": "1.8.0",
     "coffee-script": "1.12.4",
     "del": "2.2.2",
@@ -23,7 +24,6 @@
     "gulp-help": "1.6.1",
     "gulp-if": "2.0.2",
     "gulp-less": "3.3.0",
-    "gulp-livereload": "3.8.1",
     "gulp-load-plugins": "1.5.0",
     "gulp-plumber": "1.1.0",
     "gulp-sequence": "0.4.6",
