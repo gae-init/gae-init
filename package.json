@@ -8,7 +8,8 @@
   },
   "scripts": {
     "install": "gulp init",
-    "postinstall": "echo 'Run `gulp` to start or `gulp help` for more.'"
+    "postinstall": "echo 'Run `gulp` to start or `gulp help` for more.'",
+    "start": "gulp"
   },
   "devDependencies": {
     "browser-sync": "2.18.8",
