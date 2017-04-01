@@ -20,6 +20,7 @@ from main import app
 @app.errorhandler(422)  # Unprocessable Entity
 @app.errorhandler(500)  # Internal Server Error
 def error_handler(e):
+  logging.error(flask.request.url)
   logging.exception(e)
   try:
     e.code
