@@ -60,7 +60,7 @@ IS_WINDOWS = platform.system() == 'Windows'
 ###############################################################################
 DIR_MAIN = 'main'
 DIR_TEMP = 'temp'
-DIR_VENV = os.path.join(DIR_TEMP, 'venv')
+DIR_VENV = os.path.join(DIR_MAIN, 'venv')
 
 DIR_LIB = os.path.join(DIR_MAIN, 'lib')
 DIR_LIBX = os.path.join(DIR_MAIN, 'libx')
@@ -177,34 +177,6 @@ def install_py_libs():
     'test', 'tests', 'pip', 'setuptools', '_markerlib', 'PIL',
     'easy_install.py', 'pkg_resources', 'pkg_resources.py'
   ]
-
-  def _exclude_prefix(pkg):
-    for prefix in exclude_prefix:
-      if pkg.startswith(prefix):
-        return True
-    return False
-
-  def _exclude_ext(pkg):
-    for ext in exclude_ext:
-      if pkg.endswith(ext):
-        return True
-    return False
-
-  def _get_dest(pkg):
-    make_dirs(DIR_LIB)
-    return os.path.join(DIR_LIB, pkg)
-
-  site_packages = site_packages_path()
-  dir_libs = listdir(DIR_LIB)
-  dir_libs.extend(listdir(DIR_LIBX))
-  for dir_ in listdir(site_packages):
-    if dir_ in dir_libs or dir_ in exclude:
-      continue
-    if _exclude_prefix(dir_) or _exclude_ext(dir_):
-      continue
-    src_path = os.path.join(site_packages, dir_)
-    copy = shutil.copy if os.path.isfile(src_path) else shutil.copytree
-    copy(src_path, _get_dest(dir_))
 
   make_guard(FILE_PIP_GUARD, 'pip', FILE_REQUIREMENTS)
 

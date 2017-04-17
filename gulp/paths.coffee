@@ -9,11 +9,11 @@ paths =
 
 paths.temp.root = 'temp'
 paths.temp.storage = "#{paths.temp.root}/storage"
-paths.temp.venv = "#{paths.temp.root}/venv"
+paths.temp.venv = "#{paths.main}/venv"
 
 paths.dep.bower_components = 'bower_components'
 paths.dep.node_modules = 'node_modules'
-paths.dep.py = "#{paths.temp.root}/venv"
+paths.dep.py = "#{paths.main}/venv"
 paths.dep.py_guard = "#{paths.temp.root}/pip.guard"
 
 paths.py.lib = "#{paths.main}/lib"

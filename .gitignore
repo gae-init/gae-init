@@ -11,5 +11,7 @@ main/lib.zip
 main/static/dev
 main/static/ext
 main/static/min
+main/venv
 node_modules
 temp/
+yarn.lock
