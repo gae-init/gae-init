@@ -7,7 +7,10 @@ gae-init
 App Engine using Python, Flask, RESTful, Bootstrap and tons of other cool features.
 
 Read the [documentation][], where you can find a complete [feature list][],
-a detailed [tutorial][], the [how to][] section and more..
+a detailed [tutorial][], the [how to][] section and more.. You may also find
+[this video overview](https://www.youtube.com/watch?v=2J2zWuaab-o) of gae-init 
+useful (includes topics on Google Developer Experts/Groups, Google App Engine,
+some of the languages/tools used, and how you can customise gae-init).
 
 The latest version is always accessible from
 [https://gae-init.appspot.com](https://gae-init.appspot.com)
