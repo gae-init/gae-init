@@ -145,7 +145,7 @@ def exec_pip_commands(command):
                 ('set' if IS_WINDOWS else 'export'))
   script.append(command)
   script = '&'.join(script) if IS_WINDOWS else \
-    '/bin/bash -c "%s"' % ';'.join(script)
+      '/bin/bash -c "%s"' % ';'.join(script)
   os.system(script)
 
 
