@@ -104,8 +104,7 @@ def listdir(directory, split_ext=False):
   try:
     if split_ext:
       return [os.path.splitext(dir_)[0] for dir_ in os.listdir(directory)]
-    else:
-      return os.listdir(directory)
+    return os.listdir(directory)
   except OSError:
     return []
 
