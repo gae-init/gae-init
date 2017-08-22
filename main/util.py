@@ -103,7 +103,7 @@ def get_dbs(
     limit, start_cursor=cursor.reversed() if cursor else None, keys_only=True
   )
   prev_cursor = prev_cursor.reversed().to_websafe_string() \
-    if prev_cursor and cursor else None
+      if prev_cursor and cursor else None
   return list(model_dbs), {'next': next_cursor, 'prev': prev_cursor}
 
 
