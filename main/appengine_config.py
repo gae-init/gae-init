@@ -14,15 +14,15 @@ else:
     sys.platform = ''
 
   import re
-  from google.appengine.tools.devappserver2.python import stubs
+  from google.appengine.tools.devappserver2.python.runtime import stubs
 
-  re_ = stubs.FakeFile._skip_files.pattern.replace('|^lib/.*', '')
-  re_ = re.compile(re_)
-  stubs.FakeFile._skip_files = re_
-  sys_path_insert('lib')
+  if stubs.FakeFile._skip_files:
+    re_ = stubs.FakeFile._skip_files.pattern.replace('|^lib/.*', '')
+    re_ = re.compile(re_)
+    stubs.FakeFile._skip_files = re_
+  sys.path.insert(0, 'lib')
 
 sys_path_insert('libx')
-
 
 def webapp_add_wsgi_middleware(app):
   from google.appengine.ext.appstats import recording

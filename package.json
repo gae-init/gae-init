@@ -1,34 +1,14 @@
 {
   "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
   "devDependencies": {
-    "bower": "1.8.0",
-    "browser-sync": "2.18.13",
-    "coffee-script": "1.12.7",
-    "del": "3.0.0",
-    "gulp": "3.9.1",
-    "gulp-autoprefixer": "4.0.0",
-    "gulp-bower": "0.0.13",
-    "gulp-coffee": "2.3.4",
-    "gulp-concat": "2.6.1",
-    "gulp-cssnano": "2.1.2",
-    "gulp-help": "1.6.1",
-    "gulp-if": "2.0.2",
-    "gulp-less": "3.3.2",
-    "gulp-load-plugins": "1.5.0",
-    "gulp-plumber": "1.1.0",
-    "gulp-sequence": "0.4.6",
-    "gulp-size": "2.1.0",
-    "gulp-sourcemaps": "2.6.1",
-    "gulp-start": "1.0.1",
-    "gulp-uglify": "3.0.0",
-    "gulp-util": "3.0.8",
-    "gulp-watch": "4.3.11",
-    "gulp-zip": "4.0.0",
-    "less": "2.7.2",
-    "main-bower-files": "2.13.1",
-    "require-dir": "0.3.2",
-    "uglify-js": "3.1.2",
-    "yargs-parser": "7.0.0"
+    "css-loader": "^0.14.4",
+    "extract-text-webpack-plugin": "^0.8.1",
+    "image-webpack-loader": "^1.4.0",
+    "manifest-revision-webpack-plugin": "^0.0.5",
+    "script-loader": "^0.6.1",
+    "style-loader": "^0.12.3",
+    "webpack-dev-server": "^1.9.0",
+    "webpack": "^1.9.10"
   },
   "license": "MIT",
   "name": "gae-init",
@@ -37,8 +17,7 @@
     "url": "https://github.com/gae-init"
   },
   "scripts": {
-    "install": "gulp init",
-    "postinstall": "echo 'Run `gulp` to start or `gulp help` for more.'",
-    "start": "gulp"
+    "start": "node_modules/.bin/webpack-dev-server --progress --colors --port 2992 --content-base main/build/public",
+    "build": "node_modules/.bin/webpack --progress --profile --colors"
   }
 }

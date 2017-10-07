@@ -7,9 +7,6 @@ gcloud components install app-engine-python
 # Node.js
 brew install node
 
-# Gulp.js
-npm install -g gulp
-
 # Python related
 curl https://bootstrap.pypa.io/get-pip.py | python
 pip install virtualenv

@@ -12,7 +12,7 @@ from main import app
 ###############################################################################
 @app.route('/')
 def welcome():
-  return flask.render_template('welcome.html', html_class='welcome')
+  return flask.render_template('index.html', html_class='index')
 
 
 ###############################################################################

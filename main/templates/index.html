@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Chris</title>
+    {{ stylesheet_tag('app_css') | safe }}
+  </head>
+
+  <body>
+    <div class="container">
+      <p id="hello">Hello (without javascript)</p>
+      <img src="{{ asset_url_for('images/dog/no-idea.jpg') }}" width="600" height="434" alt="No idea">
+      {{ javascript_tag('app_js') | safe }}
+    </div></datagrid>
+  </body>
+</html>

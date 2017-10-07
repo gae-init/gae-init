@@ -10,17 +10,6 @@ gulp.task 'clean',
     del './**/*.pyo'
     del './**/*.~'
 
-
-gulp.task 'clean:dev', false, ->
-  del paths.static.ext
-  del paths.static.dev
-
-
-gulp.task 'clean:min', false, ->
-  del paths.static.ext
-  del paths.static.min
-
-
 gulp.task 'clean:venv', false, ->
   del paths.py.lib
   del paths.py.lib_file
@@ -30,8 +19,7 @@ gulp.task 'clean:venv', false, ->
 
 gulp.task 'reset',
   'Complete reset of project. Run "npm install" after this procedure.',
-  ['clean', 'clean:dev', 'clean:min', 'clean:venv'], ->
-    del paths.dep.bower_components
+  ['clean', 'clean:venv'], ->
     del paths.dep.node_modules
 
 
