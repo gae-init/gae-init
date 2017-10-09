@@ -44,10 +44,8 @@ window.init_time = () => {
   if ($('time').length > 0) {
     recalculate = function() {
       $('time[datetime]').each(function() {
-        let date;
-        let diff;
-        date = moment.utc($(this).attr('datetime'));
-        diff = moment().diff(date, 'days');
+        let date = moment.utc($(this).attr('datetime'));
+        let diff = moment().diff(date, 'days');
         if (diff > 25) {
           $(this).text(date.local().format('YYYY-MM-DD'));
         } else {

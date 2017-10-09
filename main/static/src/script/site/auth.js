@@ -3,7 +3,9 @@
 window.init_auth = () => {
   $('.remember').change(() => {
     let href;
-    let buttons = $('.btn-social').toArray().concat($('.btn-social-icon').toArray());
+    let buttons = $('.btn-social')
+      .toArray()
+      .concat($('.btn-social-icon').toArray());
     let remember = $('.remember input').is(':checked');
     for (let button of buttons) {
       href = $(button).prop('href');
