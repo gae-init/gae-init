@@ -1,3 +1,5 @@
+'use strict';
+
 window.init_auth = () => {
   $('.remember').change(() => {
     let href;

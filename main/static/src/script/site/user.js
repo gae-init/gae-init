@@ -1,9 +1,4 @@
-let init_user_delete_btn;
-let init_user_merge_btn;
-let init_user_selections;
-let select_default_user;
-let update_user_selections;
-let user_select_row;
+'use strict';
 
 window.init_user_list = () => {
   init_user_selections();
@@ -11,7 +6,7 @@ window.init_user_list = () => {
   init_user_merge_btn();
 };
 
-init_user_selections = () => {
+let init_user_selections = () => {
   $('input[name=user_db]').each(function() {
     user_select_row($(this));
   });
@@ -26,7 +21,7 @@ init_user_selections = () => {
   });
 };
 
-user_select_row = $element => {
+let user_select_row = $element => {
   update_user_selections();
   $('input[name=user_db]').each(() => {
     let id;
@@ -51,7 +46,7 @@ update_user_selections = () => {
   }
 };
 
-init_user_delete_btn = () =>
+let init_user_delete_btn = () =>
   $('#user-delete').click(function(event) {
     clear_notifications();
     event.preventDefault();
@@ -113,7 +108,7 @@ window.init_user_merge = () => {
   });
 };
 
-select_default_user = user_key => {
+let select_default_user = user_key => {
   $('.user-row')
     .removeClass('success')
     .addClass('danger');
@@ -131,7 +126,7 @@ select_default_user = user_key => {
   }
 };
 
-init_user_merge_btn = () =>
+let init_user_merge_btn = () =>
   $('#user-merge').click(function(event) {
     event.preventDefault();
     let user_keys = [];

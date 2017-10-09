@@ -1,3 +1,5 @@
+'use strict';
+
 window.LOG = function() {
   typeof console !== 'undefined' && console !== null
     ? typeof console.log === 'function' ? console.log(...arguments) : void 0
