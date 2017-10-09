@@ -1,38 +1,36 @@
 'use strict';
 
-window.init_user_list = () => {
-  init_user_selections();
-  init_user_delete_btn();
-  init_user_merge_btn();
+window.initUserList = () => {
+  initUserSelections();
+  initUserDeleteBtn();
+  initUserMergeBtn();
 };
 
-let init_user_selections = () => {
+let initUserSelections = () => {
   $('input[name=user_db]').each(function() {
-    user_select_row($(this));
+    userSelectRow($(this));
   });
   $('#select-all').change(function() {
     $('input[name=user_db]').prop('checked', $(this).is(':checked'));
     $('input[name=user_db]').each(function() {
-      user_select_row($(this));
+      userSelectRow($(this));
     });
   });
   $('input[name=user_db]').change(function() {
-    user_select_row($(this));
+    userSelectRow($(this));
   });
 };
 
-let user_select_row = $element => {
-  update_user_selections();
+let userSelectRow = $element => {
+  updateUserSelections();
   $('input[name=user_db]').each(() => {
-    let id;
-    id = $element.val();
+    let id = $element.val();
     $(`#${id}`).toggleClass('warning', $element.is(':checked'));
   });
 };
 
-update_user_selections = () => {
-  let selected;
-  selected = $('input[name=user_db]:checked').length;
+let updateUserSelections = () => {
+  let selected = $('input[name=user_db]:checked').length;
   $('#user-actions').toggleClass('hidden', selected === 0);
   $('#user-merge').toggleClass('hidden', selected < 2);
   if (selected === 0) {
@@ -46,38 +44,38 @@ update_user_selections = () => {
   }
 };
 
-let init_user_delete_btn = () =>
+let initUserDeleteBtn = () =>
   $('#user-delete').click(function(event) {
-    clear_notifications();
+    clearNotifications();
     event.preventDefault();
-    let confirm_message = $(this)
+    let confirmMessage = $(this)
       .data('confirm')
       .replace('{users}', $('input[name=user_db]:checked').length);
-    if (confirm(confirm_message)) {
+    if (confirm(confirmMessage)) {
       let user_keys = [];
       $('input[name=user_db]:checked').each(function() {
         $(this).attr('disabled', true);
         user_keys.push($(this).val());
       });
-      let delete_url = $(this).data('api-url');
-      let success_message = $(this).data('success');
-      let error_message = $(this).data('error');
-      api_call(
+      let deleteUrl = $(this).data('api-url');
+      let successMessage = $(this).data('success');
+      let errorMessage = $(this).data('error');
+      apiCall(
         'DELETE',
-        delete_url,
+        deleteUrl,
         {
           user_keys: user_keys.join(','),
         },
         (err, result) => {
           if (err) {
             $('input[name=user_db]:disabled').removeAttr('disabled');
-            show_notification(error_message.replace('{users}', user_keys.length), 'danger');
+            showNotification(errorMessage.replace('{users}', user_keys.length), 'danger');
             return;
           }
           $(`#${result.join(', #')}`).fadeOut(function() {
             $(this).remove();
-            update_user_selections();
-            show_notification(success_message.replace('{users}', user_keys.length), 'success');
+            updateUserSelections();
+            showNotification(successMessage.replace('{users}', user_keys.length), 'success');
           });
         },
       );
@@ -87,7 +85,7 @@ let init_user_delete_btn = () =>
 window.init_user_merge = () => {
   let user_keys = $('#user_keys').val();
   let api_url = $('.api-url').data('api-url');
-  api_call(
+  apiCall(
     'GET',
     api_url,
     {
@@ -126,7 +124,7 @@ let select_default_user = user_key => {
   }
 };
 
-let init_user_merge_btn = () =>
+let initUserMergeBtn = () =>
   $('#user-merge').click(function(event) {
     event.preventDefault();
     let user_keys = [];

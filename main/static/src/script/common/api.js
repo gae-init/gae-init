@@ -1,6 +1,6 @@
 'use strict';
 
-window.api_call = function(method, url, params, data, callback) {
+window.apiCall = function(method, url, params, data, callback) {
   callback = callback || data || params;
   data = data || params;
   if (arguments.length === 4) {
@@ -28,7 +28,7 @@ window.api_call = function(method, url, params, data, callback) {
       if (data.status === 'success') {
         let more = void 0;
         if (data.next_url) {
-          more = callback => api_call(method, data.next_url, {}, callback);
+          more = callback => apiCall(method, data.next_url, {}, callback);
         }
         typeof callback === 'function' ? callback(void 0, data.result, more) : void 0;
       } else {
@@ -49,7 +49,7 @@ window.api_call = function(method, url, params, data, callback) {
       } catch (_error) {
         error = _error;
       }
-      LOG('api_call error', error);
+      LOG('apiCall error', error);
       typeof callback === 'function' ? callback(error) : void 0;
     },
   });

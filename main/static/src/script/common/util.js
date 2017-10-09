@@ -6,31 +6,30 @@ window.LOG = function() {
     : void 0;
 };
 
-window.init_common = () => {
-  init_loading_button();
-  init_confirm_button();
-  init_password_show_button();
-  init_time();
-  init_announcement();
-  init_row_link();
+window.initCommon = () => {
+  initLoadingButton();
+  initConfirmButton();
+  initPasswordShowButton();
+  initTime();
+  initAnnouncement();
+  initRowLink();
 };
 
-window.init_loading_button = () =>
+window.initLoadingButton = () =>
   $('body').on('click', '.btn-loading', function() {
     $(this).button('loading');
   });
 
-window.init_confirm_button = () =>
+window.initConfirmButton = () =>
   $('body').on('click', '.btn-confirm', function() {
     if (!confirm($(this).data('message') || 'Are you sure?')) {
       event.preventDefault();
     }
   });
 
-window.init_password_show_button = () =>
+window.initPasswordShowButton = () =>
   $('body').on('click', '.btn-password-show', function() {
-    let $target;
-    $target = $($(this).data('target'));
+    let $target = $($(this).data('target'));
     $target.focus();
     if ($(this).hasClass('active')) {
       $target.attr('type', 'password');
@@ -39,10 +38,9 @@ window.init_password_show_button = () =>
     }
   });
 
-window.init_time = () => {
-  let recalculate;
+window.initTime = () => {
   if ($('time').length > 0) {
-    recalculate = function() {
+    let recalculate = function() {
       $('time[datetime]').each(function() {
         let date = moment.utc($(this).attr('datetime'));
         let diff = moment().diff(date, 'days');
@@ -59,7 +57,7 @@ window.init_time = () => {
   }
 };
 
-window.init_announcement = () => {
+window.initAnnouncement = () => {
   $('.alert-announcement button.close').click(
     () =>
       typeof sessionStorage !== 'undefined' && sessionStorage !== null
@@ -75,20 +73,20 @@ window.init_announcement = () => {
   }
 };
 
-window.init_row_link = () => {
+window.initRowLink = () => {
   $('body').on('click', '.row-link', function() {
     window.location.href = $(this).data('href');
   });
   $('body').on('click', '.not-link', event => event.stopPropagation());
 };
 
-window.clear_notifications = () => $('#notifications').empty();
+window.clearNotifications = () => $('#notifications').empty();
 
-window.show_notification = (message, category) => {
+window.showNotification = (message, category) => {
   if (category == null) {
     category = 'warning';
   }
-  clear_notifications();
+  clearNotifications();
   if (!message) {
     return;
   }

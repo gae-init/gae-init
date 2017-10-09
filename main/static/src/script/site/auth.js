@@ -1,6 +1,6 @@
 'use strict';
 
-window.init_auth = () => {
+window.initAuth = () => {
   $('.remember').change(() => {
     let href;
     let buttons = $('.btn-social')

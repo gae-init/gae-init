@@ -1,18 +1,18 @@
 'use strict';
 
 $(() => {
-  init_common();
+  initCommon();
 });
 
 $(() => {
   $('html.auth').each(() => {
-    init_auth();
+    initAuth();
   });
 });
 
 $(() => {
   $('html.user-list').each(() => {
-    init_user_list();
+    initUserList();
   });
 });
 
