@@ -24,7 +24,7 @@
     "gulp-util": "3.0.8",
     "gulp-watch": "4.3.11",
     "gulp-zip": "4.0.0",
-    "less": "2.7.2",
+    "less": "3.0.0-alpha.3",
     "main-bower-files": "2.13.1",
     "require-dir": "0.3.2",
     "uglify-js": "3.1.3",
