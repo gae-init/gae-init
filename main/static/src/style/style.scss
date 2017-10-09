@@ -1,7 +1,8 @@
-@import '../../ext/bootstrap/scss/variables';
+@import '../../../../node_modules/bootstrap/scss/functions';
+@import '../../../../node_modules/bootstrap/scss/variables';
 @import "variables";
 @import '../../ext/font-awesome/scss/font-awesome';
-@import '../../ext/bootstrap/scss/bootstrap';
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
 
 @import "base";
 @import "test";

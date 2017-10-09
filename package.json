@@ -1,5 +1,8 @@
 {
   "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
+  "dependencies": {
+    "bootstrap": "v4.0.0-beta"
+  },
   "devDependencies": {
     "bower": "1.8.2",
     "browser-sync": "2.18.13",
