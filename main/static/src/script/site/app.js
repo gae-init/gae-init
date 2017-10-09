@@ -18,6 +18,6 @@ $(() => {
 
 $(() => {
   $('html.user-merge').each(() => {
-    init_user_merge();
+    initUserMerge();
   });
 });

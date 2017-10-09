@@ -82,7 +82,7 @@ let initUserDeleteBtn = () =>
     }
   });
 
-window.init_user_merge = () => {
+window.initUserMerge = () => {
   let user_keys = $('#user_keys').val();
   let api_url = $('.api-url').data('api-url');
   apiCall(
@@ -102,11 +102,11 @@ window.init_user_merge = () => {
   );
   $('input[name=user_db]').change(event => {
     let user_key = $(event.currentTarget).val();
-    select_default_user(user_key);
+    selectDefaultUser(user_key);
   });
 };
 
-let select_default_user = user_key => {
+let selectDefaultUser = user_key => {
   $('.user-row')
     .removeClass('success')
     .addClass('danger');
