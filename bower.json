@@ -6,9 +6,6 @@
   },
   "name": "gae-init",
   "overrides": {
-    "bootstrap": {
-      "main": ["scss/**", "dist/js/**"]
-    },
     "font-awesome": {
       "main": ["scss/*", "fonts/*"]
     }
