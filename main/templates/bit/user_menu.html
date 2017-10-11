@@ -3,17 +3,16 @@
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
       <span class="fa fa-fw fa-user"></span>
       {{current_user.name}}
-      <b class="caret"></b>
     </a>
-    <ul class="dropdown-menu">
-      <li><a href="{{url_for('profile')}}"><span class="fa fa-fw fa-user"></span> Profile</a></li>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="{{url_for('profile')}}"><span class="fa fa-fw fa-user"></span> Profile</a>
       # if current_user.admin
-        <li class="divider"></li>
-        <li><a href="{{url_for('admin')}}"><span class="fa fa-fw fa-cog"></span> Admin</a></li>
-        <li class="divider"></li>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="{{url_for('admin')}}"><span class="fa fa-fw fa-cog"></span> Admin</a>
+        <div class="dropdown-divider"></div>
       # endif
-      <li><a href="{{url_for('signout')}}"><span class="fa fa-fw fa-sign-out"></span> Sign out</a></li>
-    </ul>
+      <a class="dropdown-item" href="{{url_for('signout')}}"><span class="fa fa-fw fa-sign-out"></span> Sign out</a>
+    </div>
   </li>
 # else
   <li class="nav-item {{'active' if html_class.find('auth') != -1}}">

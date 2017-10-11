@@ -34,7 +34,7 @@
       @extend .small;
       text-align: center;
       border-radius: $border-radius;
-      border: 1px solid darken($brand-info, 20%);
+      border: 1px solid theme-color('primary');
       overflow: hidden;
       margin-bottom: 8px;
     }

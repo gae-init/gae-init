@@ -1,12 +1,14 @@
-<nav class="navbar navbar-light bg-faded">
+<nav class="navbar navbar-expand-md navbar-light">
   <div class="container">
     <a class="navbar-brand" href="{{url_for('welcome')}}">{{config.CONFIG_DB.brand_name}}</a>
-    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#main-header">
-      &#9776;
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown">
+      <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-toggleable-xs" id="main-header">
-      <ul class="nav navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav mr-auto">
         # include 'bit/contact_menu.html'
+      </ul>
+      <ul class="navbar-nav">
         # include 'bit/user_menu.html'
       </ul>
     </div>

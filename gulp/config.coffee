@@ -6,7 +6,7 @@ config =
   ext: [
     "#{paths.static.ext}/jquery/dist/jquery.js"
     "#{paths.static.ext}/moment/moment.js"
-    "#{paths.dep.node_modules}/bootstrap/dist/js/bootstrap.js"
+    "#{paths.dep.node_modules}/bootstrap/dist/js/bootstrap.bundle.js"
   ]
   style: [
     "#{paths.src.style}/style.scss"
