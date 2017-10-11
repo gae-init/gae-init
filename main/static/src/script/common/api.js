@@ -1,5 +1,3 @@
-'use strict';
-
 window.apiCall = function(method, url, params, data, callback) {
   callback = callback || data || params;
   data = data || params;
