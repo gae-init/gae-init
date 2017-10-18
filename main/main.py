@@ -12,11 +12,15 @@ class GaeRequest(flask.Request):
 
 app = flask.Flask(__name__)
 app.config.from_object(config)
+
 params = {
-    'DEBUG': True,
-    'WEBPACK_MANIFEST_PATH': './build/manifest.json'
+  'DEBUG': config.DEVELOPMENT,
+  'WEBPACK_MANIFEST_PATH': './static/manifest.json'
 }
 app.config.update(params)
+if config.PRODUCTION:
+  app.config.update({'WEBPACK_ASSETS_URL': '/p/dist/'})
+
 webpack.init_app(app)
 app.request_class = GaeRequest if config.TRUSTED_HOSTS else flask.Request
 

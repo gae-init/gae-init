@@ -40,8 +40,8 @@ handlers:
   mime_type: font/woff2
   expiration: "365d"
 
-- url: /p/
-  static_dir: static/
+- url: /p/dist
+  static_dir: static/dist
   expiration: "365d"
 
 - url: /.*
@@ -62,10 +62,5 @@ skip_files:
 - ^(.*/)?index\.yaml
 - ^(.*/)?index\.yml
 - ^lib/.*
-- ^static/dev/.*
-- ^static/ext/.*\.coffee
-- ^static/ext/.*\.css
-- ^static/ext/.*\.js
-- ^static/ext/.*\.less
-- ^static/ext/.*\.json
+- ^static/assets/.*
 - ^static/src/.*

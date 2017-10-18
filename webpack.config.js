@@ -3,19 +3,19 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
 
-var rootAssetPath = './main/assets';
+var rootAssetPath = './main/static/assets';
 
 module.exports = {
   entry: {
     app_js: [
-      rootAssetPath + '/scripts/entry.js'
+      rootAssetPath + '/scripts/app.js'
     ],
     app_css: [
       rootAssetPath + '/styles/main.css'
     ]
   },
   output: {
-    path: './main/build/public',
+    path: './main/static/dist',
     publicPath: 'http://localhost:2992/assets/',
     filename: '[name].[chunkhash].js',
     chunkFilename: '[id].[chunkhash].js'
@@ -24,9 +24,13 @@ module.exports = {
     extensions: ['', '.js', '.css']
   },
   module: {
-    loaders: [{
-        test: /\.js$/i,
-        loader: 'script-loader',
+    loaders: [
+      {
+        test: /\.js?$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        },
         exclude: /node_modules/
       },
       {
@@ -44,7 +48,7 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('[name].[chunkhash].css'),
-    new ManifestRevisionPlugin(path.join('main/build', 'manifest.json'), {
+    new ManifestRevisionPlugin(path.join('main/static', 'manifest.json'), {
       rootAssetPath: rootAssetPath,
       ignorePaths: ['/styles', '/scripts']
     })

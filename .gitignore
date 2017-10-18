@@ -4,12 +4,9 @@
 .git*
 .hg*
 .idea
-bower_components
 main/index.yaml
 main/lib
 main/lib.zip
-main/static/dev
-main/static/ext
-main/static/min
+main/static/dist
 node_modules
 temp/
