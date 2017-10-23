@@ -3,7 +3,8 @@
     "bootstrap": "3.3.7",
     "font-awesome": "4.7.0",
     "jquery": "3.2.1",
-    "moment": "2.18.1"
+    "moment": "2.18.1",
+    "nprogress": "https://github.com/lipis/nprogress.git#master"
   },
   "name": "gae-init",
   "overrides": {
