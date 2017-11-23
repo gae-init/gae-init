@@ -1,6 +1,6 @@
 # gae-init
 
-[![Slack Status](https://gae-init-slack.herokuapp.com/badge.svg)](https://gae-init-slack.herokuapp.com)
+[![Slack Status](https://gae-init-slack.herokuapp.com/badge.svg)](https://gae-init-slack.herokuapp.com) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 > **gae-init** is the easiest boilerplate to kick start new applications on Google App Engine using Python, Flask, RESTful, Bootstrap and tons of other cool features.
 
