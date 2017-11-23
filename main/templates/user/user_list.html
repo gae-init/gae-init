@@ -29,8 +29,8 @@
 
       <div class="btn-group btn-group-sm">
         <button type="button" class="btn btn-success" disabled>Verified</button>
-        {{utils.filter_by_link('verified', True, 'thumbs-o-up')}}
-        {{utils.filter_by_link('verified', False, 'thumbs-o-down')}}
+        {{utils.filter_by_link('email_verified', True, 'thumbs-o-up')}}
+        {{utils.filter_by_link('email_verified', False, 'thumbs-o-down')}}
       </div>
 
       <div class="btn-group btn-group-sm">
@@ -110,7 +110,7 @@
             </td>
             <td class="text-nowrap">
               {{user_db.email}}
-              # if user_db.email and user_db.verified
+              # if user_db.email and user_db.email_verified
                 <span class="fa fa-check text-success" title="Verified"></span>
               # endif
               <br>

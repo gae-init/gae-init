@@ -50,9 +50,9 @@ def new_user_notification(user_db):
 # User Related
 ###############################################################################
 def verify_email_notification(user_db):
-  if not (config.CONFIG_DB.verify_email and user_db.email) or user_db.verified:
+  if not (config.CONFIG_DB.verify_email and user_db.email) or user_db.email_verified:
     return
-  user_db.token = util.uuid()
+  user_db.email_token = util.uuid()
   user_db.put()
 
   to = '%s <%s>' % (user_db.name, user_db.email)
@@ -71,7 +71,7 @@ Best regards,
 %(brand)s
 ''' % {
     'name': user_db.name,
-    'link': flask.url_for('user_verify', token=user_db.token, _external=True),
+    'link': flask.url_for('user_verify', email_token=user_db.email_token, _external=True),
     'brand': config.CONFIG_DB.brand_name,
   }
 
@@ -85,7 +85,7 @@ Best regards,
 def reset_password_notification(user_db):
   if not user_db.email:
     return
-  user_db.token = util.uuid()
+  user_db.email_token = util.uuid()
   user_db.put()
 
   to = '%s <%s>' % (user_db.name, user_db.email)
@@ -104,7 +104,7 @@ Best regards,
 %(brand)s
 ''' % {
     'name': user_db.name,
-    'link': flask.url_for('user_reset', token=user_db.token, _external=True),
+    'link': flask.url_for('user_reset', email_token=user_db.email_token, _external=True),
     'brand': config.CONFIG_DB.brand_name,
   }
 
@@ -118,7 +118,7 @@ Best regards,
 def activate_user_notification(user_db):
   if not user_db.email:
     return
-  user_db.token = util.uuid()
+  user_db.email_token = util.uuid()
   user_db.put()
 
   to = user_db.email
@@ -134,7 +134,7 @@ so we can take a look.
 Best regards,
 %(brand)s
 ''' % {
-    'link': flask.url_for('user_activate', token=user_db.token, _external=True),
+    'link': flask.url_for('user_activate', email_token=user_db.email_token, _external=True),
     'brand': config.CONFIG_DB.brand_name,
   }
 

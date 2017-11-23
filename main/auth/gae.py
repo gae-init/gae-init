@@ -44,6 +44,6 @@ def retrieve_user_from_gae(gae_user):
     name=util.create_name_from_email(gae_user.email()),
     username=gae_user.email(),
     email=gae_user.email(),
-    verified=True,
+    email_verified=True,
     admin=users.is_current_user_admin(),
   )

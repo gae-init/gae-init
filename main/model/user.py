@@ -18,12 +18,12 @@ class User(model.Base):
   name = ndb.StringProperty(required=True)
   username = ndb.StringProperty(required=True)
   email = ndb.StringProperty(default='')
+  email_verified = ndb.BooleanProperty(default=False)
+  email_token = ndb.StringProperty(default='')
   auth_ids = ndb.StringProperty(repeated=True)
   active = ndb.BooleanProperty(default=True)
   admin = ndb.BooleanProperty(default=False)
   permissions = ndb.StringProperty(repeated=True)
-  verified = ndb.BooleanProperty(default=False)
-  token = ndb.StringProperty(default='')
   password_hash = ndb.StringProperty(default='')
 
   def has_permission(self, perm):
@@ -53,18 +53,18 @@ class User(model.Base):
 
   @classmethod
   def get_dbs(
-    cls, admin=None, active=None, verified=None, permissions=None, **kwargs
+    cls, admin=None, active=None, email_verified=None, permissions=None, **kwargs
   ):
     args = parser.parse({
       'admin': wf.Bool(missing=None),
       'active': wf.Bool(missing=None),
-      'verified': wf.Bool(missing=None),
+      'email_verified': wf.Bool(missing=None),
       'permissions': wf.DelimitedList(wf.Str(), delimiter=',', missing=[]),
     })
     return super(User, cls).get_dbs(
       admin=admin or args['admin'],
       active=active or args['active'],
-      verified=verified or args['verified'],
+      email_verified=email_verified or args['email_verified'],
       permissions=permissions or args['permissions'],
       **kwargs
     )
@@ -81,7 +81,7 @@ class User(model.Base):
     if not config.CONFIG_DB.check_unique_email:
       return True
     user_keys, _ = util.get_keys(
-      cls.query(), email=email, verified=True, limit=2,
+      cls.query(), email=email, email_verified=True, limit=2,
     )
     return not user_keys or self_key in user_keys and not user_keys[1:]
 
@@ -91,10 +91,10 @@ class User(model.Base):
     'auth_ids': fields.List(fields.String),
     'avatar_url': fields.String,
     'email': fields.String,
+    'email_verified': fields.Boolean,
     'name': fields.String,
     'permissions': fields.List(fields.String),
     'username': fields.String,
-    'verified': fields.Boolean,
   }
 
   FIELDS.update(model.Base.FIELDS)

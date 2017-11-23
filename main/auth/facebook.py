@@ -11,6 +11,7 @@ import util
 
 from main import app
 
+
 facebook_config = dict(
   access_token_url='/oauth/access_token',
   authorize_url='/oauth/authorize',
@@ -54,5 +55,5 @@ def retrieve_user_from_facebook(response):
     name=response['name'],
     username=response.get('username', response['name']),
     email=response.get('email', ''),
-    verified=bool(response.get('email', '')),
+    email_verified=bool(response.get('email', '')),
   )

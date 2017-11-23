@@ -11,6 +11,7 @@ import util
 
 from main import app
 
+
 linkedin_config = dict(
   access_token_method='POST',
   access_token_url='https://www.linkedin.com/uas/oauth2/accessToken',
@@ -72,5 +73,5 @@ def retrieve_user_from_linkedin(response):
     name=name,
     username=email or name,
     email=email,
-    verified=bool(email),
+    email_verified=bool(email),
   )

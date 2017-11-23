@@ -11,6 +11,7 @@ import util
 
 from main import app
 
+
 google_config = dict(
   access_token_method='POST',
   access_token_url='https://accounts.google.com/o/oauth2/token',
@@ -75,5 +76,5 @@ def retrieve_user_from_google(response):
     name=name,
     username=email or name,
     email=email,
-    verified=bool(email),
+    email_verified=bool(email),
   )

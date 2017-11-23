@@ -66,5 +66,5 @@ def retrieve_user_from_azure_ad(response):
     name='%s %s' % (first_name, last_name),
     username=email or username,
     email=email,
-    verified=bool(email),
+    email_verified=bool(email),
   )

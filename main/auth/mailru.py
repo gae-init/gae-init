@@ -13,6 +13,7 @@ import util
 
 from main import app
 
+
 mailru_config = dict(
   access_token_url='https://connect.mail.ru/oauth/token',
   authorize_url='https://connect.mail.ru/oauth/authorize',
@@ -75,5 +76,5 @@ def retrieve_user_from_mailru(response):
     name=name or email,
     username=email or name,
     email=email,
-    verified=bool(email),
+    email_verified=bool(email),
   )
