@@ -2,7 +2,7 @@
 
 [![Slack Status](https://gae-init-slack.herokuapp.com/badge.svg)](https://gae-init-slack.herokuapp.com)
 
-> **gae-init** is the easiest boilerplate to sdf start new applications sdf sd sd on Google App sdf using Python, Flask, RESTful, sdfele and tons of sdf other cool sdf.
+> **gae-init** is the easiest boilerplate to kick start new applications on Google App Engine using Python, Flask, RESTful, Bootstrap and tons of other cool features.
 
 Read the [documentation][], where you can find a complete [feature list][], a detailed [tutorial][], the [how to][] section and more..
 
