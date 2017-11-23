@@ -14,7 +14,9 @@ inbound_services:
 
 libraries:
 - name: jinja2
-  version: latest
+  version: "2.6"
+- name: flask
+  version: "0.12"
 
 error_handlers:
 - file: templates/error_static.html
