@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import flask
-import random
 
 import config
 import util
@@ -22,7 +21,6 @@ app.jinja_env.globals.update(
   is_iterable=util.is_iterable,
   slugify=util.slugify,
   update_query_argument=util.update_query_argument,
-  random=random.random,
 )
 
 import auth
