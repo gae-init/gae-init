@@ -32,7 +32,7 @@ window.init_password_show_button = ->
       $target.attr 'type', 'text'
 
 
-window.init_time = (temp_func) ->
+window.init_time = ->
   if $('time').length > 0
     recalculate = ->
       $('time[datetime]').each ->
@@ -43,7 +43,7 @@ window.init_time = (temp_func) ->
         else
           $(this).text date.fromNow()
         $(this).attr 'title', date.local().format 'dddd, MMMM Do YYYY, HH:mm:ss Z'
-      setTimeout temp_func, 1000 * 45
+      setTimeout recalculate, 1000 * 45
     recalculate()
 
 
