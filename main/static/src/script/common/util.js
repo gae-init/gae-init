@@ -1,5 +1,5 @@
 window.LOG = function() {
-  typeof console !== 'undefined' && console !== null
+  return typeof console !== 'undefined' && console !== null
     ? typeof console.log === 'function' ? console.log(...arguments) : void 0
     : void 0;
 };
@@ -27,7 +27,7 @@ window.initConfirmButton = () =>
 
 window.initPasswordShowButton = () =>
   $('body').on('click', '.btn-password-show', function() {
-    let $target = $($(this).data('target'));
+    const $target = $($(this).data('target'));
     $target.focus();
     if ($(this).hasClass('active')) {
       $target.attr('type', 'password');
@@ -38,18 +38,21 @@ window.initPasswordShowButton = () =>
 
 window.initTime = () => {
   if ($('time').length > 0) {
-    let recalculate = function() {
+    const recalculate = function() {
       $('time[datetime]').each(function() {
-        let date = moment.utc($(this).attr('datetime'));
-        let diff = moment().diff(date, 'days');
+        const date = moment.utc($(this).attr('datetime'));
+        const diff = moment().diff(date, 'days');
         if (diff > 25) {
           $(this).text(date.local().format('YYYY-MM-DD'));
         } else {
           $(this).text(date.fromNow());
         }
-        $(this).attr('title', date.local().format('dddd, MMMM Do YYYY, HH:mm:ss Z'));
+        $(this).attr(
+          'title',
+          date.local().format('dddd, MMMM Do YYYY, HH:mm:ss Z'),
+        );
       });
-      setTimeout(arguments.callee, 1000 * 45);
+      setTimeout(recalculate, 1000 * 45);
     };
     recalculate();
   }
@@ -59,7 +62,10 @@ window.initAnnouncement = () => {
   $('.alert-announcement button.close').click(
     () =>
       typeof sessionStorage !== 'undefined' && sessionStorage !== null
-        ? sessionStorage.setItem('closedAnnouncement', $('.alert-announcement').html())
+        ? sessionStorage.setItem(
+            'closedAnnouncement',
+            $('.alert-announcement').html(),
+          )
         : void 0,
   );
   if (

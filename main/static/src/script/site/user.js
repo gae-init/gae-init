@@ -4,7 +4,7 @@ window.initUserList = () => {
   initUserMergeBtn();
 };
 
-let initUserSelections = () => {
+const initUserSelections = () => {
   $('input[name=user_db]').each(function() {
     userSelectRow($(this));
   });
@@ -19,16 +19,16 @@ let initUserSelections = () => {
   });
 };
 
-let userSelectRow = $element => {
+const userSelectRow = $element => {
   updateUserSelections();
   $('input[name=user_db]').each(() => {
-    let id = $element.val();
+    const id = $element.val();
     $(`#${id}`).toggleClass('warning', $element.is(':checked'));
   });
 };
 
-let updateUserSelections = () => {
-  let selected = $('input[name=user_db]:checked').length;
+const updateUserSelections = () => {
+  const selected = $('input[name=user_db]:checked').length;
   $('#user-actions').toggleClass('hidden', selected === 0);
   $('#user-merge').toggleClass('hidden', selected < 2);
   if (selected === 0) {
@@ -42,22 +42,22 @@ let updateUserSelections = () => {
   }
 };
 
-let initUserDeleteBtn = () =>
+const initUserDeleteBtn = () =>
   $('#user-delete').click(function(event) {
     clearNotifications();
     event.preventDefault();
-    let confirmMessage = $(this)
+    const confirmMessage = $(this)
       .data('confirm')
       .replace('{users}', $('input[name=user_db]:checked').length);
     if (confirm(confirmMessage)) {
-      let user_keys = [];
+      const user_keys = [];
       $('input[name=user_db]:checked').each(function() {
         $(this).attr('disabled', true);
         user_keys.push($(this).val());
       });
-      let deleteUrl = $(this).data('api-url');
-      let successMessage = $(this).data('success');
-      let errorMessage = $(this).data('error');
+      const deleteUrl = $(this).data('api-url');
+      const successMessage = $(this).data('success');
+      const errorMessage = $(this).data('error');
       apiCall(
         'DELETE',
         deleteUrl,
@@ -67,13 +67,19 @@ let initUserDeleteBtn = () =>
         (err, result) => {
           if (err) {
             $('input[name=user_db]:disabled').removeAttr('disabled');
-            showNotification(errorMessage.replace('{users}', user_keys.length), 'danger');
+            showNotification(
+              errorMessage.replace('{users}', user_keys.length),
+              'danger',
+            );
             return;
           }
           $(`#${result.join(', #')}`).fadeOut(function() {
             $(this).remove();
             updateUserSelections();
-            showNotification(successMessage.replace('{users}', user_keys.length), 'success');
+            showNotification(
+              successMessage.replace('{users}', user_keys.length),
+              'success',
+            );
           });
         },
       );
@@ -81,8 +87,8 @@ let initUserDeleteBtn = () =>
   });
 
 window.initUserMerge = () => {
-  let user_keys = $('#user_keys').val();
-  let api_url = $('.api-url').data('api-url');
+  const user_keys = $('#user_keys').val();
+  const api_url = $('.api-url').data('api-url');
   apiCall(
     'GET',
     api_url,
@@ -99,19 +105,19 @@ window.initUserMerge = () => {
     },
   );
   $('input[name=user_db]').change(event => {
-    let user_key = $(event.currentTarget).val();
+    const user_key = $(event.currentTarget).val();
     selectDefaultUser(user_key);
   });
 };
 
-let selectDefaultUser = user_key => {
+const selectDefaultUser = user_key => {
   $('.user-row')
     .removeClass('success')
     .addClass('danger');
   $(`#${user_key}`)
     .removeClass('danger')
     .addClass('success');
-  for (let user_db of user_dbs) {
+  for (const user_db of user_dbs) {
     if (user_key === user_db.key) {
       $('input[name=user_key]').val(user_db.key);
       $('input[name=username]').val(user_db.username);
@@ -122,13 +128,13 @@ let selectDefaultUser = user_key => {
   }
 };
 
-let initUserMergeBtn = () =>
+const initUserMergeBtn = () =>
   $('#user-merge').click(function(event) {
     event.preventDefault();
-    let user_keys = [];
+    const user_keys = [];
     $('input[name=user_db]:checked').each(function() {
       user_keys.push($(this).val());
     });
-    let user_merge_url = $(this).data('user-merge-url');
+    const user_merge_url = $(this).data('user-merge-url');
     window.location.href = `${user_merge_url}?user_keys=${user_keys.join(',')}`;
   });

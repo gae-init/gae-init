@@ -9,36 +9,23 @@ window.apiCall = function(method, url, params, data, callback) {
     data = void 0;
   }
   params = params || {};
-  for (let k in params) {
-    if (params[k] == null) {
-      delete params[k];
+  for (const key in params) {
+    if (params[key] == null) {
+      delete params[key];
     }
   }
-  let separator = url.search('\\?') >= 0 ? '&' : '?';
+  const separator = url.search('\\?') >= 0 ? '&' : '?';
   $.ajax({
-    type: method,
-    url: `${url}${separator}${$.param(params)}`,
-    contentType: 'application/json',
     accepts: 'application/json',
-    dataType: 'json',
+    contentType: 'application/json',
     data: data ? JSON.stringify(data) : void 0,
-    success(data) {
-      if (data.status === 'success') {
-        let more = void 0;
-        if (data.next_url) {
-          more = callback => apiCall(method, data.next_url, {}, callback);
-        }
-        typeof callback === 'function' ? callback(void 0, data.result, more) : void 0;
-      } else {
-        typeof callback === 'function' ? callback(data) : void 0;
-      }
-    },
+    dataType: 'json',
     error(jqXHR, textStatus, errorThrown) {
       let error = {
         error_code: 'ajax_error',
-        text_status: textStatus,
         error_thrown: errorThrown,
         jqXHR,
+        text_status: textStatus,
       };
       try {
         if (jqXHR.responseText) {
@@ -48,7 +35,21 @@ window.apiCall = function(method, url, params, data, callback) {
         error = _error;
       }
       LOG('apiCall error', error);
-      typeof callback === 'function' ? callback(error) : void 0;
+      return typeof callback === 'function' ? callback(error) : void 0;
     },
+    success(data_) {
+      if (data_.status === 'success') {
+        let more = void 0;
+        if (data_.next_url) {
+          more = callback_ => apiCall(method, data_.next_url, {}, callback);
+        }
+        return typeof callback === 'function'
+          ? callback(void 0, data_.result, more)
+          : void 0;
+      }
+      return typeof callback === 'function' ? callback(data) : void 0;
+    },
+    type: method,
+    url: `${url}${separator}${$.param(params)}`,
   });
 };
