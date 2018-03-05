@@ -1,0 +1,13 @@
+language:
+  - node_js
+  - python
+
+node_js:
+  - '8'
+
+cache:
+  - pip
+  - yarn
+
+notifications:
+  - email: false
