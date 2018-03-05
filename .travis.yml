@@ -1,9 +1,10 @@
-language:
-  - node_js
-  - python
+language: node_js
 
 node_js:
   - '8'
+
+python:
+  - '2.7'
 
 cache:
   - pip
