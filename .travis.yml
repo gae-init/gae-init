@@ -27,5 +27,5 @@ before_install:
   fi
 # If the SDK is not already cached, download it and unpack it
 - if [ ! -d ${HOME}/google-cloud-sdk ]; then
-     curl https://sdk.cloud.google.com | bash;
+    curl https://sdk.cloud.google.com | bash;
   fi
