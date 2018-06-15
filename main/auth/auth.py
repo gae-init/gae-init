@@ -88,7 +88,8 @@ def current_user_id():
 
 
 def current_user_key():
-  return flask_login.current_user.user_db.key if flask_login.current_user.user_db else None
+  return flask_login.current_user.user_db.key \
+      if flask_login.current_user.user_db else None
 
 
 def current_user_db():
@@ -300,6 +301,7 @@ def url_for_signin(service_name, next_url):
 
 def urls_for_oauth(next_url):
   return {
+    'azure_ad_signin_url': url_for_signin('azure_ad', next_url),
     'bitbucket_signin_url': url_for_signin('bitbucket', next_url),
     'dropbox_signin_url': url_for_signin('dropbox', next_url),
     'facebook_signin_url': url_for_signin('facebook', next_url),
@@ -308,6 +310,7 @@ def urls_for_oauth(next_url):
     'gae_signin_url': url_for_signin('gae', next_url),
     'instagram_signin_url': url_for_signin('instagram', next_url),
     'linkedin_signin_url': url_for_signin('linkedin', next_url),
+    'mailru_signin_url': url_for_signin('mailru', next_url),
     'microsoft_signin_url': url_for_signin('microsoft', next_url),
     'reddit_signin_url': url_for_signin('reddit', next_url),
     'twitter_signin_url': url_for_signin('twitter', next_url),
@@ -423,7 +426,7 @@ def get_user_db_from_email(email, password):
     return None
   if len(user_dbs) > 1:
     flask.flash('''We are sorry but it looks like there is a conflict with
-        your account. Our support team is already informed and we will get
+        your account. Our support team has been informed and we will get
         back to you as soon as possible.''', category='danger')
     task.email_conflict_notification(email)
     return False

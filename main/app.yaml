@@ -13,7 +13,7 @@ inbound_services:
 - warmup
 
 libraries:
-- name: jinja2
+- name: ssl
   version: latest
 
 error_handlers:
