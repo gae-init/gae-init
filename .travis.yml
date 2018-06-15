@@ -7,8 +7,8 @@ python:
   - '2.7'
 
 cache:
-  - pip
-  - yarn
+  pip: true
+  yarn: true
   directories:
   - "$HOME/google-cloud-sdk/"
 
