@@ -54,7 +54,7 @@ gulp
 To install [Gulp][] as a global package:
 
 ```bash
-yarn -g gulp
+npm install -g gulp
 ```
 
 ## Deploying on Google App Engine
