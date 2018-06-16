@@ -97,7 +97,7 @@ gulp deploy --project=foo --version=bar --no-promote
 [macos]: http://www.apple.com/macos/
 [moment.js]: http://momentjs.com/
 [ndb]: https://developers.google.com/appengine/docs/python/ndb/
-[node.js]: https://nodejs.org
+[node.js]: http://nodejs.org/
 [openid]: http://en.wikipedia.org/wiki/OpenID
 [pip]: http://www.pip-installer.org/
 [python 2.7]: https://developers.google.com/appengine/docs/python/python27/using27
