@@ -11,6 +11,7 @@ cache:
   yarn: true
   directories:
   - "$HOME/google-cloud-sdk/"
+  - node_modules
 
 notifications:
   - email: false
