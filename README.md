@@ -11,7 +11,7 @@ The latest version is always accessible from [https://gae-init.appspot.com](http
 ## Requirements
 
 - [Google App Engine SDK for Python][]
-- [Yarn][], [pip][], [virtualenv][]
+- [Node.js][], [Yarn][], [pip][], [virtualenv][]
 - [macOS][] or [Linux][] or [Windows][]
 
 Make sure you have all of the above or refer to the docs on how to [install the requirements](http://docs.gae-init.appspot.com/requirement/).
@@ -97,6 +97,7 @@ gulp deploy --project=foo --version=bar --no-promote
 [macos]: http://www.apple.com/macos/
 [moment.js]: http://momentjs.com/
 [ndb]: https://developers.google.com/appengine/docs/python/ndb/
+[node.js]: https://nodejs.org
 [openid]: http://en.wikipedia.org/wiki/OpenID
 [pip]: http://www.pip-installer.org/
 [python 2.7]: https://developers.google.com/appengine/docs/python/python27/using27
@@ -104,4 +105,4 @@ gulp deploy --project=foo --version=bar --no-promote
 [tutorial]: http://docs.gae-init.appspot.com/tutorial/
 [virtualenv]: http://www.virtualenv.org/
 [windows]: http://windows.microsoft.com/
-[yarn]: https://yarnpkg.com
+[yarn]: https://yarnpkg.com/
