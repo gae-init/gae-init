@@ -29,7 +29,7 @@
     "gulp-uglify-es": "1.0.4",
     "gulp-util": "3.0.8",
     "gulp-watch": "5.0.0",
-    "gulp-yarn": "^2.0.0",
+    "gulp-yarn": "2.0.0",
     "gulp-zip": "4.1.0",
     "husky": "0.14.3",
     "less": "3.0.4",
@@ -38,8 +38,7 @@
     "prettier": "1.13.5",
     "require-dir": "1.0.0",
     "uglify-es": "3.3.9",
-    "yargs-parser": "10.0.0",
-    "yarn": "1.7.0"
+    "yargs-parser": "10.0.0"
   },
   "license": "MIT",
   "name": "gae-init",

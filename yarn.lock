@@ -2644,7 +2644,7 @@ gulp-watch@5.0.0:
     vinyl "^2.1.0"
     vinyl-file "^2.0.0"
 
-gulp-yarn@^2.0.0:
+gulp-yarn@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/gulp-yarn/-/gulp-yarn-2.0.0.tgz#96ab3b63a191faba7f14200a55596652f61a078d"
   dependencies:
@@ -6057,10 +6057,6 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
-
-yarn@1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.7.0.tgz#0076b9fde6010e01950526a609bc53bc175ef925"
 
 yazl@^2.1.0:
   version "2.4.3"
