@@ -37,7 +37,7 @@ gulp help
 
 ```bash
 cd /path/to/project-name
-npm install
+yarn
 gulp
 ```
 
@@ -45,7 +45,7 @@ If something goes wrong you can always do:
 
 ```bash
 gulp reset
-npm install
+yarn
 gulp
 ```
 
@@ -54,7 +54,7 @@ gulp
 To install [Gulp][] as a global package:
 
 ```bash
-npm install -g gulp
+yarn -g gulp
 ```
 
 ## Deploying on Google App Engine
