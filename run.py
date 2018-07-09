@@ -171,7 +171,7 @@ def install_py_libs():
   make_guard_flag = True
   if exec_pip_commands('pip install -q -r %s' % FILE_REQUIREMENTS):
     print('ERROR running pip install')
-    make_guard_flag=False
+    make_guard_flag = False
 
   exclude_ext = ['.pth', '.pyc', '.egg-info', '.dist-info', '.so']
   exclude_prefix = ['setuptools-', 'pip-', 'Pillow-']
