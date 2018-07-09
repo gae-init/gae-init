@@ -17,9 +17,7 @@ gulp.task 'rebuild',
 
 
 gulp.task 'deploy',
-  'Deploy project to Google App Engine. Available options:\n
-  --dryrun  - run all preparations but do not actually deploy\n
-  All other options are passed to "gcloud app deploy"', ['build'], ->
+  'Deploy project to Google App Engine. Available options:', ['build'], ->
     options = yargs process.argv, configuration:
       'boolean-negation': false
       'camel-case-expansion': false
@@ -38,6 +36,8 @@ gulp.task 'deploy',
       match: /run.py$/
       cmd: "#{dryrun}gcloud app deploy main/*.yaml#{options_str}"
     }]
+  ,  options:
+      'dryrun': 'run all preparations but do not actually deploy'
 
 
 gulp.task 'run',
