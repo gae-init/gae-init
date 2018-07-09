@@ -29,7 +29,7 @@ before_install:
   - gcloud components install app-engine-python
 
 before_script:
-  - npm install -g gulp-cli
+  - npm install --global gulp-cli
   
 script: 
   - yarn test
