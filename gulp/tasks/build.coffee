@@ -16,20 +16,27 @@ gulp.task 'rebuild',
   $.sequence 'reset', 'build'
 
 
-gulp.task 'deploy', 'Deploy project to Google App Engine.', ['build'], ->
+gulp.task 'deploy',
+  'Deploy project to Google App Engine. Available options:\n
+  --dryrun  - run all preparations but do not actually deploy\n
+  All other options are passed to "gcloud app deploy"', ['build'], ->
   options = yargs process.argv, configuration:
     'boolean-negation': false
     'camel-case-expansion': false
   delete options['_']
   options_str = ''
+  dryrun = ''
   for k of options
-    if options[k] == true
-      options[k] = ''
-    options_str += " #{if k.length > 1 then '-' else ''}-#{k} #{options[k]}"
+    if k == 'dryrun'
+      dryrun = 'echo DRYRUN - would run: '
+    else
+      if options[k] == true
+        options[k] = ''
+      options_str += " #{if k.length > 1 then '-' else ''}-#{k} #{options[k]}"
 
   gulp.src('run.py').pipe $.start [{
     match: /run.py$/
-    cmd: "gcloud app deploy main/*.yaml#{options_str}"
+    cmd: "#{dryrun}gcloud app deploy main/*.yaml#{options_str}"
   }]
 
 
