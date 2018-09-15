@@ -1,6 +1,8 @@
 window.LOG = function() {
   return typeof console !== 'undefined' && console !== null
-    ? typeof console.log === 'function' ? console.log(...arguments) : void 0
+    ? typeof console.log === 'function'
+      ? console.log(...arguments)
+      : void 0
     : void 0;
 };
 
