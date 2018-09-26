@@ -1,13 +1,13 @@
 # macro field_errors(field)
   # for error in field.errors
-    <div class="small help-block">{{error}}</div>
+  <small class="form-text text-danger">{{error}}</small>
   # endfor
 # endmacro
 
 
 # macro field_description(field)
   # if field.description
-    <div class="small text-muted">{{field.description}}</div>
+    <small class="form-text text-muted">{{field.description}}</small>
   # endif
 # endmacro
 
@@ -26,11 +26,15 @@
     # if prefix or suffix
       <div class="input-group">
         # if prefix
-          <span class="input-group-addon">{{prefix}}</span>
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{prefix}}</div>
+          </div>
         # endif
         {{field(class='form-control', **kwargs)}}
         # if suffix
-          <span class="input-group-addon">{{suffix}}</span>
+          <div class="input-group-append">
+            <div class="input-group-text">{{suffix}}</div>
+          </div>
         # endif
       </div>
     # else
@@ -53,16 +57,22 @@
 
 
 # macro password_visible_field(field, size='')
+<div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button">Button</button>
+    </div>
+  </div>
   <div class="form-group {{'has-error' if field.errors}}">
     {{field.label(class='control-label')}}
     {{field_optional(field)}}
     <div class="input-group {{'input-group-%s' % size if size}}">
       {{field(class='form-control', type='password', autocomplete='off', **kwargs)}}
-      <span class="input-group-btn">
-        <button class="btn btn-secondary btn-password-show" type="button" data-target="#{{field.name}}" data-toggle="button" title="Show/Hide Password" tabindex="-1">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary btn-password-show" type="button" data-target="#{{field.name}}" data-toggle="button" title="Show/Hide Password" tabindex="-1">
           <span class="fa fa-eye"></span>
         </button>
-      </span>
+      </div>
     </div>
     {{field_errors(field)}}
     {{field_description(field)}}
@@ -112,9 +122,10 @@
 
 
 # macro checkbox_field(field)
-  <div class="checkbox {{'has-error' if field.errors}}">
-    <label class="{{'text-muted' if 'disabled' in kwargs}}">
-      {{field(**kwargs)}} {{field.label.text}}
+  <div class="form-check">
+    {{field(class='form-check-input', **kwargs)}}
+    <label class="form-check-label" for="{{field.name}}">
+      {{field.label.text}}
     </label>
     {{field_errors(field)}}
     {{field_description(field)}}
