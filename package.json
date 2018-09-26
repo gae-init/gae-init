@@ -1,7 +1,7 @@
 {
   "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
   "dependencies": {
-    "bootstrap": "https://github.com/twbs/bootstrap.git#v4-dev"
+    "bootstrap": "4.1.3"
   },
   "devDependencies": {
     "bower": "1.8.2",
