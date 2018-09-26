@@ -17,7 +17,7 @@ body {
   background-color: $gray-200;
   display: flex;
   align-items: center;
-& > .container {
+  & > .container {
     text-align: center;
     p:last-child {
       margin-bottom: 0;

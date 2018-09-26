@@ -56,7 +56,7 @@
       "eslint --fix",
       "git add"
     ],
-    "*.{json,less,md,yml,yaml}": [
+    "*.{json,scss,md,yml,yaml}": [
       "prettier --write",
       "git add"
     ]
@@ -67,7 +67,7 @@
     "fix:code": "yarn test:code --fix",
     "fix": "yarn fix:assets && yarn fix:code",
     "install": "gulp init",
-    "prettier": "prettier --ignore-path .gitignore  \"**/*.{json,less,md,yml,yaml}\"",
+    "prettier": "prettier --ignore-path .gitignore  \"**/*.{json,scss,md,yml,yaml}\"",
     "postinstall": "echo 'Run `gulp` to start or `gulp help` for more.'",
     "precommit": "lint-staged",
     "start": "gulp",
