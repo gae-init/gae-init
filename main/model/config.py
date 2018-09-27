@@ -13,7 +13,7 @@ import util
 class Config(model.Base, model.ConfigAuth):
   analytics_id = ndb.StringProperty(default='', verbose_name='Tracking ID')
   announcement_html = ndb.TextProperty(default='', verbose_name='Announcement HTML')
-  announcement_type = ndb.StringProperty(default='info', choices=['info', 'warning', 'success', 'danger'])
+  announcement_type = ndb.StringProperty(default='info', choices=['primary', 'secondary', 'info', 'warning', 'success', 'danger', 'light', 'dark'])
   anonymous_recaptcha = ndb.BooleanProperty(default=False, verbose_name='Use reCAPTCHA in forms for unauthorized users')
   brand_name = ndb.StringProperty(default=config.APPLICATION_ID)
   check_unique_email = ndb.BooleanProperty(default=True, verbose_name='Check for uniqueness of the verified emails')
