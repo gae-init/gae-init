@@ -3,34 +3,32 @@
 # import 'macro/utils.html' as utils
 
 # block content
-  <div class="page-header">
-    <h1>
-      # if html_class == 'profile-view'
-        <div class="pull-right">
-          <div class="btn-group">
-            <a class="btn btn-default btn-xs" href="{{url_for('profile_update')}}">
-              <span class="fa fa-edit"></span>
-              Edit
+  <h1>
+    # if html_class == 'profile-view'
+      <div class="pull-right">
+        <div class="btn-group">
+          <a class="btn btn-secondary btn-xs" href="{{url_for('profile_update')}}">
+            <span class="fa fa-edit"></span>
+            Edit
+          </a>
+          # if config.CONFIG_DB.has_email_authentication
+            <a class="btn btn-secondary btn-xs" href="{{url_for('profile_password')}}">
+              <span class="fa fa-lock fa-fw"></span>
+              # if not user_db.password_hash
+                Set Password
+              # else
+                Change Password
+              # endif
             </a>
-            # if config.CONFIG_DB.has_email_authentication
-              <a class="btn btn-default btn-xs" href="{{url_for('profile_password')}}">
-                <span class="fa fa-lock fa-fw"></span>
-                # if not user_db.password_hash
-                  Set Password
-                # else
-                  Change Password
-                # endif
-              </a>
-            # endif
-          </div>
+          # endif
         </div>
-      # else
-        {{utils.back_link('Back to profile', 'profile')}}
-      # endif
+      </div>
+    # else
+      {{utils.back_link('Back to profile', 'profile')}}
+    # endif
 
-      {{title}}
-    </h1>
-  </div>
+    {{title}}
+  </h1>
 
   <div class="row">
     <div class="col-xs-5 col-sm-4 col-md-3">

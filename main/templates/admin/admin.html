@@ -1,27 +1,22 @@
 # extends 'base.html'
 
 # block content
-  <section>
-    <h1>{{title}}</h1>
-
-    <div class="row text-center">
-      {{admin_link('App Config', 'cog', url_for('admin_config'))}}
-      {{admin_link('Auth Config', 'lock', url_for('admin_auth'))}}
-      {{admin_link('Test', 'sliders', url_for('admin_test'))}}
-    </div>
-  </section>
+  <h1>{{title}}</h1>
+  <div class="row text-center">
+    {{admin_link('App Config', 'cog', url_for('admin_config'))}}
+    {{admin_link('Auth Config', 'lock', url_for('admin_auth'))}}
+    {{admin_link('Test', 'sliders', url_for('admin_test'))}}
+  </div>
 
   <h2>Models</h2>
-
   <div class="row text-center">
     {{admin_link('User List', 'group', url_for('user_list', order='-modified', active=True))}}
   </div>
 
   <h2>
     Google Cloud Platform
-    <small title="Application ID">({{config.APPLICATION_ID}})</small>
+    <small class="text-muted" title="Application ID">({{config.APPLICATION_ID}})</small>
   </h2>
-
   <div class="row text-center">
     # if localhost
       {{admin_link('Localhost', 'home', localhost, 'gae')}}
