@@ -26,9 +26,9 @@ before_install:
   # Check if gcloud doesn't exist or if there is gcloud update, in which case delete the current installation
   - if ! command -v gcloud || gcloud version 2>&1 | grep -F update; then rm -rf $HOME/google-cloud-sdk; sudo rm -rf /usr/lib/google-cloud-sdk; else echo "Keeping cached Google Cloud SDK"; fi
   # Check if Google Cloud SDK is installed and if not install it
-  - if [ ! -d "$HOME/google-cloud-sdk/" ]; then sudo rm -rf /usr/lib/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
-  # Add gcloud to $PATH
-  - source $HOME/google-cloud-sdk/path.bash.inc
+  - if [ ! -d "$HOME/google-cloud-sdk/" ] || [ ! -f "$HOME/google-cloud-sdk/path.bash.inc" ]; then sudo rm -rf /usr/lib/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  # Add gcloud to $PATH or give some diagnostic info
+  - source $HOME/google-cloud-sdk/path.bash.inc || ls -al $HOME/google-cloud-sdk
   - gcloud version
   - gcloud components install app-engine-python
 
