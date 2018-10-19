@@ -173,21 +173,26 @@
 
 
 # macro panel_fields(name, fields, help)
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent=".panel-group" href="#{{slugify(name)}}">{{name}}</a>
-        <span class="fa fa-check pull-right {{'hide' if not check_form_fields(fields)}}"></span>
-      </h4>
-    </div>
-    <div id="{{slugify(name)}}" class="panel-collapse collapse">
-      <div class="panel-body">
-        # for field in (fields if is_iterable(fields) else [fields]):
-          {{text_field(field)}}
-        # endfor
-        # if help
-          <p class="help-block">{{help|safe}}</p>
-        # endif
+  <div class="accordion" id="accordion-{{slugify(name)}}">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h3 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{slugify(name)}}">
+            {{name}}
+            <span class="fa fa-check {{'d-none' if not check_form_fields(fields)}}"></span>
+          </button>
+        </h3>
+      </div>
+
+      <div id="{{slugify(name)}}" class="collapse" data-parent="#accordion-{{slugify(name)}}">
+        <div class="card-body">
+          # for field in (fields if is_iterable(fields) else [fields]):
+            {{text_field(field)}}
+          # endfor
+          # if help
+            <p class="help-block">{{help|safe}}</p>
+          # endif
+        </div>
       </div>
     </div>
   </div>
