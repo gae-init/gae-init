@@ -171,7 +171,7 @@ def install_py_libs():
 
   make_guard_flag = True
   if TRAVIS:
-    return_code = exec_pip_commands('pip install -r %s' % FILE_REQUIREMENTS)
+    return_code = exec_pip_commands('pip install -v -r %s' % FILE_REQUIREMENTS)
   else:
     return_code = exec_pip_commands('pip install -q -r %s' % FILE_REQUIREMENTS)
   if return_code:
