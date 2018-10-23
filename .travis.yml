@@ -44,7 +44,7 @@ before_install:
   - pip install -q -r requirements.txt
 
 before_script:
-  - npm install --global gulp-cli
+  - yarn global add gulp-cli
 
 script:
   - yarn test
