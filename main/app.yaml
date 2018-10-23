@@ -1,6 +1,6 @@
 service: default
 instance_class: F1
-runtime: python27
+runtime: python37
 api_version: 1
 threadsafe: true
 
