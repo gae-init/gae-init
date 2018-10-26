@@ -41,7 +41,7 @@ before_install:
   - gcloud components install app-engine-python
   - python -V
   # Install at system level before virtualenv install in gulp deploy, as this lets the python packages be cached.
-  - pip install -q -r requirements.txt
+  - sudo pip install -q -r requirements.txt
 
 before_script:
   - yarn global add gulp-cli
