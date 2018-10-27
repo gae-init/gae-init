@@ -1,7 +1,4 @@
-language: node_js
-
-node_js:
-  - '8'
+language: python
 
 python:
   - '2.7'
@@ -38,11 +35,14 @@ before_install:
   # Add gcloud to $PATH or give some diagnostic info
   - source $HOME/google-cloud-sdk/path.bash.inc || ls -al $HOME/google-cloud-sdk
   - gcloud version
-  - gcloud components install app-engine-python
+
   - python -V
   - pip -V
-  # Install at system level before virtualenv install in gulp deploy, as this lets the python packages be cached.
-  - sudo pip install -q -r requirements.txt
+
+install:
+  - gcloud components install app-engine-python
+  - pip install -r requirements.txt
+  - yarn install
 
 before_script:
   - yarn global add gulp-cli
