@@ -19,11 +19,11 @@ env:
 
 before_install:
   # Use cached version of gcloud if it exists
-  - if [ -f "$HOME/google-cloud-sdk/path.bash.inc" ]; then source $HOME/google-cloud-sdk/path.bash.inc; else rm -rf $HOME/google-cloud-sdk; fi
+  - if [ -f "$HOME/google-cloud-sdk/path.bash.inc" ]; then echo "Using cached gcloud"; source $HOME/google-cloud-sdk/path.bash.inc; else echo "Removing remnants"; rm -rf $HOME/google-cloud-sdk; fi
   # Check if gcloud doesn't exist or if there is gcloud update, in which case delete the current installation
-  - if ! command -v gcloud || gcloud version 2>&1 | grep -F update; then rm -rf $HOME/google-cloud-sdk; else echo "Keeping cached Google Cloud SDK"; fi
+  - if ! command -v gcloud || gcloud version 2>&1 | grep -F update; then echo "Removing remnants"; rm -rf $HOME/google-cloud-sdk; else echo "Keeping cached Google Cloud SDK"; fi
   # Check if Google Cloud SDK is installed and if not remove remnants and install it
-  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then "Installing fresh gcloud"; rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
   # Add gcloud to $PATH or give some diagnostic info
   - source $HOME/google-cloud-sdk/path.bash.inc || ls -al $HOME/google-cloud-sdk
   - gcloud version
