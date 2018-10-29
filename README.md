@@ -69,7 +69,7 @@ gulp deploy --project=foo --version=bar --no-promote
 ## Tech Stack
 
 - [Google App Engine][], [NDB][]
-- [Jinja2][], [Flask][], [Flask-RESTful][], [Flask-WTF][]
+- [Jinja2][], [Flask][], [Flask-RESTful][], [Flask-WTF][], [Flask-Talisman][]
 - [Less][]
 - [Bootstrap][], [Font Awesome][], [Social Buttons][]
 - [jQuery][], [Moment.js][]
@@ -82,6 +82,7 @@ gulp deploy --project=foo --version=bar --no-promote
 [documentation]: http://docs.gae-init.appspot.com
 [feature list]: http://docs.gae-init.appspot.com/features/
 [flask-restful]: https://flask-restful.readthedocs.org
+[flask-talisman]: https://github.com/GoogleCloudPlatform/flask-talisman
 [flask-wtf]: https://flask-wtf.readthedocs.org
 [flask]: http://flask.pocoo.org/
 [font awesome]: http://fortawesome.github.com/Font-Awesome/
