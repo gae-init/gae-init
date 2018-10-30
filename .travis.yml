@@ -1,29 +1,45 @@
-language: node_js
-
-node_js:
-  - '8'
+language: python
 
 python:
-  - '2.7'
+  - '2.7.15'
 
 cache:
   pip: true
   yarn: true
   directories:
-  - "$HOME/google-cloud-sdk/"
-  - node_modules
+    - '$HOME/google-cloud-sdk/'
+    - node_modules
 
 notifications:
   - email: false
 
 env:
-# Make sure gcloud command is on our PATH and the App Engine SDK is in the Python path
-- GAE_PYTHONPATH=${HOME}/.cache/google_appengine PATH=$PATH:${HOME}/google-cloud-sdk/bin PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH} CLOUDSDK_CORE_DISABLE_PROMPTS=1
+  # Make sure gcloud command is on our PATH and *our* version is reached before any system version
+  - PATH=${HOME}/google-cloud-sdk/bin:$PATH CLOUDSDK_CORE_DISABLE_PROMPTS=1
 
 before_install:
-  - gcloud version || true
-  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
-  # Add gcloud to $PATH
-  - source /home/travis/google-cloud-sdk/path.bash.inc
+  # Use cached version of gcloud if it exists
+  - if [ -f "$HOME/google-cloud-sdk/path.bash.inc" ]; then echo "Using cached gcloud"; source $HOME/google-cloud-sdk/path.bash.inc; else echo "Removing remnants"; rm -rf $HOME/google-cloud-sdk; fi
+  # Check if gcloud doesn't exist or if there is gcloud update, in which case delete the current installation
+  - if ! command -v gcloud || gcloud version 2>&1 | grep -F update; then echo "Removing remnants"; rm -rf $HOME/google-cloud-sdk; else echo "Keeping cached Google Cloud SDK"; fi
+  # Check if Google Cloud SDK is installed and if not remove remnants and install it
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then "Installing fresh gcloud"; rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  # Add gcloud to $PATH or give some diagnostic info
+  - source $HOME/google-cloud-sdk/path.bash.inc || ls -al $HOME/google-cloud-sdk
+  - command -v gcloud
   - gcloud version
+  - node -v
+
+install:
   - gcloud components install app-engine-python
+  - pip install -r requirements.txt
+  # eslint requires node ^6.14.0 || ^8.10.0 || >=9.10.0 -- but doesn't actually need it.
+  # trusty (as used on travis) comes with 8.9.1
+  - yarn install --ignore-engines
+
+before_script:
+  - yarn global add gulp-cli
+
+script:
+  - yarn test
+  - gulp deploy --dryrun
