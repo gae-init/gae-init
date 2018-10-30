@@ -12,7 +12,8 @@ class AppTest(unittest.TestCase):
         # Wrap the app with WebTest's TestApp.
         self.testbed = testbed.Testbed()
         self.testbed.activate()
-        self.testbed.init_all_stubs()
+        self.testbed.init_memcache_stub()
+        self.testbed.init_datastore_v3_stub()
         from main import app
         self.testapp = TestApp(app)
 
