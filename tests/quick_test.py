@@ -20,10 +20,10 @@ class AppTest(unittest.TestCase):
   def tearDown(self):
     self.testbed.deactivate()
 
-  def testIndexHandler(self):
+  def test_index_handler(self):
     response = self.testapp.get('/')
     self.assertEqual(response.status_int, 200)
 
-  def testNonExistentHandler(self):
+  def test_non_existent_handler(self):
     response = self.testapp.get('/not-there', status=404)
     self.assertEqual(response.status_int, 404)
