@@ -1,0 +1,15 @@
+blinker==1.4
+flask-login==0.4.1
+flask-oauthlib==0.9.5
+flask-restful==0.3.6
+flask-wtf==0.14.2
+flask==1.0.2
+jinja2==2.10
+pyjwt==1.6.4
+unidecode==1.0.22
+webargs==4.1.2
+setuptools==40.5.0
+google-cloud==0.34.0
+google-cloud-vision==0.34.0
+#google-appengine==1.5.1
+google-cloud-datastore==1.7.1
