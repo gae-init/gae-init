@@ -1,7 +1,6 @@
 # source: https://github.com/GoogleCloudPlatform/python-docs-samples/blob/master/appengine/standard/localtesting/runner.py
 # license: https://www.apache.org/licenses/LICENSE-2.0
 
-# [START runner]
 """App Engine local test runner example.
 
 This program handles properly importing the App Engine SDK so that test modules
