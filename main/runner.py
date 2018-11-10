@@ -85,4 +85,3 @@ if __name__ == '__main__':
   if not result.wasSuccessful():
     sys.exit(1)
 
-# [END runner]
