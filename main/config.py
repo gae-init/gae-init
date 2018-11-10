@@ -13,7 +13,7 @@ try:
 
   APPLICATION_ID = app_identity.get_application_id()
 except (ImportError, AttributeError):
-  APPLICATION_ID = "Testing"
+  APPLICATION_ID = 'Testing'
 
 from datetime import datetime
 
