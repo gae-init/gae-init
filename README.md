@@ -58,7 +58,9 @@ yarn global add gulp-cli
 ```
 
 ## Local testing
+
 A simple test script framework, following the approach in <https://cloud.google.com/appengine/docs/standard/python/tools/localunittesting#setup>, can be run:
+
 ```bash
 python main/runner.py --test-path tests ${HOME}/google-cloud-sdk/
 ```
