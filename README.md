@@ -57,6 +57,16 @@ To install [Gulp][] as a global package:
 yarn global add gulp-cli
 ```
 
+## Local testing
+A simple test script framework, following the approach in <https://cloud.google.com/appengine/docs/standard/python/tools/localunittesting#setup>, can be run:
+```bash
+python main/runner.py --test-path tests ${HOME}/google-cloud-sdk/
+```
+
+This simply tests that the site can start up; that the index page exists (and returns an http response code of 200), and that a non-existent page returns a http response code of 404.
+
+The test framework is easily extensible.
+
 ## Deploying on Google App Engine
 
 ```bash
