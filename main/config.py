@@ -38,8 +38,8 @@ try:
   TRUSTED_HOSTS = CONFIG_DB.trusted_hosts
 except AssertionError:
   CONFIG_DB = model.Config()
-RECAPTCHA_LIMIT = 8
 
 DEFAULT_DB_LIMIT = 64
+RECAPTCHA_LIMIT = 8
 SIGNIN_RETRY_LIMIT = 4
 TAG_SEPARATOR = ' '
