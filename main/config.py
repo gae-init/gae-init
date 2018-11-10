@@ -17,7 +17,7 @@ except (ImportError, AttributeError):
 
 from datetime import datetime
 
-CURRENT_VERSION_ID = os.environ.get('CURRENT_VERSION_ID') or "Testing.0"
+CURRENT_VERSION_ID = os.environ.get('CURRENT_VERSION_ID') or APPLICATION_ID
 CURRENT_VERSION_NAME = CURRENT_VERSION_ID.split('.')[0]
 if DEVELOPMENT:
   import calendar
