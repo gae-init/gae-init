@@ -11,5 +11,4 @@ webargs==4.1.2
 setuptools==40.5.0
 google-cloud==0.34.0
 google-cloud-vision==0.34.0
-#google-appengine==1.5.1
 google-cloud-datastore==1.7.1
