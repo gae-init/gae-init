@@ -21,8 +21,6 @@ gulp.task 'ext_watch_rebuild', false, (callback) ->
 
 
 gulp.task 'watch', false, ->
-  $.watch 'requirements.txt', ->
-    $.sequence('pip')()
   $.watch 'package.json', ->
     $.sequence('yarn')()
   $.watch 'bower.json', ->

@@ -8,3 +8,7 @@ jinja2==2.10
 pyjwt==1.6.4
 unidecode==1.0.22
 webargs==4.1.2
+setuptools==40.5.0
+google-cloud==0.34.0
+google-cloud-vision==0.34.0
+google-cloud-datastore==1.7.1

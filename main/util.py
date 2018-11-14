@@ -1,6 +1,10 @@
 # coding: utf-8
 
-from urlparse import urlparse
+# from urlparse import urlparse
+try:
+    from urlparse import urlparse
+except ImportError:
+    from urllib.parse import urlparse
 from uuid import uuid4
 import hashlib
 import re
