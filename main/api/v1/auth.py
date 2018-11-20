@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from __future__ import absolute_import
+
 
 from webargs.flaskparser import parser
 from webargs import fields as wf

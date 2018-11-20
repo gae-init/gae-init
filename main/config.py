@@ -19,7 +19,7 @@ else:
 
   CURRENT_VERSION_ID = os.environ.get('CURRENT_VERSION_ID')
   CURRENT_VERSION_NAME = CURRENT_VERSION_ID.split('.')[0]
-  CURRENT_VERSION_TIMESTAMP = long(CURRENT_VERSION_ID.split('.')[1]) >> 28
+  CURRENT_VERSION_TIMESTAMP = int(CURRENT_VERSION_ID.split('.')[1]) >> 28
   if DEVELOPMENT:
     import calendar
 

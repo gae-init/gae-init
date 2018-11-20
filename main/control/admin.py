@@ -10,6 +10,7 @@ import model
 import util
 
 from main import app
+import importlib
 
 
 ###############################################################################
@@ -73,7 +74,7 @@ def admin_config():
     if not config_db.salt:
       config_db.salt = util.uuid()
     config_db.put()
-    reload(config)
+    importlib.reload(config)
     app.config.update(CONFIG_DB=config_db)
     return flask.redirect(flask.url_for('admin'))
   form.trusted_hosts.data = ', '.join(config_db.trusted_hosts)
@@ -129,7 +130,7 @@ def admin_auth():
   if form.validate_on_submit():
     form.populate_obj(config_db)
     config_db.put()
-    reload(config)
+    importlib.reload(config)
     app.config.update(CONFIG_DB=config_db)
     return flask.redirect(flask.url_for('admin'))
 

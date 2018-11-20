@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from __future__ import absolute_import
+
 
 import functools
 import re
@@ -157,7 +157,7 @@ def permission_required(permission=None, methods=None):
     decorator_order_guard(f, 'auth.permission_required')
 
     # default to decorated function name as permission
-    perm = permission or f.func_name
+    perm = permission or f.__name__
     meths = [m.upper() for m in methods] if methods else None
 
     permission_registered.send(f, permission=perm)
@@ -329,7 +329,7 @@ def create_oauth_app(service_config, name):
 
 
 def decorator_order_guard(f, decorator_name):
-  if f in app.view_functions.values():
+  if f in list(app.view_functions.values()):
     raise SyntaxError(
       'Do not use %s above app.route decorators as it would not be checked. '
       'Instead move the line below the app.route lines.' % decorator_name

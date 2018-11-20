@@ -9,7 +9,7 @@ from uuid import uuid4
 import hashlib
 import re
 import unicodedata
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
@@ -86,7 +86,7 @@ def get_dbs(
         if prev_cursor:
           query_prev = query_prev.order(-model_class._properties[o])
 
-  for prop, value in filters.iteritems():
+  for prop, value in filters.items():
     if value is None:
       continue
     for val in value if isinstance(value, list) else [value]:
@@ -156,7 +156,7 @@ def generate_next_url(next_cursor, base_url=None, cursor_name='cursor'):
   base_url = base_url or flask.request.base_url
   args = flask.request.args.to_dict()
   args[cursor_name] = next_cursor
-  return '%s?%s' % (base_url, urllib.urlencode(args))
+  return '%s?%s' % (base_url, urllib.parse.urlencode(args))
 
 
 def uuid():
@@ -168,10 +168,10 @@ _slugify_hyphenate_re = re.compile(r'[-\s]+')
 
 
 def slugify(text):
-  if not isinstance(text, unicode):
-    text = unicode(text)
+  if not isinstance(text, str):
+    text = str(text)
   text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
-  text = unicode(_slugify_strip_re.sub('', text).strip().lower())
+  text = str(_slugify_strip_re.sub('', text).strip().lower())
   return _slugify_hyphenate_re.sub('-', text)
 
 
@@ -199,7 +199,7 @@ def password_hash(user_db, password):
 def update_query_argument(name, value=None, ignore='cursor', is_list=False):
   ignore = ignore.split(',') if isinstance(ignore, str) else ignore or []
   arguments = {}
-  for key, val in flask.request.args.items():
+  for key, val in list(flask.request.args.items()):
     if key not in ignore and (is_list and value is not None or key != name):
       arguments[key] = val
   if value is not None:
@@ -222,8 +222,8 @@ def update_query_argument(name, value=None, ignore='cursor', is_list=False):
 
 def parse_tags(tags, separator=None):
   if not is_iterable(tags):
-    tags = unicode(tags.strip()).split(separator or config.TAG_SEPARATOR)
-  return filter(None, sorted(list(set(tags))))
+    tags = str(tags.strip()).split(separator or config.TAG_SEPARATOR)
+  return [_f for _f in sorted(list(set(tags))) if _f]
 
 
 ###############################################################################
