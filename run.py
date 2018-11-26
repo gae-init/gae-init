@@ -13,7 +13,7 @@ import sys
 import urllib.request, urllib.parse, urllib.error
 import urllib.request, urllib.error, urllib.parse
 
-__version__ = '6.0.1'
+__version__ = '6.0.2'
 
 
 ###############################################################################
@@ -122,10 +122,6 @@ def create_virtualenv():
     echo_to = 'echo %s >> {pth}'.format(pth=pth_file)
     os.system(echo_to % find_gae_path())
     os.system(echo_to % os.path.abspath(DIR_LIBX))
-    fix_path_cmd = 'import dev_appserver; dev_appserver.fix_sys_path()'
-    os.system(echo_to % (
-      fix_path_cmd if IS_WINDOWS else '"%s"' % fix_path_cmd
-    ))
   return True
 
 
