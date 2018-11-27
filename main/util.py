@@ -9,7 +9,9 @@ from uuid import uuid4
 import hashlib
 import re
 import unicodedata
-import urllib.request, urllib.parse, urllib.error
+import urllib.request
+import urllib.parse
+import urllib.error
 
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb

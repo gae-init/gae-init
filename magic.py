@@ -7,7 +7,9 @@ import html.parser
 import json
 import os
 import sys
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
+import urllib.parse
 
 
 ###############################################################################

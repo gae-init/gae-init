@@ -10,8 +10,9 @@ import platform
 import shutil
 import socket
 import sys
-import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.parse
+import urllib.error
 
 __version__ = '6.0.1'
 
