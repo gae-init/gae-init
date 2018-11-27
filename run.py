@@ -158,8 +158,6 @@ def check_if_pip_should_run():
 
 
 def check_for_update():
-  if not os.path.exists(DIR_TEMP):
-    os.mkdir(DIR_TEMP)
   if os.path.exists(FILE_UPDATE):
     mtime = os.path.getmtime(FILE_UPDATE)
     last = datetime.utcfromtimestamp(mtime).strftime('%Y-%m-%d')
@@ -303,6 +301,7 @@ def run():
   os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
   if doctor_says_ok():
+    make_dirs(DIR_TEMP)
     check_for_update()
 
   if ARGS.show_version:
