@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf-8
 
 from datetime import datetime
@@ -10,8 +10,9 @@ import platform
 import shutil
 import socket
 import sys
-import urllib
-import urllib2
+import urllib.request
+import urllib.parse
+import urllib.error
 
 __version__ = '6.0.2'
 
@@ -20,10 +21,6 @@ __version__ = '6.0.2'
 # Options
 ###############################################################################
 PARSER = argparse.ArgumentParser()
-PARSER.add_argument(
-  '-d', '--dependencies', dest='install_dependencies', action='store_true',
-  help='install virtualenv and python dependencies',
-)
 PARSER.add_argument(
   '-s', '--start', dest='start', action='store_true',
   help='starts the dev_appserver.py with storage_path pointing to temp',
@@ -92,7 +89,7 @@ def print_out(script, filename=''):
   if not filename:
     filename = '-' * 46
     script = script.rjust(12, '-')
-  print('[%s] %12s %s' % (timestamp, script, filename))
+  print(('[%s] %12s %s' % (timestamp, script, filename)))
 
 
 def make_dirs(directory):
@@ -160,65 +157,6 @@ def check_if_pip_should_run():
   return not guard_is_newer(FILE_PIP_GUARD, FILE_REQUIREMENTS)
 
 
-def install_py_libs():
-  return_code = 0
-  if not check_if_pip_should_run() and os.path.exists(DIR_LIB):
-    return return_code
-
-  make_guard_flag = True
-  if TRAVIS:
-    return_code = exec_pip_commands('pip install -v -r %s' % FILE_REQUIREMENTS)
-  else:
-    return_code = exec_pip_commands('pip install -q -r %s' % FILE_REQUIREMENTS)
-  if return_code:
-    print('ERROR running pip install')
-    make_guard_flag = False
-
-  exclude_ext = ['.pth', '.pyc', '.egg-info', '.dist-info', '.so']
-  exclude_prefix = ['setuptools-', 'pip-', 'Pillow-']
-  exclude = [
-    'test', 'tests', 'pip', 'setuptools', '_markerlib', 'PIL',
-    'easy_install.py', 'pkg_resources', 'pkg_resources.py'
-  ]
-
-  def _exclude_prefix(pkg):
-    for prefix in exclude_prefix:
-      if pkg.startswith(prefix):
-        return True
-    return False
-
-  def _exclude_ext(pkg):
-    for ext in exclude_ext:
-      if pkg.endswith(ext):
-        return True
-    return False
-
-  def _get_dest(pkg):
-    make_dirs(DIR_LIB)
-    return os.path.join(DIR_LIB, pkg)
-
-  site_packages = site_packages_path()
-  dir_libs = listdir(DIR_LIB)
-  dir_libs.extend(listdir(DIR_LIBX))
-  for dir_ in listdir(site_packages):
-    if dir_ in dir_libs or dir_ in exclude:
-      continue
-    if _exclude_prefix(dir_) or _exclude_ext(dir_):
-      continue
-    src_path = os.path.join(site_packages, dir_)
-    copy = shutil.copy if os.path.isfile(src_path) else shutil.copytree
-    copy(src_path, _get_dest(dir_))
-
-  if make_guard_flag:
-    make_guard(FILE_PIP_GUARD, 'pip', FILE_REQUIREMENTS)
-  return return_code
-
-
-def install_dependencies():
-  make_dirs(DIR_TEMP)
-  return install_py_libs()
-
-
 def check_for_update():
   if os.path.exists(FILE_UPDATE):
     mtime = os.path.getmtime(FILE_UPDATE)
@@ -229,14 +167,14 @@ def check_for_update():
   try:
     with open(FILE_UPDATE, 'a'):
       os.utime(FILE_UPDATE, None)
-    request = urllib2.Request(
+    request = urllib.request.Request(
       CORE_VERSION_URL,
-      urllib.urlencode({'version': __version__}),
+      urllib.parse.urlencode({'version': __version__}).encode("utf-8"),
     )
-    response = urllib2.urlopen(request)
+    response = urllib.request.urlopen(request)
     with open(FILE_UPDATE, 'w') as update_json:
-      update_json.write(response.read())
-  except (urllib2.HTTPError, urllib2.URLError):
+      update_json.write(response.read().decode())
+  except (urllib.error.HTTPError, urllib.error.URLError):
     pass
 
 
@@ -267,9 +205,9 @@ def print_out_update(force_show=False):
 ###############################################################################
 def internet_on():
   try:
-    urllib2.urlopen(INTERNET_TEST_URL, timeout=2)
+    urllib.request.urlopen(INTERNET_TEST_URL, timeout=2)
     return True
-  except (urllib2.URLError, socket.timeout):
+  except (urllib.error.URLError, socket.timeout):
     return False
 
 
@@ -278,7 +216,7 @@ def check_requirement(check_func):
   if not result:
     print_out('NOT FOUND', name)
     if help_url_id:
-      print('Please see %s%s' % (REQUIREMENTS_URL, help_url_id))
+      print(('Please see %s%s' % (REQUIREMENTS_URL, help_url_id)))
     return False
   return True
 
@@ -359,14 +297,11 @@ def run_start():
 
 def run():
   return_code = 0
-  if len(sys.argv) == 1 or (ARGS.args and not ARGS.start):
-    PARSER.print_help()
-    sys.exit(1)
 
   os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
   if doctor_says_ok():
-    return_code |= install_dependencies()
+    make_dirs(DIR_TEMP)
     check_for_update()
 
   if ARGS.show_version:
@@ -376,9 +311,6 @@ def run():
 
   if ARGS.start:
     run_start()
-
-  if ARGS.install_dependencies:
-    return_code |= install_dependencies()
 
   sys.exit(return_code)
 

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from __future__ import absolute_import
+
 
 from google.appengine.api import users
 import flask

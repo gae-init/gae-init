@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from __future__ import absolute_import
+
 
 import hashlib
 
@@ -33,7 +33,7 @@ def mailru_sig(data):
 def mailru_authorized():
   response = mailru.authorized_response()
   if response is None:
-    flask.flash(u'You denied the request to sign in.')
+    flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
   access_token = response['access_token']
@@ -65,9 +65,9 @@ def retrieve_user_from_mailru(response):
   user_db = model.User.get_by('auth_ids', auth_id)
   if user_db:
     return user_db
-  name = u' '.join([
-    response.get('first_name', u''),
-    response.get('last_name', u'')
+  name = ' '.join([
+    response.get('first_name', ''),
+    response.get('last_name', '')
   ]).strip()
   email = response.get('email', '')
   return auth.create_user_db(

@@ -71,5 +71,5 @@ gulp.task 'run',
       gulp.start('browser-sync')
       gulp.src('run.py').pipe $.start [{
         match: /run.py$/
-        cmd: "python run.py #{options_str}"
+        cmd: "python3 run.py #{options_str}"
       }]
