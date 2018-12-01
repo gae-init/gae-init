@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf-8
 
 from datetime import datetime
@@ -10,8 +10,9 @@ import platform
 import shutil
 import socket
 import sys
-import urllib
-import urllib2
+import urllib.request
+import urllib.parse
+import urllib.error
 
 __version__ = '6.0.2'
 
@@ -88,7 +89,7 @@ def print_out(script, filename=''):
   if not filename:
     filename = '-' * 46
     script = script.rjust(12, '-')
-  print('[%s] %12s %s' % (timestamp, script, filename))
+  print(('[%s] %12s %s' % (timestamp, script, filename)))
 
 
 def make_dirs(directory):
@@ -166,14 +167,14 @@ def check_for_update():
   try:
     with open(FILE_UPDATE, 'a'):
       os.utime(FILE_UPDATE, None)
-    request = urllib2.Request(
+    request = urllib.request.Request(
       CORE_VERSION_URL,
-      urllib.urlencode({'version': __version__}),
+      urllib.parse.urlencode({'version': __version__}).encode("utf-8"),
     )
-    response = urllib2.urlopen(request)
+    response = urllib.request.urlopen(request)
     with open(FILE_UPDATE, 'w') as update_json:
-      update_json.write(response.read())
-  except (urllib2.HTTPError, urllib2.URLError):
+      update_json.write(response.read().decode())
+  except (urllib.error.HTTPError, urllib.error.URLError):
     pass
 
 
@@ -204,9 +205,9 @@ def print_out_update(force_show=False):
 ###############################################################################
 def internet_on():
   try:
-    urllib2.urlopen(INTERNET_TEST_URL, timeout=2)
+    urllib.request.urlopen(INTERNET_TEST_URL, timeout=2)
     return True
-  except (urllib2.URLError, socket.timeout):
+  except (urllib.error.URLError, socket.timeout):
     return False
 
 
@@ -215,7 +216,7 @@ def check_requirement(check_func):
   if not result:
     print_out('NOT FOUND', name)
     if help_url_id:
-      print('Please see %s%s' % (REQUIREMENTS_URL, help_url_id))
+      print(('Please see %s%s' % (REQUIREMENTS_URL, help_url_id)))
     return False
   return True
 
@@ -300,6 +301,7 @@ def run():
   os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
   if doctor_says_ok():
+    make_dirs(DIR_TEMP)
     check_for_update()
 
   if ARGS.show_version:

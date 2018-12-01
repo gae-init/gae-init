@@ -1,6 +1,8 @@
 # coding: utf-8
 
-import urllib
+import urllib.request
+import urllib.parse
+import urllib.error
 
 from flask_restful import fields
 from flask_restful.fields import *
@@ -8,7 +10,7 @@ from flask_restful.fields import *
 
 class BlobKey(fields.Raw):
   def format(self, value):
-    return urllib.quote(str(value))
+    return urllib.parse.quote(str(value))
 
 
 class Blob(fields.Raw):

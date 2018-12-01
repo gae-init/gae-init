@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from __future__ import absolute_import
+
 
 import functools
 import re
@@ -329,7 +329,7 @@ def create_oauth_app(service_config, name):
 
 
 def decorator_order_guard(f, decorator_name):
-  if f in app.view_functions.values():
+  if f in list(app.view_functions.values()):
     raise SyntaxError(
       'Do not use %s above app.route decorators as it would not be checked. '
       'Instead move the line below the app.route lines.' % decorator_name

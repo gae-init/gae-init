@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from __future__ import absolute_import
+
 
 import flask
 
@@ -26,7 +26,7 @@ vk = auth.create_oauth_app(vk_config, 'vk')
 def vk_authorized():
   response = vk.authorized_response()
   if response is None:
-    flask.flash(u'You denied the request to sign in.')
+    flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
   access_token = response['access_token']
