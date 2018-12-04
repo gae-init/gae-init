@@ -42,4 +42,3 @@ before_script:
 script:
   - yarn test
   - gulp deploy --dryrun
-  - python main/runner.py --test-path tests ${HOME}/google-cloud-sdk/
