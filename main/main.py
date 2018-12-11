@@ -1,5 +1,12 @@
 # coding: utf-8
 
+# Set up logging directly to google cloud
+# per https://cloud.google.com/logging/docs/setup/python
+import logging
+import google.cloud.logging
+client = google.cloud.logging.Client()  # Instantiates a client
+client.setup_logging(log_level=logging.DEBUG)  # Connects the logger to the root logging handler
+
 import flask
 
 import config
