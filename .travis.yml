@@ -31,6 +31,7 @@ before_install:
   - node -v
 
 install:
+  - gcloud components install app-engine-python
   # eslint requires node ^6.14.0 || ^8.10.0 || >=9.10.0 -- but doesn't actually need it.
   # trusty (as used on travis) comes with 8.9.1
   - yarn install --ignore-engines
