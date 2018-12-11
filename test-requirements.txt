@@ -1,3 +1,0 @@
-webtest==2.0.32
-flask==1.0.2
-jinja2==2.10
