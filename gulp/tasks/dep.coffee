@@ -38,7 +38,6 @@ gulp.task 'zip', false, ->
         if exists
           gulp.src "#{paths.py.lib}/**"
           .pipe $.plumber()
-          .pipe $.zip 'lib.zip'
           .pipe gulp.dest paths.main
 
 
