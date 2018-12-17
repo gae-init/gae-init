@@ -10,6 +10,7 @@ unidecode==1.0.23
 webargs==4.1.2
 setuptools==40.5.0
 google-cloud==0.34.0
-google-cloud-vision==0.34.0
-google-cloud-datastore==1.7.1
+google-cloud-vision==0.35.1
+google-cloud-datastore==1.7.2
 google-cloud-logging==1.9.0
+gunicorn==19.9.0

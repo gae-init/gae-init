@@ -22,6 +22,10 @@ __version__ = '6.0.2'
 ###############################################################################
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument(
+  '-d', '--dependencies', dest='install_dependencies', action='store_true',
+  help='install virtualenv and python dependencies',
+)
+PARSER.add_argument(
   '-s', '--start', dest='start', action='store_true',
   help='starts the dev_appserver.py with storage_path pointing to temp',
 )
@@ -62,7 +66,7 @@ DIR_VENV = os.path.join(DIR_TEMP, 'venv')
 DIR_LIB = os.path.join(DIR_MAIN, 'lib')
 DIR_LIBX = os.path.join(DIR_MAIN, 'libx')
 FILE_LIB = '%s.zip' % DIR_LIB
-FILE_REQUIREMENTS = 'requirements.txt'
+FILE_REQUIREMENTS = os.path.join(DIR_MAIN, 'requirements.txt')
 FILE_PIP_GUARD = os.path.join(DIR_TEMP, 'pip.guard')
 
 FILE_VENV = os.path.join(DIR_VENV, 'Scripts', 'activate.bat') \
@@ -155,6 +159,65 @@ def guard_is_newer(guard, watched):
 
 def check_if_pip_should_run():
   return not guard_is_newer(FILE_PIP_GUARD, FILE_REQUIREMENTS)
+
+
+def install_py_libs():
+  return_code = 0
+  if not check_if_pip_should_run() and os.path.exists(DIR_LIB):
+    return return_code
+
+  make_guard_flag = True
+  if TRAVIS:
+    return_code = exec_pip_commands('pip install -v -r %s' % FILE_REQUIREMENTS)
+  else:
+    return_code = exec_pip_commands('pip install -q -r %s' % FILE_REQUIREMENTS)
+  if return_code:
+    print('ERROR running pip install')
+    make_guard_flag = False
+
+  exclude_ext = ['.pth', '.pyc', '.egg-info', '.dist-info', '.so']
+  exclude_prefix = ['setuptools-', 'pip-', 'Pillow-']
+  exclude = [
+    'test', 'tests', 'pip', 'setuptools', '_markerlib', 'PIL',
+    'easy_install.py', 'pkg_resources', 'pkg_resources.py'
+  ]
+
+  def _exclude_prefix(pkg):
+    for prefix in exclude_prefix:
+      if pkg.startswith(prefix):
+        return True
+    return False
+
+  def _exclude_ext(pkg):
+    for ext in exclude_ext:
+      if pkg.endswith(ext):
+        return True
+    return False
+
+  def _get_dest(pkg):
+    make_dirs(DIR_LIB)
+    return os.path.join(DIR_LIB, pkg)
+
+  site_packages = site_packages_path()
+  dir_libs = listdir(DIR_LIB)
+  dir_libs.extend(listdir(DIR_LIBX))
+  for dir_ in listdir(site_packages):
+    if dir_ in dir_libs or dir_ in exclude:
+      continue
+    if _exclude_prefix(dir_) or _exclude_ext(dir_):
+      continue
+    src_path = os.path.join(site_packages, dir_)
+    copy = shutil.copy if os.path.isfile(src_path) else shutil.copytree
+    copy(src_path, _get_dest(dir_))
+
+  if make_guard_flag:
+    make_guard(FILE_PIP_GUARD, 'pip', FILE_REQUIREMENTS)
+  return return_code
+
+
+def install_dependencies():
+  make_dirs(DIR_TEMP)
+  return install_py_libs()
 
 
 def check_for_update():
@@ -281,17 +344,28 @@ def doctor_says_ok():
 # Main
 ###############################################################################
 def run_start():
+  os.environ['GUNICORN_LOCAL'] = 'TRUE'
   make_dirs(DIR_STORAGE)
   port = int(ARGS.port)
-  run_command = ' '.join(map(str, [
-    'dev_appserver.py',
-    DIR_MAIN,
-    '--host %s' % ARGS.host,
-    '--port %s' % port,
-    '--admin_port %s' % (port + 1),
-    '--storage_path=%s' % DIR_STORAGE,
-    '--skip_sdk_update_check',
-  ] + ARGS.args))
+  server_command = ' '.join([
+    'gunicorn',
+    '--bind {}:{}'.format(ARGS.host, port),
+    'main:app'
+  ] + ARGS.args)
+  # run_command = ' '.join(map(str, [
+  #   'dev_appserver.py',
+  #   DIR_MAIN,
+  #   '--host %s' % ARGS.host,
+  #   '--port %s' % port,
+  #   '--admin_port %s' % (port + 1),  #nl I dont think this is possible in gunicorn
+  #   '--storage_path=%s' % DIR_STORAGE,   #nl I don't think it's necessary in gunicorn
+  #   '--skip_sdk_update_check',   #nl I don't think it's necessary in gunicorn
+  # ] + ARGS.args))
+  run_command = ' && '.join([
+    'cd main',
+    'export GUNICORN_LOCAL=TRUE',
+    server_command
+  ])
   os.system(run_command)
 
 
@@ -301,7 +375,7 @@ def run():
   os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
   if doctor_says_ok():
-    make_dirs(DIR_TEMP)
+    return_code |= install_dependencies()
     check_for_update()
 
   if ARGS.show_version:
@@ -311,6 +385,9 @@ def run():
 
   if ARGS.start:
     run_start()
+
+  if ARGS.install_dependencies:
+    return_code |= install_dependencies()
 
   sys.exit(return_code)
 

@@ -42,9 +42,8 @@ gulp.task 'deploy',
 
 gulp.task 'run',
   'Start the local server. Available options:\n
-  -o HOST  - the host to start the dev_appserver.py\n
-  -p PORT  - the port to start the dev_appserver.py\n
-  -a="..." - all following args are passed to dev_appserver.py\n', ->
+  -o HOST  - the host to start the server.py\n
+  -p PORT  - the port to start the server.py\n', ->
     $.sequence('init', ['ext:dev', 'script:dev', 'style:dev']) ->
       argv = process.argv.slice 2
 
@@ -52,16 +51,12 @@ gulp.task 'run',
         default:
           p: ''
           o: ''
-          a: ''
 
       options = yargs(argv)
       options_str = '-s'
       for k of known_options.default
         if options[k]
-          if k == 'a'
-            options_str += " --appserver-args \"#{options[k]}\""
-          else
-            options_str += " -#{k} #{options[k]}"
+          options_str += " -#{k} #{options[k]}"
 
       if options['p']
         config.port = options['p']
