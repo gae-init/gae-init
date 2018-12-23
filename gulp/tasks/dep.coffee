@@ -13,9 +13,7 @@ gulp.task 'yarn', false, ->
 
 
 gulp.task 'bower', false, ->
-  cmd = 'node_modules/.bin/bower install'
-  if /^win/.test process.platform
-    cmd = cmd.replace /\//g, '\\'
+  cmd = 'node_modules/.bin/bower install --allow-root'
   start_map = [{match: /bower.json$/, cmd: cmd}]
   gulp.src 'bower.json'
   .pipe $.plumber()

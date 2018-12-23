@@ -9,6 +9,7 @@ gulp.task 'browser-sync', false, ->
   browserSync.init
     proxy: "#{config.host}:#{config.port}"
     notify: false
+    open: false
   $.watch [
     "#{paths.static.dev}/**/*.{css,js}"
     "#{paths.main}/**/*.{html,py}"

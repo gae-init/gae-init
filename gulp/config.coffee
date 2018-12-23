@@ -1,7 +1,8 @@
 paths = require './paths'
+ip = require 'ip'
 
 config =
-  host: "127.0.0.1"
+  host: ip.address()
   port: "8080"
   ext: [
     "#{paths.static.ext}/jquery/dist/jquery.js"
