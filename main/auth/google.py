@@ -15,7 +15,7 @@ google_config = dict(
   access_token_method='POST',
   access_token_url='https://accounts.google.com/o/oauth2/token',
   authorize_url='https://accounts.google.com/o/oauth2/auth',
-  base_url='https://www.googleapis.com/plus/v1/people/',
+  base_url='https://www.googleapis.com/oauth2/v1/',
   consumer_key=config.CONFIG_DB.google_client_id,
   consumer_secret=config.CONFIG_DB.google_client_secret,
   request_token_params={'scope': 'email profile'},
@@ -32,7 +32,7 @@ def google_authorized():
     return flask.redirect(util.get_next_url())
 
   flask.session['oauth_token'] = (response['access_token'], '')
-  me = google.get('me', data={'access_token': response['access_token']})
+  me = google.get('userinfo')
   user_db = retrieve_user_from_google(me.data)
   return auth.signin_user_db(user_db)
 
