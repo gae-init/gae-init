@@ -60,9 +60,9 @@ def retrieve_user_from_google(response):
 
   if 'name' in response:
     name = response['name']
-  elif 'givenName' in response and 'familyName' in response:
-    given_name = response[givenName]
-    family_name = response[familyName]
+  elif 'given_name' in response and 'family_name' in response:
+    given_name = response.get('given_name','')
+    family_name = response.get('family_name','')
     name = ' '.join([given_name, family_name]).strip()
   else:
     name = 'google_user_%s' % id
