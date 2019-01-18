@@ -60,11 +60,12 @@ def retrieve_user_from_google(response):
 
   if 'name' in response:
     name = response['name']
-  elif 'given_name' in response and 'family_name' in response:
-    given_name = response.get('given_name','')
-    family_name = response.get('family_name','')
-    name = ' '.join([given_name, family_name]).strip()
   else:
+    given_name = response.get('given_name', '')
+    family_name = response.get('family_name', '')
+    name = ' '.join([given_name, family_name]).strip()
+
+  if not name:
     name = 'google_user_%s' % id
 
   return auth.create_user_db(
