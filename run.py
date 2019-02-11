@@ -2,11 +2,9 @@
 # coding: utf-8
 
 from datetime import datetime
-from distutils import spawn
 import argparse
 import json
 import os
-import platform
 import shutil
 import socket
 import sys
@@ -19,6 +17,7 @@ __version__ = '6.0.2'
 ###############################################################################
 # Options
 ###############################################################################
+MYIP = socket.gethostbyname(socket.gethostname())
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument(
   '-d', '--dependencies', dest='install_dependencies', action='store_true',
@@ -29,7 +28,7 @@ PARSER.add_argument(
   help='starts the dev_appserver.py with storage_path pointing to temp',
 )
 PARSER.add_argument(
-  '-o', '--host', dest='host', action='store', default='127.0.0.1',
+  '-o', '--host', dest='host', action='store', default=MYIP,
   help='the host to start the dev_appserver.py',
 )
 PARSER.add_argument(
@@ -51,8 +50,6 @@ ARGS = PARSER.parse_args()
 # Globals
 ###############################################################################
 BAD_ENDINGS = ['pyc', 'pyo', '~']
-GAE_PATH = ''
-IS_WINDOWS = platform.system() == 'Windows'
 
 
 ###############################################################################
@@ -68,9 +65,7 @@ FILE_LIB = '%s.zip' % DIR_LIB
 FILE_REQUIREMENTS = 'requirements.txt'
 FILE_PIP_GUARD = os.path.join(DIR_TEMP, 'pip.guard')
 
-FILE_VENV = os.path.join(DIR_VENV, 'Scripts', 'activate.bat') \
-  if IS_WINDOWS \
-  else os.path.join(DIR_VENV, 'bin', 'activate')
+FILE_VENV = os.path.join(DIR_VENV, 'bin', 'activate')
 
 DIR_STORAGE = os.path.join(DIR_TEMP, 'storage')
 FILE_UPDATE = os.path.join(DIR_TEMP, 'update.json')
@@ -110,8 +105,6 @@ def listdir(directory, split_ext=False):
 
 
 def site_packages_path():
-  if IS_WINDOWS:
-    return os.path.join(DIR_VENV, 'Lib', 'site-packages')
   py_version = 'python%s.%s' % sys.version_info[:2]
   return os.path.join(DIR_VENV, 'lib', py_version, 'site-packages')
 
@@ -119,12 +112,10 @@ def site_packages_path():
 def create_virtualenv():
   if not os.path.exists(FILE_VENV):
     os.system('virtualenv --no-site-packages %s' % DIR_VENV)
-    os.system('echo %s >> %s' % (
-      'set PYTHONPATH=' if IS_WINDOWS else 'unset PYTHONPATH', FILE_VENV
-    ))
+    os.system('echo unset PYTHONPATH >> %s' % FILE_VENV)
     pth_file = os.path.join(site_packages_path(), 'gae.pth')
     echo_to = 'echo %s >> {pth}'.format(pth=pth_file)
-    os.system(echo_to % find_gae_path())
+    os.system(echo_to % '/google-cloud-sdk/platform/google_appengine')
     os.system(echo_to % os.path.abspath(DIR_LIBX))
   return True
 
@@ -132,17 +123,14 @@ def create_virtualenv():
 def exec_pip_commands(command):
   script = []
   if create_virtualenv():
-    activate_cmd = 'call %s' if IS_WINDOWS else 'source %s'
+    activate_cmd = 'source %s'
     activate_cmd %= FILE_VENV
     script.append(activate_cmd)
 
   script.append('echo %s' % command)
-  script.append('%s SKIP_GOOGLEAPICLIENT_COMPAT_CHECK=1' %
-                ('set' if IS_WINDOWS else 'export'))
+  script.append('export SKIP_GOOGLEAPICLIENT_COMPAT_CHECK=1')
   script.append(command)
-  script = '&'.join(script) if IS_WINDOWS else \
-      '/bin/bash -c "%s"' % ';'.join(script)
-  return os.system(script)
+  return os.system('/bin/sh -c "%s"' % ';'.join(script))
 
 
 def make_guard(fname, cmd, spec):
@@ -259,81 +247,12 @@ def print_out_update(force_show=False):
     pass
 
 
-###############################################################################
-# Doctor
-###############################################################################
 def internet_on():
   try:
     urllib2.urlopen(INTERNET_TEST_URL, timeout=2)
     return True
   except (urllib2.URLError, socket.timeout):
     return False
-
-
-def check_requirement(check_func):
-  result, name, help_url_id = check_func()
-  if not result:
-    print_out('NOT FOUND', name)
-    if help_url_id:
-      print('Please see %s%s' % (REQUIREMENTS_URL, help_url_id))
-    return False
-  return True
-
-
-def find_gae_path():
-  global GAE_PATH
-  if GAE_PATH:
-    return GAE_PATH
-  if IS_WINDOWS:
-    gae_path = None
-    for path in os.environ['PATH'].split(os.pathsep):
-      if os.path.isfile(os.path.join(path, 'dev_appserver.py')):
-        gae_path = path
-  else:
-    gae_path = spawn.find_executable('dev_appserver.py')
-    if gae_path:
-      gae_path = os.path.dirname(os.path.realpath(gae_path))
-  if not gae_path:
-    return ''
-  gcloud_exec = 'gcloud.cmd' if IS_WINDOWS else 'gcloud'
-  if not os.path.isfile(os.path.join(gae_path, gcloud_exec)):
-    GAE_PATH = gae_path
-  else:
-    gae_path = os.path.join(gae_path, '..', 'platform', 'google_appengine')
-    if os.path.exists(gae_path):
-      GAE_PATH = os.path.realpath(gae_path)
-  return GAE_PATH
-
-
-def check_internet():
-  return internet_on(), 'Internet', ''
-
-
-def check_gae():
-  return bool(find_gae_path()), 'Google App Engine SDK', '#gae'
-
-
-def check_git():
-  return bool(spawn.find_executable('git')), 'Git', '#git'
-
-
-def check_nodejs():
-  return bool(spawn.find_executable('node')), 'Node.js', '#nodejs'
-
-
-def check_pip():
-  return bool(spawn.find_executable('pip')), 'pip', '#pip'
-
-
-def check_virtualenv():
-  return bool(spawn.find_executable('virtualenv')), 'virtualenv', '#virtualenv'
-
-
-def doctor_says_ok():
-  checkers = [check_gae, check_git, check_nodejs, check_pip, check_virtualenv]
-  if False in [check_requirement(check) for check in checkers]:
-    sys.exit(1)
-  return check_requirement(check_internet)
 
 
 ###############################################################################
@@ -346,6 +265,7 @@ def run_start():
     'dev_appserver.py',
     DIR_MAIN,
     '--host %s' % ARGS.host,
+    '--admin_host %s' % ARGS.host,
     '--port %s' % port,
     '--admin_port %s' % (port + 1),
     '--storage_path=%s' % DIR_STORAGE,
@@ -362,8 +282,8 @@ def run():
 
   os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-  if doctor_says_ok():
-    return_code |= install_dependencies()
+  if internet_on():
+    install_dependencies()
     check_for_update()
 
   if ARGS.show_version:
