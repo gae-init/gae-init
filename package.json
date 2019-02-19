@@ -1,5 +1,8 @@
 {
   "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
+  "dependencies": {
+    "bootstrap": "4.3.1"
+  },
   "devDependencies": {
     "@babel/core": "7.3.3",
     "@babel/preset-env": "7.3.1",
@@ -22,6 +25,7 @@
     "gulp-less": "4.0.1",
     "gulp-load-plugins": "1.5.0",
     "gulp-plumber": "1.2.1",
+    "gulp-sass": "4.0.1",
     "gulp-sequence": "1.0.0",
     "gulp-size": "3.0.0",
     "gulp-sourcemaps": "2.6.5",
@@ -52,7 +56,7 @@
       "eslint --fix",
       "git add"
     ],
-    "*.{json,less,md,yml,yaml}": [
+    "*.{json,scss,md,yml,yaml}": [
       "prettier --write",
       "git add"
     ]
@@ -68,7 +72,7 @@
     "fix:code": "yarn test:code --fix",
     "fix": "yarn fix:assets && yarn fix:code",
     "install": "gulp init",
-    "prettier": "prettier --ignore-path .gitignore  \"**/*.{json,less,md,yml,yaml}\"",
+    "prettier": "prettier --ignore-path .gitignore  \"**/*.{json,scss,md,yml,yaml}\"",
     "postinstall": "echo 'Run `gulp` to start or `gulp help` for more.'",
     "start": "gulp",
     "test:assets": "yarn prettier --list-different",

@@ -2,12 +2,11 @@
 # import 'macro/forms.html' as forms
 
 # block content
-  <div class="page-header">
-    <h1>{{title}} <small>Any questions or suggestions are welcome</small></h1>
-  </div>
+  <h1>{{title}}</h1>
+  <p class="lead">Any questions or suggestions are welcome</p>
 
   <div class="row">
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-6 col-xl-4">
       <form method="POST" action="." novalidate>
         {{form.csrf_token}}
 
@@ -15,7 +14,7 @@
         {{forms.email_field(form.email)}}
         {{forms.recaptcha_field(form.recaptcha)}}
 
-        <button type="submit" class="btn btn-primary btn-block btn-loading" {{forms.data_loading_text()}}>
+        <button type="submit" class="btn btn-primary btn-block">
           Send Feedback
         </button>
       </form>

@@ -1,13 +1,13 @@
 # macro field_errors(field)
   # for error in field.errors
-    <p class="help-block">{{error}}</p>
+  <small class="form-text text-danger">{{error}}</small>
   # endfor
 # endmacro
 
 
 # macro field_description(field)
   # if field.description
-    <p class="help-block">{{field.description}}</p>
+    <small class="form-text text-muted">{{field.description}}</small>
   # endif
 # endmacro
 
@@ -26,11 +26,15 @@
     # if prefix or suffix
       <div class="input-group">
         # if prefix
-          <span class="input-group-addon">{{prefix}}</span>
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{prefix}}</div>
+          </div>
         # endif
         {{field(class='form-control', **kwargs)}}
         # if suffix
-          <span class="input-group-addon">{{suffix}}</span>
+          <div class="input-group-append">
+            <div class="input-group-text">{{suffix}}</div>
+          </div>
         # endif
       </div>
     # else
@@ -58,11 +62,11 @@
     {{field_optional(field)}}
     <div class="input-group {{'input-group-%s' % size if size}}">
       {{field(class='form-control', type='password', autocomplete='off', **kwargs)}}
-      <span class="input-group-btn">
-        <button class="btn btn-default btn-password-show" type="button" data-target="#{{field.name}}" data-toggle="button" title="Show/Hide Password" tabindex="-1">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary btn-password-show" type="button" data-target="#{{field.name}}" data-toggle="button" title="Show/Hide Password" tabindex="-1">
           <span class="fa fa-eye"></span>
         </button>
-      </span>
+      </div>
     </div>
     {{field_errors(field)}}
     {{field_description(field)}}
@@ -112,9 +116,10 @@
 
 
 # macro checkbox_field(field)
-  <div class="checkbox {{'has-error' if field.errors}}">
-    <label class="{{'text-muted' if 'disabled' in kwargs}}">
-      {{field(**kwargs)}} {{field.label.text}}
+  <div class="form-check">
+    {{field(class='form-check-input', **kwargs)}}
+    <label class="form-check-label" for="{{field.name}}">
+      {{field.label.text}}
     </label>
     {{field_errors(field)}}
     {{field_description(field)}}
@@ -168,31 +173,27 @@
 
 
 # macro panel_fields(name, fields, help)
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent=".panel-group" href="#{{slugify(name)}}">{{name}}</a>
-        <span class="fa fa-check pull-right {{'hide' if not check_form_fields(fields)}}"></span>
-      </h4>
-    </div>
-    <div id="{{slugify(name)}}" class="panel-collapse collapse">
-      <div class="panel-body">
-        # for field in (fields if is_iterable(fields) else [fields]):
-          {{text_field(field)}}
-        # endfor
-        # if help
-          <p class="help-block">{{help|safe}}</p>
-        # endif
+  <div class="accordion" id="accordion-{{slugify(name)}}">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h3 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{slugify(name)}}">
+            {{name}}
+            <span class="fa fa-check {{'d-none' if not check_form_fields(fields)}}"></span>
+          </button>
+        </h3>
+      </div>
+
+      <div id="{{slugify(name)}}" class="collapse" data-parent="#accordion-{{slugify(name)}}">
+        <div class="card-body">
+          # for field in (fields if is_iterable(fields) else [fields]):
+            {{text_field(field)}}
+          # endfor
+          # if help
+            <p class="help-block">{{help|safe}}</p>
+          # endif
+        </div>
       </div>
     </div>
   </div>
-# endmacro
-
-
-# macro data_loading_text(text='Please wait..', icon='fa fa-spin fa-spinner')
-  # if icon
-    data-loading-text="<span class='{{icon}}'></span> {{text}}"
-  # else
-    data-loading-text="{{text}}"
-  # endif
 # endmacro

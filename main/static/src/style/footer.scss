@@ -1,0 +1,26 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: $footer-height;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $footer-height;
+  border-top: 1px solid $hr-border-color;
+  color: $text-muted;
+  background-color: $gray-200;
+  display: flex;
+  align-items: center;
+  & > .container {
+    text-align: center;
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

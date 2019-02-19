@@ -49,6 +49,11 @@ class TestForm(flask_wtf.FlaskForm):
     'Render it as Markdown',
     [wtforms.validators.optional()],
   )
+  boolean_disabled = wtforms.BooleanField(
+    'Render it as HTML',
+    [wtforms.validators.optional()],
+    description='Coming soon.',
+  )
   password = wtforms.PasswordField(
     'Password',
     [wtforms.validators.optional(), wtforms.validators.length(min=6)],

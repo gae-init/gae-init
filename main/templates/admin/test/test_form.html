@@ -1,6 +1,6 @@
 # import 'macro/forms.html' as forms
 
-<form method="POST" action=".#form" novalidate>
+<form class="needs-validation" method="POST" action=".#form" novalidate>
   {{form.csrf_token}}
 
   <div class="row">
@@ -11,6 +11,7 @@
       {{forms.date_field(form.date)}}
       {{forms.textarea_field(form.textarea, rows=3)}}
       {{forms.checkbox_field(form.boolean)}}
+      {{forms.checkbox_field(form.boolean_disabled, disabled=True)}}
     </div>
     <div class="col-sm-4">
       {{forms.password_field(form.password)}}
@@ -38,7 +39,7 @@
   <hr>
   <div class="row">
     <div class="col-sm-offset-3 col-sm-6">
-      <button type="submit" class="btn btn-primary btn-lg btn-block btn-loading" {{forms.data_loading_text()}}>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">
         Submit this Form
       </button>
     </div>
