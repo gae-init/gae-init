@@ -5,7 +5,7 @@ import sys
 
 from path_util import sys_path_insert
 
-
+# if lib.zip is present use lib.zip, otherwise compile it
 if os.environ.get('SERVER_SOFTWARE', '').startswith('Google App Engine'):
   sys_path_insert('lib.zip')
 else:
