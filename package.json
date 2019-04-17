@@ -13,7 +13,7 @@
     "gulp": "3.9.1",
     "gulp-autoprefixer": "6.0.0",
     "gulp-babel": "8.0.0",
-    "gulp-bower": "0.0.14",
+    "gulp-bower": "0.0.15",
     "gulp-coffee": "3.0.3",
     "gulp-concat": "2.6.1",
     "gulp-cssnano": "2.1.3",
