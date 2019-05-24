@@ -130,3 +130,21 @@
     {{content}}</{{name}}>
   #- endif
 # endmacro
+
+
+# macro include_md(file, class='')
+  <div class="markdown {{class}}">
+    # markdown
+      # include file
+    # endmarkdown
+  </div>
+# endmacro
+
+
+# macro render_md(text, class='')
+  <div class="markdown {{class}}">
+    # markdown
+      {{text|safe}}
+    # endmarkdown
+  </div>
+# endmacro
