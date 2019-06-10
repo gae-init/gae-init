@@ -38,7 +38,7 @@
     "prettier": "1.18.1",
     "require-dir": "1.2.0",
     "uglify-es": "3.3.9",
-    "yargs-parser": "13.1.0",
+    "yargs-parser": "13.1.1",
     "yarn": "1.16.0"
   },
   "license": "MIT",
