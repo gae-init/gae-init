@@ -31,7 +31,7 @@
     "gulp-watch": "5.0.1",
     "gulp-yarn": "2.0.0",
     "gulp-zip": "4.2.0",
-    "husky": "2.5.0",
+    "husky": "2.6.0",
     "less": "3.9.0",
     "lint-staged": "8.2.1",
     "main-bower-files": "2.13.1",
