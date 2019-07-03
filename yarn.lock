@@ -3157,17 +3157,17 @@ gulp-less@4.0.1:
     through2 "^2.0.0"
     vinyl-sourcemaps-apply "^0.2.0"
 
-gulp-load-plugins@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/gulp-load-plugins/-/gulp-load-plugins-1.6.0.tgz#2d060c42faf481141ef638431572923d8701bd0d"
-  integrity sha512-HlCODki0WHJvQIgAsJYOTkyo0c7TsDCetvfhrdGz9JYPL6A4mFRMGmKfoi6JmXjA/vvzg+fkT91c9FBh7rnkyg==
+gulp-load-plugins@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/gulp-load-plugins/-/gulp-load-plugins-2.0.0.tgz#98c471292c6777f7fbb554ba1588dc64c88ddd61"
+  integrity sha512-/tYScCootRAlSv2mIiwazDodp8p2DILyoNP+6QjCvYpLtfEuuNqVGv/lfhZhWD6cWtfqiFdVYfSjzL4MLIcM1w==
   dependencies:
-    array-unique "^0.2.1"
+    array-unique "^0.3.2"
     fancy-log "^1.2.0"
     findup-sync "^3.0.0"
     gulplog "^1.0.0"
     has-gulplog "^0.1.0"
-    micromatch "^3.1.10"
+    micromatch "^4.0.2"
     resolve "^1.1.7"
 
 gulp-match@^1.0.3:
