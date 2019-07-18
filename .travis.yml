@@ -30,7 +30,7 @@ before_install:
   - gcloud version
   - node -v
   - gulp -v
-  
+
 install:
   - gcloud components install app-engine-python
   - pip install -r requirements.txt
@@ -40,7 +40,7 @@ install:
   - yarn install --ignore-engines
 
 before_script:
-  - yarn global add gulp-cli
+  - npm install -g gulp-cli
 
 script:
   - yarn test
