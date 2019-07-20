@@ -30,7 +30,7 @@ before_install:
   - gcloud version
   - node -v
   - gulp -v
-  
+
 install:
   - gcloud components install app-engine-python
   - pip install -r requirements.txt
