@@ -29,7 +29,7 @@ before_install:
   - command -v gcloud
   - gcloud version
   # upgrade node
-  - nvm install 10.16.0
+  - nvm install 12.6.0
   - node -v
 
 install:
