@@ -28,6 +28,8 @@ before_install:
   - source $HOME/google-cloud-sdk/path.bash.inc || ls -al $HOME/google-cloud-sdk
   - command -v gcloud
   - gcloud version
+  # upgrade node
+  - nvm install 10.16.0
   - node -v
 
 install:
