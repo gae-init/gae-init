@@ -48,11 +48,6 @@ def linkedin_authorized():
   return auth.signin_user_db(user_db)
 
 
-@linkedin.tokengetter
-def get_linkedin_oauth_token():
-  return flask.session.get('access_token')
-
-
 @app.route('/signin/linkedin/')
 def signin_linkedin():
   return auth.signin_oauth(linkedin)

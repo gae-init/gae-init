@@ -34,11 +34,6 @@ def instagram_authorized():
   return auth.signin_user_db(user_db)
 
 
-@instagram.tokengetter
-def get_instagram_oauth_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/instagram/')
 def signin_instagram():
   return auth.signin_oauth(instagram)

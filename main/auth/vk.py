@@ -41,11 +41,6 @@ def vk_authorized():
   return auth.signin_user_db(user_db)
 
 
-@vk.tokengetter
-def get_vk_oauth_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/vk/')
 def signin_vk():
   return auth.signin_oauth(vk)

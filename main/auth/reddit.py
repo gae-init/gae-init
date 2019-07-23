@@ -62,20 +62,15 @@ reddit.handle_oauth2_response = reddit_handle_oauth2_response
 
 @app.route('/api/auth/callback/reddit/')
 def reddit_authorized():
-  response = reddit.authorized_response()
-  if response is None or flask.request.args.get('error'):
+  id_token = reddit.authorize_access_token()
+  if id_token is None or flask.request.args.get('error'):
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  flask.session['oauth_token'] = (response['access_token'], '')
+  flask.session['oauth_token'] = (id_token, '')
   me = reddit.request('me')
   user_db = retrieve_user_from_reddit(me.data)
   return auth.signin_user_db(user_db)
-
-
-@reddit.tokengetter
-def get_reddit_oauth_token():
-  return flask.session.get('oauth_token')
 
 
 @app.route('/signin/reddit/')

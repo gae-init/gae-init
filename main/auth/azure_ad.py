@@ -41,11 +41,6 @@ def azure_ad_authorized():
   return auth.signin_user_db(user_db)
 
 
-@azure_ad.tokengetter
-def get_azure_ad_oauth_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/azure_ad/')
 def signin_azure_ad():
   return auth.signin_oauth(azure_ad)

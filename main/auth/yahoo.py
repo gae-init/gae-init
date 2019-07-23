@@ -66,21 +66,16 @@ yahoo.handle_oauth2_response = yahoo_handle_oauth2_response
 
 @app.route('/api/auth/callback/yahoo/')
 def yahoo_authorized():
-  response = yahoo.authorized_response()
-  if response is None or flask.request.args.get('error'):
+  id_token = yahoo.authorize_access_token()
+  if id_token is None or flask.request.args.get('error'):
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  flask.session['oauth_token'] = (response['access_token'], '')
+  flask.session['oauth_token'] = (id_token, '')
   yahoo_guid = response['xoauth_yahoo_guid']
   me = yahoo.get('%s/profile' % yahoo_guid, data={'format': 'json'})
   user_db = retrieve_user_from_yahoo(me.data['profile'])
   return auth.signin_user_db(user_db)
-
-
-@yahoo.tokengetter
-def get_yahoo_oauth_token():
-  return flask.session.get('oauth_token')
 
 
 @app.route('/signin/yahoo/')

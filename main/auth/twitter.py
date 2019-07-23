@@ -37,11 +37,6 @@ def twitter_authorized():
   return auth.signin_user_db(user_db)
 
 
-@twitter.tokengetter
-def get_twitter_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/twitter/')
 def signin_twitter():
   return auth.signin_oauth(twitter)

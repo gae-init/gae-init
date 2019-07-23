@@ -36,11 +36,6 @@ def github_authorized():
   return auth.signin_user_db(user_db)
 
 
-@github.tokengetter
-def get_github_oauth_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/github/')
 def signin_github():
   return auth.signin_oauth(github)

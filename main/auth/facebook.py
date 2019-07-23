@@ -36,11 +36,6 @@ def facebook_authorized():
   return auth.signin_user_db(user_db)
 
 
-@facebook.tokengetter
-def get_facebook_oauth_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/facebook/')
 def signin_facebook():
   return auth.signin_oauth(facebook)

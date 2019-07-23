@@ -49,11 +49,6 @@ def mailru_authorized():
   return auth.signin_user_db(user_db)
 
 
-@mailru.tokengetter
-def get_mailru_oauth_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/mailru/')
 def signin_mailru():
   return auth.signin_oauth(mailru)

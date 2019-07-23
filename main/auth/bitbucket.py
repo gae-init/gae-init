@@ -36,11 +36,6 @@ def bitbucket_authorized():
   return auth.signin_user_db(user_db)
 
 
-@bitbucket.tokengetter
-def get_bitbucket_oauth_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/bitbucket/')
 def signin_bitbucket():
   return auth.signin_oauth(bitbucket)

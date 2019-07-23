@@ -35,11 +35,6 @@ def dropbox_authorized():
   return auth.signin_user_db(user_db)
 
 
-@dropbox.tokengetter
-def get_dropbox_oauth_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/dropbox/')
 def signin_dropbox():
   return auth.signin_oauth(dropbox, 'https')

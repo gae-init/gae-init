@@ -37,11 +37,6 @@ def google_authorized():
   return auth.signin_user_db(user_db)
 
 
-@google.tokengetter
-def get_google_oauth_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/google/')
 def signin_google():
   return auth.signin_oauth(google)

@@ -41,11 +41,6 @@ def microsoft_authorized():
   return auth.signin_user_db(user_db)
 
 
-@microsoft.tokengetter
-def get_microsoft_oauth_token():
-  return flask.session.get('oauth_token')
-
-
 @app.route('/signin/microsoft/')
 def signin_microsoft():
   return auth.signin_oauth(microsoft)
