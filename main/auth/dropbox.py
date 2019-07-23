@@ -25,11 +25,11 @@ dropbox = auth.create_oauth_app(dropbox_config, 'dropbox')
 
 @app.route('/api/auth/callback/dropbox/')
 def dropbox_authorized():
-  response = dropbox.authorized_response()
-  if response is None:
+  id_token = dropbox.authorized_access_token()
+  if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
-  flask.session['oauth_token'] = (response['access_token'], '')
+  flask.session['oauth_token'] = (id_token, '')
   me = dropbox.get('account/info')
   user_db = retrieve_user_from_dropbox(me.data)
   return auth.signin_user_db(user_db)

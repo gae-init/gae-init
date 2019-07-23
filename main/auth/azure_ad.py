@@ -27,11 +27,10 @@ azure_ad = auth.create_oauth_app(azure_ad_config, 'azure_ad')
 
 @app.route('/api/auth/callback/azure_ad/')
 def azure_ad_authorized():
-  response = azure_ad.authorized_response()
-  if response is None:
+  id_token = azure_ad.authorize_access_token()
+  if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url)
-  id_token = response['id_token']
   flask.session['oauth_token'] = (id_token, '')
   try:
     decoded_id_token = jwt.decode(id_token, verify=False)

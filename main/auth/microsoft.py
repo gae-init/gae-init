@@ -26,11 +26,11 @@ microsoft = auth.create_oauth_app(microsoft_config, 'microsoft')
 
 @app.route('/api/auth/callback/microsoft/')
 def microsoft_authorized():
-  response = microsoft.authorized_response()
-  if response is None:
+  id_token = microsoft.authorized_access_token()
+  if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
-  flask.session['oauth_token'] = (response['access_token'], '')
+  flask.session['oauth_token'] = (id_token, '')
   me = microsoft.get('me')
   if me.data.get('error', {}):
     return 'Unknown error: error:%s error_description:%s' % (

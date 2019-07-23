@@ -37,12 +37,12 @@ linkedin.pre_request = change_linkedin_query
 
 @app.route('/api/auth/callback/linkedin/')
 def linkedin_authorized():
-  response = linkedin.authorized_response()
-  if response is None:
+  id_token = linkedin.authorized_access_token()
+  if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  flask.session['access_token'] = (response['access_token'], '')
+  flask.session['access_token'] = (id_token, '')
   me = linkedin.get('people/~:(id,first-name,last-name,email-address)')
   user_db = retrieve_user_from_linkedin(me.data)
   return auth.signin_user_db(user_db)

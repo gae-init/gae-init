@@ -25,12 +25,12 @@ bitbucket = auth.create_oauth_app(bitbucket_config, 'bitbucket')
 
 @app.route('/api/auth/callback/bitbucket/')
 def bitbucket_authorized():
-  response = bitbucket.authorized_response()
-  if response is None:
+  id_token = bitbucket.authorized_access_token()
+  if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  flask.session['oauth_token'] = (response['access_token'], '')
+  flask.session['oauth_token'] = (id_token, '')
   me = bitbucket.get('user')
   user_db = retrieve_user_from_bitbucket(me.data)
   return auth.signin_user_db(user_db)

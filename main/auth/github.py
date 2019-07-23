@@ -26,11 +26,11 @@ github = auth.create_oauth_app(github_config, 'github')
 
 @app.route('/api/auth/callback/github/')
 def github_authorized():
-  response = github.authorized_response()
-  if response is None:
+  id_token = github.authorized_access_token()
+  if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
-  flask.session['oauth_token'] = (response['access_token'], '')
+  flask.session['oauth_token'] = (id_token, '')
   me = github.get('user')
   user_db = retrieve_user_from_github(me.data)
   return auth.signin_user_db(user_db)
