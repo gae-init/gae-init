@@ -347,7 +347,7 @@ def signin_oauth(oauth_app, scheme=None):
   try:
     flask.session.pop('oauth_token', None)
     save_request_params()
-    return oauth_app.authorize(callback=flask.url_for(
+    return oauth_app.authorize_redirect(flask.url_for(
       '%s_authorized' % oauth_app.name, _external=True, _scheme=scheme
     ))
   except oauth.OAuthException:
