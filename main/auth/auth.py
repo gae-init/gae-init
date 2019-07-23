@@ -5,7 +5,7 @@ from __future__ import absolute_import
 import functools
 import re
 
-from flask_oauthlib import client as oauth
+from authlib.flask import client as oauth
 from google.appengine.ext import ndb
 import flask
 import flask_login
@@ -323,7 +323,7 @@ def create_oauth_app(service_config, name):
   upper_name = name.upper()
   app.config[upper_name] = service_config
   service_oauth = oauth.OAuth()
-  service_app = service_oauth.remote_app(name, app_key=upper_name)
+  service_app = service_oauth.register(name, app_key=upper_name)
   service_oauth.init_app(app)
   return service_app
 

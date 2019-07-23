@@ -5,7 +5,7 @@ from __future__ import absolute_import
 import base64
 import flask
 
-from flask_oauthlib import client
+from authlib.flask import client
 from werkzeug import urls
 
 import auth
@@ -20,10 +20,10 @@ yahoo_config = dict(
   access_token_method='POST',
   access_token_params={'grant_type': 'authorization_code'},
   access_token_url='https://api.login.yahoo.com/oauth2/get_token',
+  api_base_url='https://social.yahooapis.com/v1/user/',
   authorize_url='https://api.login.yahoo.com/oauth2/request_auth',
-  base_url='https://social.yahooapis.com/v1/user/',
-  consumer_key=config.CONFIG_DB.yahoo_consumer_key,
-  consumer_secret=config.CONFIG_DB.yahoo_consumer_secret,
+  client_id=config.CONFIG_DB.yahoo_consumer_key,
+  client_secret=config.CONFIG_DB.yahoo_consumer_secret,
   request_token_params={'state': util.uuid()},
 )
 

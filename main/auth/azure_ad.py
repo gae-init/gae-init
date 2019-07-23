@@ -13,10 +13,10 @@ from main import app
 azure_ad_config = dict(
   access_token_method='POST',
   access_token_url='https://login.microsoftonline.com/common/oauth2/token',
+  api_base_url='',
   authorize_url='https://login.microsoftonline.com/common/oauth2/authorize',
-  base_url='',
-  consumer_key=config.CONFIG_DB.azure_ad_client_id,
-  consumer_secret=config.CONFIG_DB.azure_ad_client_secret,
+  client_id=config.CONFIG_DB.azure_ad_client_id,
+  client_secret=config.CONFIG_DB.azure_ad_client_secret,
   request_token_params={
     'scope': 'openid profile user_impersonation',
   },

@@ -4,7 +4,7 @@ from __future__ import absolute_import
 
 import base64
 
-from flask_oauthlib import client
+from authlib.flask import client
 from werkzeug import urls
 import flask
 
@@ -19,10 +19,10 @@ reddit_config = dict(
   access_token_method='POST',
   access_token_params={'grant_type': 'authorization_code'},
   access_token_url='https://ssl.reddit.com/api/v1/access_token',
+  api_base_url='https://oauth.reddit.com/api/v1/',
   authorize_url='https://ssl.reddit.com/api/v1/authorize',
-  base_url='https://oauth.reddit.com/api/v1/',
-  consumer_key=config.CONFIG_DB.reddit_client_id,
-  consumer_secret=config.CONFIG_DB.reddit_client_secret,
+  client_id=config.CONFIG_DB.reddit_client_id,
+  client_secret=config.CONFIG_DB.reddit_client_secret,
   request_token_params={'scope': 'identity', 'state': util.uuid()},
 )
 

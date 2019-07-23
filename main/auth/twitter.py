@@ -14,10 +14,10 @@ from main import app
 
 twitter_config = dict(
   access_token_url='https://api.twitter.com/oauth/access_token',
+  api_base_url='https://api.twitter.com/1.1/',
   authorize_url='https://api.twitter.com/oauth/authenticate',
-  base_url='https://api.twitter.com/1.1/',
-  consumer_key=config.CONFIG_DB.twitter_consumer_key,
-  consumer_secret=config.CONFIG_DB.twitter_consumer_secret,
+  client_id=config.CONFIG_DB.twitter_consumer_key,
+  client_secret=config.CONFIG_DB.twitter_consumer_secret,
   request_token_url='https://api.twitter.com/oauth/request_token',
   signature_method='HMAC-SHA1',
 )

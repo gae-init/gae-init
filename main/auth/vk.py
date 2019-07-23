@@ -13,10 +13,10 @@ from main import app
 
 vk_config = dict(
   access_token_url='https://oauth.vk.com/access_token',
+  api_base_url='https://api.vk.com/',
   authorize_url='https://oauth.vk.com/authorize',
-  base_url='https://api.vk.com/',
-  consumer_key=config.CONFIG_DB.vk_app_id,
-  consumer_secret=config.CONFIG_DB.vk_app_secret,
+  client_id=config.CONFIG_DB.vk_app_id,
+  client_secret=config.CONFIG_DB.vk_app_secret,
 )
 
 vk = auth.create_oauth_app(vk_config, 'vk')

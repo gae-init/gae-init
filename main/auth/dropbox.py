@@ -14,10 +14,10 @@ from main import app
 dropbox_config = dict(
   access_token_method='POST',
   access_token_url='https://api.dropbox.com/1/oauth2/token',
+  api_base_url='https://www.dropbox.com/1/',
   authorize_url='https://www.dropbox.com/1/oauth2/authorize',
-  base_url='https://www.dropbox.com/1/',
-  consumer_key=config.CONFIG_DB.dropbox_app_key,
-  consumer_secret=config.CONFIG_DB.dropbox_app_secret,
+  client_id=config.CONFIG_DB.dropbox_app_key,
+  client_secret=config.CONFIG_DB.dropbox_app_secret,
 )
 
 dropbox = auth.create_oauth_app(dropbox_config, 'dropbox')

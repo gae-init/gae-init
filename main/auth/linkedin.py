@@ -14,10 +14,10 @@ from main import app
 linkedin_config = dict(
   access_token_method='POST',
   access_token_url='https://www.linkedin.com/uas/oauth2/accessToken',
+  api_base_url='https://api.linkedin.com/v1/',
   authorize_url='https://www.linkedin.com/uas/oauth2/authorization',
-  base_url='https://api.linkedin.com/v1/',
-  consumer_key=config.CONFIG_DB.linkedin_api_key,
-  consumer_secret=config.CONFIG_DB.linkedin_secret_key,
+  client_id=config.CONFIG_DB.linkedin_api_key,
+  client_secret=config.CONFIG_DB.linkedin_secret_key,
   request_token_params={
     'scope': 'r_basicprofile r_emailaddress',
     'state': util.uuid(),

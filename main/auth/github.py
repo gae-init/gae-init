@@ -14,10 +14,10 @@ from main import app
 github_config = dict(
   access_token_method='POST',
   access_token_url='https://github.com/login/oauth/access_token',
+  api_base_url='https://api.github.com/',
   authorize_url='https://github.com/login/oauth/authorize',
-  base_url='https://api.github.com/',
-  consumer_key=config.CONFIG_DB.github_client_id,
-  consumer_secret=config.CONFIG_DB.github_client_secret,
+  client_id=config.CONFIG_DB.github_client_id,
+  client_secret=config.CONFIG_DB.github_client_secret,
   request_token_params={'scope': 'user:email'},
 )
 

@@ -5,10 +5,10 @@ import pkg_resources
 
 
 MODULES = [
+  'authlib',
   'blinker',
   'flask',
   'flask-login|flask_login',
-  'flask-oauthlib|flask_oauthlib',
   'flask-restful|flask_restful.__version__',
   'flask-wtf|flask_wtf',
   'jinja2',

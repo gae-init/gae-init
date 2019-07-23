@@ -15,10 +15,10 @@ from main import app
 
 mailru_config = dict(
   access_token_url='https://connect.mail.ru/oauth/token',
+  api_base_url='https://www.appsmail.ru/',
   authorize_url='https://connect.mail.ru/oauth/authorize',
-  base_url='https://www.appsmail.ru/',
-  consumer_key=config.CONFIG_DB.mailru_app_id,
-  consumer_secret=config.CONFIG_DB.mailru_app_secret,
+  client_id=config.CONFIG_DB.mailru_app_id,
+  client_secret=config.CONFIG_DB.mailru_app_secret,
 )
 
 mailru = auth.create_oauth_app(mailru_config, 'mailru')
