@@ -5,6 +5,7 @@ from __future__ import absolute_import
 import functools
 import re
 
+import authlib.client
 from authlib.flask import client as oauth
 from google.appengine.ext import ndb
 import flask
@@ -350,7 +351,7 @@ def signin_oauth(oauth_app, scheme=None):
     return oauth_app.authorize_redirect(flask.url_for(
       '%s_authorized' % oauth_app.name, _external=True, _scheme=scheme
     ))
-  except oauth.OAuthError:
+  except authlib.client.OAuthError:
     flask.flash(
       'Something went wrong with sign in. Please try again.',
       category='danger',
