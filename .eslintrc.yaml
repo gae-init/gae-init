@@ -17,13 +17,12 @@ parserOptions:
 rules:
   curly: 2
   dot-notation: 2
-  id-length: 2
+  id-length: [2, {'exceptions': ['$', 'k']}]
   no-const-assign: 2
   no-dupe-class-members: 2
   no-else-return: 2
   no-inner-declarations: 2
   no-lonely-if: 2
-  # no-magic-numbers: [2, {ignore: [-1, 0, 1]}]
   no-shadow: 2
   no-unneeded-ternary: 2
   no-unused-expressions: 2
