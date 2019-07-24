@@ -26,7 +26,7 @@ google = auth.create_oauth_app(google_config, 'google')
 
 @app.route('/api/auth/callback/google/')
 def google_authorized():
-  id_token = google.authorized_access_token()
+  id_token = google.authorize_access_token()
   if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())

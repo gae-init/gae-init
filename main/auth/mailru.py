@@ -31,7 +31,7 @@ def mailru_sig(data):
 
 @app.route('/api/auth/callback/mailru/')
 def mailru_authorized():
-  id_token = mailru.authorized_access_token()
+  id_token = mailru.authorize_access_token()
   if id_token is None:
     flask.flash(u'You denied the request to sign in.')
     return flask.redirect(util.get_next_url())

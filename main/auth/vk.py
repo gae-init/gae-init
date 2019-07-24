@@ -24,7 +24,7 @@ vk = auth.create_oauth_app(vk_config, 'vk')
 
 @app.route('/api/auth/callback/vk/')
 def vk_authorized():
-  id_token = vk.authorized_access_token()
+  id_token = vk.authorize_access_token()
   if id_token is None:
     flask.flash(u'You denied the request to sign in.')
     return flask.redirect(util.get_next_url())

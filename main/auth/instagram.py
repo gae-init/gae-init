@@ -24,7 +24,7 @@ instagram = auth.create_oauth_app(instagram_config, 'instagram')
 
 @app.route('/api/auth/callback/instagram/')
 def instagram_authorized():
-  id_token = instagram.authorized_access_token()
+  id_token = instagram.authorize_access_token()
   if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())

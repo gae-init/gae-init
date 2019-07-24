@@ -27,7 +27,7 @@ twitter = auth.create_oauth_app(twitter_config, 'twitter')
 
 @app.route('/api/auth/callback/twitter/')
 def twitter_authorized():
-  id_token = twitter.authorized_access_token()
+  id_token = twitter.authorize_access_token()
   if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())

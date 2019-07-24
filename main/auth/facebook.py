@@ -25,7 +25,7 @@ facebook = auth.create_oauth_app(facebook_config, 'facebook')
 
 @app.route('/api/auth/callback/facebook/')
 def facebook_authorized():
-  id_token = facebook.authorized_access_token()
+  id_token = facebook.authorize_access_token()
   if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
