@@ -8,10 +8,8 @@ const paths = require('../paths');
 
 gulp.task(
   'build',
-  'Build project to prepare it for a deployment. Minify CSS & JS files and pack Python dependencies into ' +
-    paths.py.lib_file +
-    '.',
-  $.sequence('clean:min', 'init', 'ext', ['script', 'style', 'zip']),
+  `Build project to prepare it for a deployment. Minify CSS & JS files and pack Python dependencies into ${paths.py.lib_file}.`,
+  $.sequence('clean:min', 'init', 'ext', 'script', 'style', 'zip'),
 );
 
 gulp.task(
@@ -34,15 +32,20 @@ gulp.task(
     delete options._;
     let options_str = '';
     let dryrun = '';
-    for (const k in options) {
-      if (k === 'dryrun') {
+    for (const index in options) {
+      if (index === 'dryrun') {
         dryrun = 'echo DRYRUN - would run: ';
       } else {
-        if (options[k] === true) {
-          options[k] = '';
+        if (options[index] === true) {
+          options[index] = '';
         }
         options_str +=
-          ' ' + (k.length > 1 ? '-' : '') + '-' + k + ' ' + options[k];
+          ' ' +
+          (index.length > 1 ? '-' : '') +
+          '-' +
+          index +
+          ' ' +
+          options[index];
       }
     }
     return gulp.src('run.py').pipe(
@@ -76,12 +79,12 @@ gulp.task(
       };
       const options = yargs(argv);
       let options_str = '-s';
-      for (const k in known_options.default) {
-        if (options[k]) {
-          if (k === 'a') {
-            options_str += ' --appserver-args "' + options[k] + '"';
+      for (const index in known_options.default) {
+        if (options[index]) {
+          if (index === 'a') {
+            options_str += ' --appserver-args "' + options[index] + '"';
           } else {
-            options_str += ' -' + k + ' ' + options[k];
+            options_str += ' -' + index + ' ' + options[index];
           }
         }
       }
