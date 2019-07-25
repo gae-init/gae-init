@@ -32,7 +32,7 @@ def bitbucket_authorized():
 
   flask.session['oauth_token'] = (id_token, '')
   me = bitbucket.get('user')
-  user_db = retrieve_user_from_bitbucket(me.data)
+  user_db = retrieve_user_from_bitbucket(me.json())
   return auth.signin_user_db(user_db)
 
 

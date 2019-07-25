@@ -44,7 +44,7 @@ def linkedin_authorized():
 
   flask.session['access_token'] = (id_token, '')
   me = linkedin.get('people/~:(id,first-name,last-name,email-address)')
-  user_db = retrieve_user_from_linkedin(me.data)
+  user_db = retrieve_user_from_linkedin(me.json())
   return auth.signin_user_db(user_db)
 
 
@@ -59,8 +59,7 @@ def retrieve_user_from_linkedin(response):
   if user_db:
     return user_db
 
-  names = [response.get('firstName', ''), response.get('lastName', '')]
-  name = ' '.join(names).strip()
+  name = response[formatedName]
   email = response.get('emailAddress', '')
   return auth.create_user_db(
     auth_id=auth_id,

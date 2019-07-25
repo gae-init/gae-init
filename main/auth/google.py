@@ -33,7 +33,7 @@ def google_authorized():
 
   flask.session['oauth_token'] = (id_token, '')
   me = google.get('userinfo')
-  user_db = retrieve_user_from_google(me.data)
+  user_db = retrieve_user_from_google(me.json())
   return auth.signin_user_db(user_db)
 
 

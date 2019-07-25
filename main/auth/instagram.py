@@ -30,7 +30,7 @@ def instagram_authorized():
     return flask.redirect(util.get_next_url())
 
   flask.session['oauth_token'] = (id_token, '')
-  user_db = retrieve_user_from_instagram(response['user'])
+  user_db = retrieve_user_from_instagram(response.json()['data'])
   return auth.signin_user_db(user_db)
 
 

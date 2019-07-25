@@ -37,7 +37,7 @@ def microsoft_authorized():
       me['error']['code'],
       me['error']['message'],
     )
-  user_db = retrieve_user_from_microsoft(me.data)
+  user_db = retrieve_user_from_microsoft(me.json())
   return auth.signin_user_db(user_db)
 
 

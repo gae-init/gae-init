@@ -33,7 +33,7 @@ def twitter_authorized():
     return flask.redirect(util.get_next_url())
 
   flask.session['oauth_token'] = (id_token, '')
-  user_db = retrieve_user_from_twitter(response)
+  user_db = retrieve_user_from_twitter(response.json())
   return auth.signin_user_db(user_db)
 
 
@@ -47,6 +47,6 @@ def retrieve_user_from_twitter(response):
   user_db = model.User.get_by('auth_ids', auth_id)
   return user_db or auth.create_user_db(
     auth_id=auth_id,
-    name=response['screen_name'],
+    name=response['name'] or response['screen_name'],
     username=response['screen_name'],
   )

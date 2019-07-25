@@ -31,8 +31,9 @@ def github_authorized():
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
   flask.session['oauth_token'] = (id_token, '')
+    #TODO: Consider if this is secure enough storage for the token
   me = github.get('user')
-  user_db = retrieve_user_from_github(me.data)
+  user_db = retrieve_user_from_github(me.json())
   return auth.signin_user_db(user_db)
 
 
@@ -51,3 +52,15 @@ def retrieve_user_from_github(response):
     email=response.get('email', ''),
     verified=bool(response.get('email', '')),
   )
+
+
+#localhost:3000 vs 127.0.0.1:8080 issue
+# http://127.0.0.1:8080/api/auth/callback/github/
+
+# Need to compare what gets returned by 
+# flask.url_for(
+#      '%s_authorized' % oauth_app.name, _external=True, _scheme=scheme
+#    )
+
+# With the URL on the auth config page
+#http://localhost:3000/api/auth/callback/github/?error=redirect_uri_mismatch&error_description=The+redirect_uri+MUST+match+the+registered+callback+URL+for+this+application.&error_uri=https%3A%2F%2Fdeveloper.github.com%2Fapps%2Fmanaging-oauth-apps%2Ftroubleshooting-authorization-request-errors%2F%23redirect-uri-mismatch&state=r1awNd3oT3XgWMLIX1ZheZHenIEvJZ
