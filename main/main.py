@@ -3,10 +3,15 @@
 from datetime import datetime
 import flask
 import flask_talisman
+import requests
+import requests_toolbelt.adapters.appengine
 
 import config
 import util
 
+# Enable requests compatibility with GAE (needed for authlib)
+# From https://toolbelt.readthedocs.io/en/latest/adapters.html#appengineadapter
+requests_toolbelt.adapters.appengine.monkeypatch()
 
 class GaeRequest(flask.Request):
   trusted_hosts = config.TRUSTED_HOSTS
