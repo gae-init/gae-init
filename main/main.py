@@ -30,7 +30,6 @@ app.jinja_env.globals.update(
   slugify=util.slugify,
   update_query_argument=util.update_query_argument,
 )
-talisman = flask_talisman.Talisman(app, content_security_policy=config.CSP)
 
 import auth
 import control
