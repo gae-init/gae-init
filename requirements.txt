@@ -2,7 +2,6 @@ blinker==1.4
 flask-login==0.4.1
 flask-oauthlib==0.9.5
 flask-restful==0.3.7
-flask-talisman==0.7.0
 flask-wtf==0.14.2
 flask==1.1.1
 jinja2==2.10.1
