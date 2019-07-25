@@ -2,7 +2,6 @@
 
 from datetime import datetime
 import flask
-import flask_talisman
 import requests
 import requests_toolbelt.adapters.appengine
 
