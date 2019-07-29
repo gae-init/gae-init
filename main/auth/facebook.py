@@ -30,7 +30,6 @@ def facebook_authorized():
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  flask.session['oauth_token'] = (id_token, '')
   me = facebook.get('/me?fields=name,email')
   user_db = retrieve_user_from_facebook(me.json())
   return auth.signin_user_db(user_db)
