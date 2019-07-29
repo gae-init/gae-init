@@ -337,6 +337,14 @@ def save_request_params():
   }
 
 
+def save_oauth1_request_token(token):
+  flask.session['oauth_token'] = token
+
+    
+def fetch_oauth1_request_token():
+  return flask.session['oauth_token']
+
+
 def signin_oauth(oauth_app, scheme=None):
   try:
     flask.session.pop('oauth_token', None)

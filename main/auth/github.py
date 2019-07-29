@@ -30,8 +30,6 @@ def github_authorized():
   if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
-  flask.session['oauth_token'] = (id_token, '')
-    #TODO: Consider if this is secure enough storage for the token
   me = github.get('user')
   user_db = retrieve_user_from_github(me.json())
   return auth.signin_user_db(user_db)

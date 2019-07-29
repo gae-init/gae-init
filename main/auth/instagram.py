@@ -17,6 +17,8 @@ instagram_config = dict(
   authorize_url='https://instagram.com/oauth/authorize/',
   client_id=model.Config.get_master_db().instagram_client_id,
   client_secret=model.Config.get_master_db().instagram_client_secret,
+  save_request_token=auth.save_oauth1_request_token,
+  fetch_request_token=auth.fetch_oauth1_request_token,
 )
 
 instagram = auth.create_oauth_app(instagram_config, 'instagram')
@@ -29,7 +31,6 @@ def instagram_authorized():
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  flask.session['oauth_token'] = (id_token, '')
   user_db = retrieve_user_from_instagram(response.json()['data'])
   return auth.signin_user_db(user_db)
 

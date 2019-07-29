@@ -18,6 +18,8 @@ facebook_config = dict(
   client_id=config.CONFIG_DB.facebook_app_id,
   client_secret=config.CONFIG_DB.facebook_app_secret,
   request_token_params={'scope': 'email'},
+  save_request_token=auth.save_oauth1_request_token,
+  fetch_request_token=auth.fetch_oauth1_request_token,
 )
 
 facebook = auth.create_oauth_app(facebook_config, 'facebook')

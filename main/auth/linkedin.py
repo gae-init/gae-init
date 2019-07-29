@@ -22,6 +22,8 @@ linkedin_config = dict(
     'scope': 'r_basicprofile r_emailaddress',
     'state': util.uuid(),
   },
+  save_request_token=auth.save_oauth1_request_token,
+  fetch_request_token=auth.fetch_oauth1_request_token,
 )
 
 linkedin = auth.create_oauth_app(linkedin_config, 'linkedin')
@@ -42,7 +44,6 @@ def linkedin_authorized():
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  flask.session['access_token'] = (id_token, '')
   me = linkedin.get('people/~:(id,first-name,last-name,email-address)')
   user_db = retrieve_user_from_linkedin(me.json())
   return auth.signin_user_db(user_db)

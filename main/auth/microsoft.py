@@ -19,6 +19,8 @@ microsoft_config = dict(
   client_id=config.CONFIG_DB.microsoft_client_id,
   client_secret=config.CONFIG_DB.microsoft_client_secret,
   request_token_params={'scope': 'wl.emails'},
+  save_request_token=auth.save_oauth1_request_token,
+  fetch_request_token=auth.fetch_oauth1_request_token,
 )
 
 microsoft = auth.create_oauth_app(microsoft_config, 'microsoft')
@@ -30,7 +32,6 @@ def microsoft_authorized():
   if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
-  flask.session['oauth_token'] = (id_token, '')
   me = microsoft.get('me')
   if me.data.get('error', {}):
     return 'Unknown error: error:%s error_description:%s' % (
