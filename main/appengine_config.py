@@ -14,11 +14,15 @@ else:
     sys.platform = ''
 
   import re
-  from google.appengine.tools.devappserver2.python.runtime import stubs
+  from google.appengine.tools.devappserver2.python import runtime
 
-  re_ = stubs.FakeFile._skip_files.pattern.replace('|^lib/.*', '')
-  re_ = re.compile(re_)
-  stubs.FakeFile._skip_files = re_
+  try:
+    re_ = runtime.stubs.FakeFile._skip_files.pattern.replace('|^lib/.*', '')
+    re_ = re.compile(re_)
+    runtime.stubs.FakeFile._skip_files = re_
+  except AttributeError:
+    # runtime.stubs doesn't exist in the test environment
+    pass
   sys_path_insert('lib')
 
 sys_path_insert('libx')

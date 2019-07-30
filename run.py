@@ -13,7 +13,7 @@ import sys
 import urllib
 import urllib2
 
-__version__ = '5.9.4'
+__version__ = '6.1.0'
 
 
 ###############################################################################
@@ -82,7 +82,7 @@ FILE_UPDATE = os.path.join(DIR_TEMP, 'update.json')
 CORE_VERSION_URL = 'https://gae-init.appspot.com/_s/version/'
 INTERNET_TEST_URL = 'https://www.google.com'
 REQUIREMENTS_URL = 'http://docs.gae-init.appspot.com/requirement/'
-
+TRAVIS = 'TRAVIS' in os.environ
 
 ###############################################################################
 # Helpers
@@ -92,7 +92,7 @@ def print_out(script, filename=''):
   if not filename:
     filename = '-' * 46
     script = script.rjust(12, '-')
-  print '[%s] %12s %s' % (timestamp, script, filename)
+  print('[%s] %12s %s' % (timestamp, script, filename))
 
 
 def make_dirs(directory):
@@ -118,7 +118,7 @@ def site_packages_path():
 
 def create_virtualenv():
   if not os.path.exists(FILE_VENV):
-    os.system('virtualenv --no-site-packages %s' % DIR_VENV)
+    os.system('virtualenv --no-site-packages -p python2 %s' % DIR_VENV)
     os.system('echo %s >> %s' % (
       'set PYTHONPATH=' if IS_WINDOWS else 'unset PYTHONPATH', FILE_VENV
     ))
@@ -126,10 +126,6 @@ def create_virtualenv():
     echo_to = 'echo %s >> {pth}'.format(pth=pth_file)
     os.system(echo_to % find_gae_path())
     os.system(echo_to % os.path.abspath(DIR_LIBX))
-    fix_path_cmd = 'import dev_appserver; dev_appserver.fix_sys_path()'
-    os.system(echo_to % (
-      fix_path_cmd if IS_WINDOWS else '"%s"' % fix_path_cmd
-    ))
   return True
 
 
@@ -146,7 +142,7 @@ def exec_pip_commands(command):
   script.append(command)
   script = '&'.join(script) if IS_WINDOWS else \
       '/bin/bash -c "%s"' % ';'.join(script)
-  os.system(script)
+  return os.system(script)
 
 
 def make_guard(fname, cmd, spec):
@@ -165,17 +161,22 @@ def check_if_pip_should_run():
 
 
 def install_py_libs():
+  return_code = 0
   if not check_if_pip_should_run() and os.path.exists(DIR_LIB):
-    return
+    return return_code
 
-  exec_pip_commands('pip install -q -r %s' % FILE_REQUIREMENTS)
+  make_guard_flag = True
+  if TRAVIS:
+    return_code = exec_pip_commands('pip install -v -r %s' % FILE_REQUIREMENTS)
+  else:
+    return_code = exec_pip_commands('pip install -q -r %s' % FILE_REQUIREMENTS)
+  if return_code:
+    print('ERROR running pip install')
+    make_guard_flag = False
 
   exclude_ext = ['.pth', '.pyc', '.egg-info', '.dist-info', '.so']
   exclude_prefix = ['setuptools-', 'pip-', 'Pillow-']
-  exclude = [
-    'test', 'tests', 'pip', 'setuptools', '_markerlib', 'PIL',
-    'easy_install.py', 'pkg_resources', 'pkg_resources.py'
-  ]
+  exclude = ['test', 'tests', 'pip', 'setuptools', '_markerlib', 'PIL', 'easy_install.py']
 
   def _exclude_prefix(pkg):
     for prefix in exclude_prefix:
@@ -205,12 +206,14 @@ def install_py_libs():
     copy = shutil.copy if os.path.isfile(src_path) else shutil.copytree
     copy(src_path, _get_dest(dir_))
 
-  make_guard(FILE_PIP_GUARD, 'pip', FILE_REQUIREMENTS)
+  if make_guard_flag:
+    make_guard(FILE_PIP_GUARD, 'pip', FILE_REQUIREMENTS)
+  return return_code
 
 
 def install_dependencies():
   make_dirs(DIR_TEMP)
-  install_py_libs()
+  return install_py_libs()
 
 
 def check_for_update():
@@ -272,7 +275,7 @@ def check_requirement(check_func):
   if not result:
     print_out('NOT FOUND', name)
     if help_url_id:
-      print 'Please see %s%s' % (REQUIREMENTS_URL, help_url_id)
+      print('Please see %s%s' % (REQUIREMENTS_URL, help_url_id))
     return False
   return True
 
@@ -352,6 +355,7 @@ def run_start():
 
 
 def run():
+  return_code = 0
   if len(sys.argv) == 1 or (ARGS.args and not ARGS.start):
     PARSER.print_help()
     sys.exit(1)
@@ -359,7 +363,7 @@ def run():
   os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
   if doctor_says_ok():
-    install_dependencies()
+    return_code |= install_dependencies()
     check_for_update()
 
   if ARGS.show_version:
@@ -371,7 +375,9 @@ def run():
     run_start()
 
   if ARGS.install_dependencies:
-    install_dependencies()
+    return_code |= install_dependencies()
+
+  sys.exit(return_code)
 
 
 if __name__ == '__main__':

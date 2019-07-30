@@ -157,7 +157,7 @@ def permission_required(permission=None, methods=None):
     decorator_order_guard(f, 'auth.permission_required')
 
     # default to decorated function name as permission
-    perm = permission or f.func_name
+    perm = permission or f.__name__
     meths = [m.upper() for m in methods] if methods else None
 
     permission_registered.send(f, permission=perm)
@@ -301,21 +301,14 @@ def url_for_signin(service_name, next_url):
 
 def urls_for_oauth(next_url):
   return {
-    'azure_ad_signin_url': url_for_signin('azure_ad', next_url),
     'bitbucket_signin_url': url_for_signin('bitbucket', next_url),
-    'dropbox_signin_url': url_for_signin('dropbox', next_url),
     'facebook_signin_url': url_for_signin('facebook', next_url),
     'github_signin_url': url_for_signin('github', next_url),
     'google_signin_url': url_for_signin('google', next_url),
     'gae_signin_url': url_for_signin('gae', next_url),
     'instagram_signin_url': url_for_signin('instagram', next_url),
-    'linkedin_signin_url': url_for_signin('linkedin', next_url),
-    'mailru_signin_url': url_for_signin('mailru', next_url),
     'microsoft_signin_url': url_for_signin('microsoft', next_url),
-    'reddit_signin_url': url_for_signin('reddit', next_url),
     'twitter_signin_url': url_for_signin('twitter', next_url),
-    'vk_signin_url': url_for_signin('vk', next_url),
-    'yahoo_signin_url': url_for_signin('yahoo', next_url),
   }
 
 

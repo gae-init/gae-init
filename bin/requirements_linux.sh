@@ -7,8 +7,11 @@ gcloud components install app-engine-python
 # Node.js
 sudo apt-get install nodejs
 
+# Yarn package manager
+sudo apt-get install yarn
+
 # Gulp.js
-sudo npm install -g gulp
+yarn global add gulp-cli
 
 # Python related
 curl https://bootstrap.pypa.io/get-pip.py | sudo python
