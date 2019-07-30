@@ -12,14 +12,12 @@ import util
 from main import app
 
 facebook_config = dict(
-  access_token_url='/oauth/access_token',
-  api_base_url='https://graph.facebook.com/',
-  authorize_url='/oauth/authorize',
+  access_token_url='https://graph.facebook.com/v4.0/oauth/access_token',
+  api_base_url='https://graph.facebook.com/v4.0/',
+  authorize_url='https://www.facebook.com/v4.0/dialog/oauth',
   client_id=config.CONFIG_DB.facebook_app_id,
   client_secret=config.CONFIG_DB.facebook_app_secret,
   request_token_params={'scope': 'email'},
-  save_request_token=auth.save_oauth1_request_token,
-  fetch_request_token=auth.fetch_oauth1_request_token,
 )
 
 facebook = auth.create_oauth_app(facebook_config, 'facebook')
@@ -32,7 +30,7 @@ def facebook_authorized():
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  me = facebook.get('/me?fields=name,email')
+  me = facebook.get('/me?fields=id,name,email')
   user_db = retrieve_user_from_facebook(me.json())
   return auth.signin_user_db(user_db)
 
@@ -48,7 +46,7 @@ def retrieve_user_from_facebook(response):
   return user_db or auth.create_user_db(
     auth_id=auth_id,
     name=response['name'],
-    username=response.get('username', response['name']),
+    username=name,
     email=response.get('email', ''),
     verified=bool(response.get('email', '')),
   )
