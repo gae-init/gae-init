@@ -13,12 +13,10 @@ from main import app
 instagram_config = dict(
   access_token_method='POST',
   access_token_url='https://api.instagram.com/oauth/access_token',
-  api_base_url='https://api.instagram.com/v1',
-  authorize_url='https://instagram.com/oauth/authorize/',
+  api_base_url='https://api.instagram.com',
+  authorize_url='https://api.instagram.com/oauth/authorize',
   client_id=model.Config.get_master_db().instagram_client_id,
   client_secret=model.Config.get_master_db().instagram_client_secret,
-  save_request_token=auth.save_oauth1_request_token,
-  fetch_request_token=auth.fetch_oauth1_request_token,
 )
 
 instagram = auth.create_oauth_app(instagram_config, 'instagram')
