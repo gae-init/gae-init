@@ -1,13 +1,11 @@
+authlib==0.11
 blinker==1.4
 flask-login==0.4.1
-flask-oauthlib==0.9.5
 flask-restful==0.3.7
 flask-wtf==0.14.2
 flask==1.1.1
 jinja2==2.10.1
-oauthlib==2.1.0
-pyjwt==1.7.1
-requests-oauthlib==1.1.0
+requests_toolbelt==0.9.1
 simplejson==3.16.0
 unidecode==1.1.1
 webargs==5.4.0

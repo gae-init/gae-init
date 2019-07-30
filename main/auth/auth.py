@@ -5,7 +5,8 @@ from __future__ import absolute_import
 import functools
 import re
 
-from flask_oauthlib import client as oauth
+import authlib.client
+from authlib.flask import client as oauth
 from google.appengine.ext import ndb
 import flask
 import flask_login
@@ -312,11 +313,8 @@ def urls_for_oauth(next_url):
 
 
 def create_oauth_app(service_config, name):
-  upper_name = name.upper()
-  app.config[upper_name] = service_config
-  service_oauth = oauth.OAuth()
-  service_app = service_oauth.remote_app(name, app_key=upper_name)
-  service_oauth.init_app(app)
+  service_oauth = oauth.OAuth(app)
+  service_app = service_oauth.register(name, **service_config)
   return service_app
 
 
@@ -335,14 +333,22 @@ def save_request_params():
   }
 
 
+def save_oauth1_request_token(token):
+  flask.session['oauth_token'] = token
+
+    
+def fetch_oauth1_request_token():
+  return flask.session['oauth_token']
+
+
 def signin_oauth(oauth_app, scheme=None):
   try:
     flask.session.pop('oauth_token', None)
     save_request_params()
-    return oauth_app.authorize(callback=flask.url_for(
+    return oauth_app.authorize_redirect(flask.url_for(
       '%s_authorized' % oauth_app.name, _external=True, _scheme=scheme
     ))
-  except oauth.OAuthException:
+  except authlib.client.OAuthError:
     flask.flash(
       'Something went wrong with sign in. Please try again.',
       category='danger',
