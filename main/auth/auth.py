@@ -313,11 +313,8 @@ def urls_for_oauth(next_url):
 
 
 def create_oauth_app(service_config, name):
-  #upper_name = name.upper()
-  #app.config[upper_name] = service_config
   service_oauth = oauth.OAuth(app)
   service_app = service_oauth.register(name, **service_config)
-  #service_oauth.init_app(app)
   return service_app
 
 
