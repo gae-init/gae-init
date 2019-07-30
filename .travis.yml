@@ -1,0 +1,47 @@
+language: python
+
+python:
+  - '2.7.15'
+
+cache:
+  pip: true
+  yarn: true
+  directories:
+    - '$HOME/google-cloud-sdk/'
+    - node_modules
+
+notifications:
+  - email: false
+
+env:
+  # Make sure gcloud command is on our PATH and *our* version is reached before any system version
+  - PATH=${HOME}/google-cloud-sdk/bin:$PATH CLOUDSDK_CORE_DISABLE_PROMPTS=1
+
+before_install:
+  # Use cached version of gcloud if it exists
+  - if [ -f "$HOME/google-cloud-sdk/path.bash.inc" ]; then echo "Using cached gcloud"; source $HOME/google-cloud-sdk/path.bash.inc; else echo "Removing remnants"; rm -rf $HOME/google-cloud-sdk; fi
+  # Check if gcloud doesn't exist or if there is gcloud update, in which case delete the current installation
+  - if ! command -v gcloud || gcloud version 2>&1 | grep -F update; then echo "Removing remnants"; rm -rf $HOME/google-cloud-sdk; else echo "Keeping cached Google Cloud SDK"; fi
+  # Check if Google Cloud SDK is installed and if not remove remnants and install it
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then "Installing fresh gcloud"; rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  # Add gcloud to $PATH or give some diagnostic info
+  - source $HOME/google-cloud-sdk/path.bash.inc || ls -al $HOME/google-cloud-sdk
+  - command -v gcloud
+  - gcloud version
+  # eslint 6.0.1 requires specific node versions.
+  - nvm install 10.13.0
+  - node -v
+
+install:
+  - gcloud components install app-engine-python
+  - pip install --upgrade -r test-requirements.txt
+  - yarn install
+
+before_script:
+  - yarn global add gulp-cli
+  - gulp -v
+
+script:
+  - yarn test
+  - gulp deploy --dryrun
+  - python main/runner.py --test-path tests ${HOME}/google-cloud-sdk/
