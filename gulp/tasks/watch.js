@@ -1,11 +1,7 @@
 const gulp = require('gulp-help')(require('gulp'));
-
 const browserSync = require('browser-sync');
-
 const $ = require('gulp-load-plugins')();
-
 const config = require('../config');
-
 const paths = require('../paths');
 
 gulp.task('browser-sync', false, () => {
