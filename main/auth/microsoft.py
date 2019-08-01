@@ -13,12 +13,12 @@ from main import app
 
 microsoft_config = dict(
   access_token_method='POST',
-  access_token_url='https://login.live.com/oauth20_token.srf',
-  authorize_url='https://login.live.com/oauth20_authorize.srf',
-  base_url='https://apis.live.net/v5.0/',
-  consumer_key=config.CONFIG_DB.microsoft_client_id,
-  consumer_secret=config.CONFIG_DB.microsoft_client_secret,
-  request_token_params={'scope': 'wl.emails'},
+  access_token_url='https://login.microsoftonline.com/common/oauth2/v2.0/token',
+  api_base_url='https://graph.microsoft.com/v1.0/users/',
+  authorize_url='https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+  client_id=config.CONFIG_DB.microsoft_client_id,
+  client_secret=config.CONFIG_DB.microsoft_client_secret,
+  client_kwargs={'scope': 'https://graph.microsoft.com/user.read'},
 )
 
 microsoft = auth.create_oauth_app(microsoft_config, 'microsoft')
@@ -26,24 +26,13 @@ microsoft = auth.create_oauth_app(microsoft_config, 'microsoft')
 
 @app.route('/api/auth/callback/microsoft/')
 def microsoft_authorized():
-  response = microsoft.authorized_response()
-  if response is None:
+  id_token = microsoft.authorize_access_token()
+  if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
-  flask.session['oauth_token'] = (response['access_token'], '')
   me = microsoft.get('me')
-  if me.data.get('error', {}):
-    return 'Unknown error: error:%s error_description:%s' % (
-      me['error']['code'],
-      me['error']['message'],
-    )
-  user_db = retrieve_user_from_microsoft(me.data)
+  user_db = retrieve_user_from_microsoft(me.json())
   return auth.signin_user_db(user_db)
-
-
-@microsoft.tokengetter
-def get_microsoft_oauth_token():
-  return flask.session.get('oauth_token')
 
 
 @app.route('/signin/microsoft/')
@@ -56,11 +45,12 @@ def retrieve_user_from_microsoft(response):
   user_db = model.User.get_by('auth_ids', auth_id)
   if user_db:
     return user_db
-  email = response['emails']['preferred'] or response['emails']['account']
+  email = response['userPrincipalName']
+  name = response.get('displayName', '')
   return auth.create_user_db(
     auth_id=auth_id,
-    name=response.get('name', ''),
-    username=email,
+    name=name,
+    username=name or email,
     email=email,
     verified=bool(email),
   )

@@ -14,14 +14,16 @@ from main import app
 linkedin_config = dict(
   access_token_method='POST',
   access_token_url='https://www.linkedin.com/uas/oauth2/accessToken',
+  api_base_url='https://api.linkedin.com/v1/',
   authorize_url='https://www.linkedin.com/uas/oauth2/authorization',
-  base_url='https://api.linkedin.com/v1/',
-  consumer_key=config.CONFIG_DB.linkedin_api_key,
-  consumer_secret=config.CONFIG_DB.linkedin_secret_key,
+  client_id=config.CONFIG_DB.linkedin_api_key,
+  client_secret=config.CONFIG_DB.linkedin_secret_key,
   request_token_params={
     'scope': 'r_basicprofile r_emailaddress',
     'state': util.uuid(),
   },
+  save_request_token=auth.save_oauth1_request_token,
+  fetch_request_token=auth.fetch_oauth1_request_token,
 )
 
 linkedin = auth.create_oauth_app(linkedin_config, 'linkedin')
@@ -37,20 +39,14 @@ linkedin.pre_request = change_linkedin_query
 
 @app.route('/api/auth/callback/linkedin/')
 def linkedin_authorized():
-  response = linkedin.authorized_response()
-  if response is None:
+  id_token = linkedin.authorize_access_token()
+  if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  flask.session['access_token'] = (response['access_token'], '')
   me = linkedin.get('people/~:(id,first-name,last-name,email-address)')
-  user_db = retrieve_user_from_linkedin(me.data)
+  user_db = retrieve_user_from_linkedin(me.json())
   return auth.signin_user_db(user_db)
-
-
-@linkedin.tokengetter
-def get_linkedin_oauth_token():
-  return flask.session.get('access_token')
 
 
 @app.route('/signin/linkedin/')
@@ -64,8 +60,7 @@ def retrieve_user_from_linkedin(response):
   if user_db:
     return user_db
 
-  names = [response.get('firstName', ''), response.get('lastName', '')]
-  name = ' '.join(names).strip()
+  name = response[formatedName]
   email = response.get('emailAddress', '')
   return auth.create_user_db(
     auth_id=auth_id,

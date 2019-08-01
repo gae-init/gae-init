@@ -31,6 +31,10 @@ handlers:
     static_files: static/robots.txt
     upload: static/robots.txt
 
+  - url: /manifest.json
+    static_files: static/manifest.json
+    upload: static/manifest.json
+
   - url: /p/(.*\.ttf)
     static_files: static/\1
     upload: static/(.*\.ttf)
