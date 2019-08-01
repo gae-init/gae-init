@@ -11,7 +11,7 @@ gulp.task 'browser-sync', false, ->
     notify: false
   $.watch [
     "#{paths.static.dev}/**/*.{css,js}"
-    "#{paths.main}/**/*.{html,py}"
+    "#{paths.main}/**/*.{html,py,md}"
   ], events: ['change'], (file) ->
     browserSync.reload()
 
