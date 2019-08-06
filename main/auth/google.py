@@ -18,7 +18,7 @@ google_config = dict(
   authorize_url='https://accounts.google.com/o/oauth2/auth',
   client_id=config.CONFIG_DB.google_client_id,
   client_secret=config.CONFIG_DB.google_client_secret,
-  request_token_params={'scope': 'email profile'},
+  client_kwargs={'scope': 'email profile'},
 )
 
 google = auth.create_oauth_app(google_config, 'google')
