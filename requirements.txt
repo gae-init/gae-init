@@ -8,4 +8,4 @@ jinja2==2.10.1
 requests_toolbelt==0.9.1
 simplejson==3.16.0
 unidecode==1.1.1
-webargs==5.5.0
+webargs==5.5.1
