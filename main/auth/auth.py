@@ -5,8 +5,7 @@ from __future__ import absolute_import
 import functools
 import re
 
-import authlib.client
-from authlib.flask import client as oauth
+from authlib.integrations.flask_client import OAuth, OAuthError
 from google.appengine.ext import ndb
 import flask
 import flask_login
@@ -313,7 +312,7 @@ def urls_for_oauth(next_url):
 
 
 def create_oauth_app(service_config, name):
-  service_oauth = oauth.OAuth(app)
+  service_oauth = OAuth(app)
   service_app = service_oauth.register(name, **service_config)
   return service_app
 
@@ -348,7 +347,7 @@ def signin_oauth(oauth_app, scheme=None):
     return oauth_app.authorize_redirect(flask.url_for(
       '%s_authorized' % oauth_app.name, _external=True, _scheme=scheme
     ))
-  except authlib.client.OAuthError:
+  except OAuthError:
     flask.flash(
       'Something went wrong with sign in. Please try again.',
       category='danger',
