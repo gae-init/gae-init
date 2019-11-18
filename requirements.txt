@@ -6,6 +6,6 @@ flask-wtf==0.14.2
 flask==1.1.1
 jinja2==2.10.3
 requests_toolbelt==0.9.1
-simplejson==3.16.0
+simplejson==3.17.0
 unidecode==1.1.1
 webargs==5.5.1
