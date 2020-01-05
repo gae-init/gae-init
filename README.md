@@ -10,17 +10,17 @@ The latest version is always accessible from [https://gae-init.appspot.com](http
 
 ## Requirements
 
-* [Google App Engine SDK for Python][]
-* [Node.js][], [pip][], [virtualenv][]
-* [macOS][] or [Linux][] or [Windows][]
+- [Google App Engine SDK for Python][]
+- [Node.js][], [Yarn][], [pip][], [virtualenv][]
+- [macOS][] or [Linux][] or [Windows][]
 
 Make sure you have all of the above or refer to the docs on how to [install the requirements](http://docs.gae-init.appspot.com/requirement/).
 
 ## Running the Development Environment
 
 ```bash
-$ cd /path/to/project-name
-$ gulp
+cd /path/to/project-name
+gulp
 ```
 
 To test it visit `http://localhost:3000` in your browser.
@@ -30,23 +30,23 @@ To test it visit `http://localhost:3000` in your browser.
 For a complete list of commands:
 
 ```bash
-$ gulp help
+gulp help
 ```
 
 ## Initializing or Resetting the project
 
 ```bash
-$ cd /path/to/project-name
-$ npm install
-$ gulp
+cd /path/to/project-name
+yarn
+gulp
 ```
 
 If something goes wrong you can always do:
 
 ```bash
-$ gulp reset
-$ npm install
-$ gulp
+gulp reset
+yarn
+gulp
 ```
 
 ---
@@ -54,32 +54,49 @@ $ gulp
 To install [Gulp][] as a global package:
 
 ```bash
-$ npm install -g gulp
+yarn global add gulp-cli
 ```
+
+## Local testing
+
+If you wish to run an automated test script, there is an additional dependency which can be installed with:
+
+```bash
+pip install -r test-requirements.txt
+```
+
+A simple test script framework, following the approach from the [Google App Engine docs](https://cloud.google.com/appengine/docs/standard/python/tools/localunittesting#setup), can be run:
+
+```bash
+python main/runner.py --test-path tests ${HOME}/google-cloud-sdk/
+```
+
+This simply tests that the site can start up; that the index page exists (and returns an http response code of 200), and that a non-existent page returns an http response code of 404.
+
+The test framework is easily extensible.
 
 ## Deploying on Google App Engine
 
 ```bash
-$ gulp deploy
-$ gulp deploy --project=foo
-$ gulp deploy --project=foo --version=bar
-$ gulp deploy --project=foo --version=bar --no-promote
+gulp deploy
+gulp deploy --project=foo
+gulp deploy --project=foo --version=bar
+gulp deploy --project=foo --version=bar --no-promote
 ```
 
 ## Tech Stack
 
-* [Google App Engine][], [NDB][]
-* [Jinja2][], [Flask][], [Flask-RESTful][], [Flask-WTF][]
-* [CoffeeScript][], [Less][]
-* [Bootstrap][], [Font Awesome][], [Social Buttons][]
-* [jQuery][], [Moment.js][]
-* [OpenID][] sign in (Google, Facebook, Twitter and more)
-* [Python 2.7][], [pip][], [virtualenv][]
-* [Gulp][], [Bower][]
+- [Google App Engine][], [NDB][]
+- [Jinja2][], [Flask][], [Flask-RESTful][], [Flask-WTF][]
+- [Less][]
+- [Bootstrap][], [Font Awesome][], [Social Buttons][]
+- [jQuery][], [Moment.js][]
+- [OpenID][] sign in (Google, Facebook, Twitter and more)
+- [Python 2.7][], [pip][], [virtualenv][]
+- [Gulp][], [Bower][]
 
 [bootstrap]: http://getbootstrap.com/
 [bower]: http://bower.io/
-[coffeescript]: http://coffeescript.org/
 [documentation]: http://docs.gae-init.appspot.com
 [feature list]: http://docs.gae-init.appspot.com/features/
 [flask-restful]: https://flask-restful.readthedocs.org
@@ -105,3 +122,4 @@ $ gulp deploy --project=foo --version=bar --no-promote
 [tutorial]: http://docs.gae-init.appspot.com/tutorial/
 [virtualenv]: http://www.virtualenv.org/
 [windows]: http://windows.microsoft.com/
+[yarn]: https://yarnpkg.com/

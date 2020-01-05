@@ -1,0 +1,2 @@
+-r requirements.txt
+webtest==2.0.33

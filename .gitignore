@@ -1,9 +1,8 @@
+.DS_Store
+.idea
+.vscode
 *.pyc
 *.pyo
-.DS_Store
-.git*
-.hg*
-.idea
 bower_components
 main/index.yaml
 main/lib
@@ -12,4 +11,7 @@ main/static/dev
 main/static/ext
 main/static/min
 node_modules
+npm-debug.log
+package-lock.json
 temp/
+yarn-error.log
