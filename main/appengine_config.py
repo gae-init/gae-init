@@ -2,11 +2,9 @@
 
 import os
 import sys
-import tempfile
 
 from path_util import sys_path_insert
 
-tempfile.SpooledTemporaryFile = tempfile.TemporaryFile
 
 if os.environ.get('SERVER_SOFTWARE', '').startswith('Google App Engine'):
   sys_path_insert('lib.zip')
@@ -23,7 +21,7 @@ else:
     re_ = re.compile(re_)
     runtime.stubs.FakeFile._skip_files = re_
   except AttributeError:
-    # runtime.stubs doesn't exist in the test environment.
+    # runtime.stubs doesn't exist in the test environment
     pass
   sys_path_insert('lib')
 

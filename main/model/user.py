@@ -38,12 +38,12 @@ class User(model.Base):
   def avatar_url_size(self, size=None):
     facebook_id = self.has_facebook()
     if facebook_id:
-      return '//graph.facebook.com/%(id)s/picture%(size)s' % {
+      return 'https://graph.facebook.com/%(id)s/picture%(size)s' % {
         'id': facebook_id.split('_')[1],
         'size': '?width=%s&height=%s' % (size, size) if size else '',
       }
 
-    return '//gravatar.com/avatar/%(hash)s?d=identicon&r=x%(size)s' % {
+    return 'https://gravatar.com/avatar/%(hash)s?d=identicon&r=x%(size)s' % {
       'hash': hashlib.md5(
         (self.email or self.username).encode('utf-8')).hexdigest(),
       'size': '&s=%d' % size if size > 0 else '',
