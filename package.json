@@ -33,7 +33,7 @@
     "gulp-zip": "5.0.1",
     "husky": "4.0.10",
     "less": "3.10.3",
-    "lint-staged": "9.5.0",
+    "lint-staged": "10.0.0",
     "main-bower-files": "2.13.3",
     "prettier": "1.19.1",
     "require-dir": "1.2.0",
