@@ -284,6 +284,9 @@ gulp.task('ext:dev', () => {
 });
 
 /*** Script ***/
+is_coffee = function(file) {
+  return file.path.indexOf('.coffee') > 0;
+};
 
 gulp.task('script', () => {
   return gulp
@@ -293,6 +296,7 @@ gulp.task('script', () => {
         errorHandler: util.onError,
       }),
     )
+    .pipe($.if(is_coffee, $.coffee()))
     .pipe($.concat('script.js'))
     .pipe(
       $.babel({
@@ -317,6 +321,7 @@ gulp.task('script:dev', () => {
       }),
     )
     .pipe($.sourcemaps.init())
+    .pipe($.if(is_coffee, $.coffee()))
     .pipe($.concat('script.js'))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest(`${paths.static.dev}/script`));
@@ -409,7 +414,7 @@ gulp.task('watch', () => {
   $.watch(paths.static.ext, () => {
     return $.sequence('ext:dev')();
   });
-  $.watch(`${paths.src.script}/**/*.js`, () => {
+  $.watch(`${paths.src.script}/**/*.{coffee,js}`, () => {
     return $.sequence('script:dev')();
   });
   return $.watch(`${paths.src.style}/**/*.less`, () => {

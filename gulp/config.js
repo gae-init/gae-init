@@ -15,7 +15,7 @@
     ],
     host: '127.0.0.1',
     port: '8080',
-    script: [`${paths.src.script}/**/*.js`],
+    script: [`${paths.src.script}/**/*.js`, `${paths.src.script}/**/*.coffee`],
     style: [`${paths.src.style}/style.less`],
   };
 
