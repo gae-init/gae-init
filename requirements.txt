@@ -4,7 +4,7 @@ flask-login==0.4.1
 flask-restful==0.3.7
 flask-wtf==0.14.2
 flask==1.1.1
-jinja2==2.10.3
+jinja2==2.11.0
 requests_toolbelt==0.9.1
 simplejson==3.17.0
 unidecode==1.1.1
