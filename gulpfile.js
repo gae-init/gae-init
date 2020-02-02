@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 
-const browserSync = require('browser-sync');
+const server = require('browser-sync').create();
+
 const del = require('del');
 const fs = require('fs');
 const main_bower_files = require('main-bower-files');
@@ -106,7 +107,8 @@ gulp.task('style:dev', () => {
       }),
     )
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest(`${paths.static.dev}/style`));
+    .pipe(gulp.dest(`${paths.static.dev}/style`))
+    .pipe(server.stream());
 });
 
 /*** Ext ***/
@@ -183,21 +185,29 @@ gulp.task(
   }),
 );
 
-gulp.task('init', gulp.series('pip', 'copy_bower_files'));
+gulp.task('init', gulp.parallel('pip', 'copy_bower_files'));
+
+// browserSync task
+gulp.task('browserSync', () => {
+  server.init({
+    notify: false,
+    proxy: `${config.host}:${config.port}`,
+  });
+});
 
 /**
   Start the local server. Available options:
+  @task {run}
   @arg {-o HOST} the host to start the dev_appserver.py
   @arg {-p PORT} the port to start the dev_appserver.py
   @arg {-a="..."} all following args are passed to dev_appserver.py
-  @task {run}
   **/
 gulp.task(
   'run',
   gulp.series(
     'init',
     gulp.parallel('ext:dev', 'script:dev', 'style:dev'),
-    () => {
+    gulp.parallel('browserSync', () => {
       let k_iterator;
       let options_str;
       const argv = process.argv.slice(2);
@@ -228,7 +238,7 @@ gulp.task(
       if (options.o) {
         config.host = options.o;
       }
-      gulp.start('browser-sync');
+      //gulp.start('browser-sync');
       return gulp.src('run.py').pipe(
         $.start([
           {
@@ -237,7 +247,7 @@ gulp.task(
           },
         ]),
       );
-    },
+    }),
   ),
 );
 
@@ -320,28 +330,16 @@ gulp.task('zip', () => {
 });
 
 /*** Watch ***/
-gulp.task('browser-sync', () => {
-  browserSync.init({
-    notify: false,
-    proxy: `${config.host}:${config.port}`,
-  });
-  return $.watch(
-    [`${paths.static.dev}/**/*.{css,js}`, `${paths.main}/**/*.{html,py}`],
-    {
-      events: ['change'],
-    },
-    file => {
-      return browserSync.reload();
-    },
-  );
-});
+
+function reload(done) {
+  server.reload();
+  done();
+}
 
 gulp.task('ext_watch_rebuild', callback => {
-  return gulp.series(
-    'clean:dev',
+  return gulp.parallel(
     'copy_bower_files',
-    'ext:dev',
-    'style:dev',
+    gulp.series('clean:dev', gulp.parallel('ext:dev', 'style:dev')),
   )(callback);
 });
 
@@ -356,7 +354,7 @@ gulp.task('watch', () => {
     return gulp.series('ext_watch_rebuild')();
   });
   $.watch('gulp/config.js', () => {
-    return gulp.series('ext:dev', ['style:dev', 'script:dev'])();
+    return gulp.series('ext:dev', gulp.parallel('style:dev', 'script:dev'))();
   });
   $.watch(paths.static.ext, () => {
     return gulp.series('ext:dev')();
@@ -364,6 +362,12 @@ gulp.task('watch', () => {
   $.watch(`${paths.src.script}/**/*.{coffee,js}`, () => {
     return gulp.series('script:dev')();
   });
+  $.watch(
+    [`${paths.static.dev}/**/*.js`, `${paths.main}/**/*.{html,py}`],
+    () => {
+      return gulp.series(reload)();
+    },
+  );
   return $.watch(`${paths.src.style}/**/*.less`, () => {
     return gulp.series('style:dev')();
   });
@@ -442,4 +446,4 @@ gulp.task(
  * @task {default}
  * @order {1}
  */
-gulp.task('default', gulp.series('run', 'watch'));
+gulp.task('default', gulp.parallel('run', 'watch'));
