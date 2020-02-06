@@ -313,20 +313,17 @@ gulp.task('yarn', () => {
     .pipe(yarn());
 });
 
-gulp.task('zip', () => {
-  return fs.exists(paths.py.lib_file, exists => {
-    if (!exists) {
-      return fs.exists(paths.py.lib, exists2 => {
-        if (exists2) {
-          return gulp
-            .src(`${paths.py.lib}/**`)
-            .pipe($.plumber())
-            .pipe($.zip('lib.zip'))
-            .pipe(gulp.dest(paths.main));
-        }
-      });
+gulp.task('zip', done => {
+  if (!fs.existsSync(paths.py.lib_file)) {
+    if (fs.existsSync(paths.py.lib)) {
+      gulp
+        .src(`${paths.py.lib}/**`)
+        .pipe($.plumber())
+        .pipe($.zip('lib.zip'))
+        .pipe(gulp.dest(paths.main));
     }
-  });
+  }
+  done();
 });
 
 /*** Watch ***/
