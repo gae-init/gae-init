@@ -9,4 +9,4 @@ requests_toolbelt==0.9.1
 simplejson==3.17.0
 unidecode==1.1.1
 webargs==5.5.3
-werkzeug==0.16.1
+werkzeug==1.0.0
