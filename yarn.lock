@@ -7647,10 +7647,10 @@ yaml@^1.7.2:
   dependencies:
     "@babel/runtime" "^7.6.3"
 
-yargs-parser@17.0.0:
-  version "17.0.0"
-  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-17.0.0.tgz#cb2586e6fd445b17ced264dd4a38c60bdb35b7ec"
-  integrity sha512-Fl4RBJThsWeJl3cRZeGuolcuH78/foVUAYIUpKn8rkCnjn23ilZvJyEZJjnlzoG/+EJKPb1RggD4xS/Jie2nxg==
+yargs-parser@17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-17.0.1.tgz#e1c421e9cf4ea30ff159e2580f94ece3bc492392"
+  integrity sha512-3hNhDUzFB66GVJus5AJ5ui32NyU5dRAhzvmCWzrcEO4Ijl92/+G3q8vBqMiOkGqNjygs4XcvNow0S/VtmaJwfA==
   dependencies:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
