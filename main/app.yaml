@@ -18,6 +18,8 @@ libraries:
 
   - name: ssl
     version: latest
+  - name: grpcio
+    version: 1.0.0
 
 error_handlers:
   - file: templates/error_static.html
