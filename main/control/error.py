@@ -16,6 +16,7 @@ from main import app
 @app.errorhandler(403)  # Forbidden
 @app.errorhandler(404)  # Not Found
 @app.errorhandler(405)  # Method Not Allowed
+@app.errorhandler(409)  # Conflict
 @app.errorhandler(410)  # Gone
 @app.errorhandler(418)  # I'm a Teapot
 @app.errorhandler(422)  # Unprocessable Entity
