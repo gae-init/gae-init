@@ -220,7 +220,7 @@ def user_reset(token=None):
     user_db.token = util.uuid()
     user_db.verified = True
     user_db.put()
-    flask.flash('Your password was changed succesfully.', category='success')
+    flask.flash('Your password was changed successfully.', category='success')
     return auth.signin_user_db(user_db)
 
   return flask.render_template(
