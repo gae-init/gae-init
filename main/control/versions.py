@@ -5,16 +5,26 @@ import pkg_resources
 
 
 MODULES = [
+  'aniso8601',
   'authlib',
   'blinker',
+  'certifi',
+  'chardet',
+  'click',
   'flask',
   'flask-login|flask_login',
   'flask-restful|flask_restful.__version__',
   'flask-wtf|flask_wtf',
+  'itsdangerous',
   'jinja2',
-  'pyjwt|jwt',
+  'marshmallow',
+  'requests',
+  'requests_toolbelt',
+  'simplejson',
   'unidecode',
   'webargs',
+  'werkzeug',
+  'wtforms',
 ]
 
 
