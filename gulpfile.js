@@ -22,7 +22,7 @@ gulp.task('help', () => {
 const $ = require('gulp-load-plugins')();
 
 /*** Script ***/
-is_coffee = function(file) {
+is_coffee = function (file) {
   return file.path.indexOf('.coffee') > 0;
 };
 
@@ -168,10 +168,7 @@ gulp.task('bower', () => {
       match: /bower.json$/,
     },
   ];
-  return gulp
-    .src('bower.json')
-    .pipe($.plumber())
-    .pipe($.start(start_map));
+  return gulp.src('bower.json').pipe($.plumber()).pipe($.start(start_map));
 });
 
 gulp.task(
@@ -314,7 +311,7 @@ gulp.task('yarn', () => {
     .pipe(yarn());
 });
 
-gulp.task('zip', done => {
+gulp.task('zip', (done) => {
   if (!fs.existsSync(paths.py.lib_file)) {
     if (fs.existsSync(paths.py.lib)) {
       gulp
@@ -334,7 +331,7 @@ function reload(done) {
   done();
 }
 
-gulp.task('ext_watch_rebuild', callback => {
+gulp.task('ext_watch_rebuild', (callback) => {
   return gulp.parallel(
     'copy_bower_files',
     gulp.series('clean:dev', gulp.parallel('ext:dev', 'style:dev')),

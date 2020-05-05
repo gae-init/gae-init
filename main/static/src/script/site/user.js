@@ -5,21 +5,21 @@ window.initUserList = () => {
 };
 
 const initUserSelections = () => {
-  $('input[name=user_db]').each(function() {
+  $('input[name=user_db]').each(function () {
     userSelectRow($(this));
   });
-  $('#select-all').change(function() {
+  $('#select-all').change(function () {
     $('input[name=user_db]').prop('checked', $(this).is(':checked'));
-    $('input[name=user_db]').each(function() {
+    $('input[name=user_db]').each(function () {
       userSelectRow($(this));
     });
   });
-  $('input[name=user_db]').change(function() {
+  $('input[name=user_db]').change(function () {
     userSelectRow($(this));
   });
 };
 
-const userSelectRow = $element => {
+const userSelectRow = ($element) => {
   updateUserSelections();
   $('input[name=user_db]').each(() => {
     const id = $element.val();
@@ -43,7 +43,7 @@ const updateUserSelections = () => {
 };
 
 const initUserDeleteBtn = () =>
-  $('#user-delete').click(function(event) {
+  $('#user-delete').click(function (event) {
     clearNotifications();
     event.preventDefault();
     const confirmMessage = $(this)
@@ -51,7 +51,7 @@ const initUserDeleteBtn = () =>
       .replace('{users}', $('input[name=user_db]:checked').length);
     if (confirm(confirmMessage)) {
       const user_keys = [];
-      $('input[name=user_db]:checked').each(function() {
+      $('input[name=user_db]:checked').each(function () {
         $(this).attr('disabled', true);
         user_keys.push($(this).val());
       });
@@ -73,7 +73,7 @@ const initUserDeleteBtn = () =>
             );
             return;
           }
-          $(`#${result.join(', #')}`).fadeOut(function() {
+          $(`#${result.join(', #')}`).fadeOut(function () {
             $(this).remove();
             updateUserSelections();
             showNotification(
@@ -104,19 +104,15 @@ window.initUserMerge = () => {
       $('input[name=user_db]').removeAttr('disabled');
     },
   );
-  $('input[name=user_db]').change(event => {
+  $('input[name=user_db]').change((event) => {
     const user_key = $(event.currentTarget).val();
     selectDefaultUser(user_key);
   });
 };
 
-const selectDefaultUser = user_key => {
-  $('.user-row')
-    .removeClass('success')
-    .addClass('danger');
-  $(`#${user_key}`)
-    .removeClass('danger')
-    .addClass('success');
+const selectDefaultUser = (user_key) => {
+  $('.user-row').removeClass('success').addClass('danger');
+  $(`#${user_key}`).removeClass('danger').addClass('success');
   for (const user_db of user_dbs) {
     if (user_key === user_db.key) {
       $('input[name=user_key]').val(user_db.key);
@@ -129,10 +125,10 @@ const selectDefaultUser = user_key => {
 };
 
 const initUserMergeBtn = () =>
-  $('#user-merge').click(function(event) {
+  $('#user-merge').click(function (event) {
     event.preventDefault();
     const user_keys = [];
-    $('input[name=user_db]:checked').each(function() {
+    $('input[name=user_db]:checked').each(function () {
       user_keys.push($(this).val());
     });
     const user_merge_url = $(this).data('user-merge-url');
