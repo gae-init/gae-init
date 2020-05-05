@@ -195,6 +195,11 @@ gulp.task('browserSync', () => {
   });
 });
 
+gulp.task(
+  'prerun',
+  gulp.series('init', gulp.parallel('ext:dev', 'script:dev', 'style:dev')),
+);
+
 /**
   Start the local server. Available options:
   @task {run}
@@ -204,51 +209,47 @@ gulp.task('browserSync', () => {
   **/
 gulp.task(
   'run',
-  gulp.series(
-    'init',
-    gulp.parallel('ext:dev', 'script:dev', 'style:dev'),
-    gulp.parallel('browserSync', () => {
-      let k_iterator;
-      let options_str;
-      const argv = process.argv.slice(2);
-      const known_options = {
-        default: {
-          // eslint-disable-next-line
+  gulp.parallel('browserSync', () => {
+    let k_iterator;
+    let options_str;
+    const argv = process.argv.slice(2);
+    const known_options = {
+      default: {
+        // eslint-disable-next-line
         a: '',
-          // eslint-disable-next-line
+        // eslint-disable-next-line
         o: '',
-          // eslint-disable-next-line
+        // eslint-disable-next-line
         p: '',
-        },
-      };
-      const options = yargs(argv);
-      options_str = '-s';
-      for (k_iterator in known_options.default) {
-        if (options[k_iterator]) {
-          if (k_iterator === 'a') {
-            options_str += ` --appserver-args "${options[k_iterator]}"`;
-          } else {
-            options_str += ` -${k_iterator} ${options[k_iterator]}`;
-          }
+      },
+    };
+    const options = yargs(argv);
+    options_str = '-s';
+    for (k_iterator in known_options.default) {
+      if (options[k_iterator]) {
+        if (k_iterator === 'a') {
+          options_str += ` --appserver-args "${options[k_iterator]}"`;
+        } else {
+          options_str += ` -${k_iterator} ${options[k_iterator]}`;
         }
       }
-      if (options.p) {
-        config.port = options.p;
-      }
-      if (options.o) {
-        config.host = options.o;
-      }
-      //gulp.start('browser-sync');
-      return gulp.src('run.py').pipe(
-        $.start([
-          {
-            cmd: `python run.py ${options_str}`,
-            match: /run.py$/,
-          },
-        ]),
-      );
-    }),
-  ),
+    }
+    if (options.p) {
+      config.port = options.p;
+    }
+    if (options.o) {
+      config.host = options.o;
+    }
+    //gulp.start('browser-sync');
+    return gulp.src('run.py').pipe(
+      $.start([
+        {
+          cmd: `python run.py ${options_str}`,
+          match: /run.py$/,
+        },
+      ]),
+    );
+  }),
 );
 
 /*** Clean ***/
@@ -443,4 +444,4 @@ gulp.task(
  * @task {default}
  * @order {1}
  */
-gulp.task('default', gulp.parallel('run', 'watch'));
+gulp.task('default', gulp.series('prerun', gulp.parallel('run', 'watch')));
