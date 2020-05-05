@@ -22,14 +22,10 @@ from main import app
 @app.errorhandler(422)  # Unprocessable Entity
 @app.errorhandler(500)  # Internal Server Error
 def error_handler(e):
-  try:
-    e.code
-  except AttributeError:
-    e.code = 500
-    e.name = 'Internal Server Error'
-
-  logging.error('%d - %s: %s', e.code, e.name, flask.request.url)
-  if e.code != 404:
+  code = getattr(e, 'code', 500)
+  error_name = getattr(e, 'name', 'Internal Server Error')
+  logging.error('%d - %s: %s', code, error_name, flask.request.url)
+  if code != 404:
     logging.exception(e)
 
   if flask.request.path.startswith('/api/'):
@@ -37,10 +33,10 @@ def error_handler(e):
 
   return flask.render_template(
     'error.html',
-    title='Error %d (%s)!!1' % (e.code, e.name),
+    title='Error %d (%s)!!1' % (code, error_name),
     html_class='error-page',
     error=e,
-  ), e.code
+  ), code
 
 
 if config.PRODUCTION:

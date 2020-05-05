@@ -20,19 +20,14 @@ class Api(flask_restful.Api):
 
 def handle_error(e):
   logging.exception(e)
-  try:
-    e.code
-  except AttributeError:
-    e.code = 500
-    e.name = e.description = 'Internal Server Error'
   return util.jsonpify({
     'status': 'error',
-    'error_code': e.code,
-    'error_name': util.slugify(e.name),
-    'error_message': e.name,
+    'error_code': getattr(e, 'code', 500),
+    'error_name': util.slugify(getattr(e, 'name', 'Internal Server Error')),
+    'error_message': getattr(e, 'name', 'Internal Server Error'),
     'error_class': e.__class__.__name__,
-    'description': e.description,
-  }), e.code
+    'description': getattr(e, 'description', 'Internal Server Error'),
+  }), getattr(e, 'code', 500)
 
 
 def make_response(data, marshal_table, cursors=None):
