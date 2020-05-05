@@ -342,7 +342,7 @@ gulp.task('ext_watch_rebuild', callback => {
 });
 
 gulp.task('watch', () => {
-  $.watch('requirements.txt', () => {
+  $.watch(`${paths.main}/requirements.txt`, () => {
     return gulp.series('pip')();
   });
   $.watch('package.json', () => {

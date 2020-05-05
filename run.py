@@ -65,7 +65,7 @@ DIR_VENV = os.path.join(DIR_TEMP, 'venv')
 DIR_LIB = os.path.join(DIR_MAIN, 'lib')
 DIR_LIBX = os.path.join(DIR_MAIN, 'libx')
 FILE_LIB = '%s.zip' % DIR_LIB
-FILE_REQUIREMENTS = 'requirements.txt'
+FILE_REQUIREMENTS = os.path.join(DIR_MAIN, 'requirements.txt')
 FILE_PIP_GUARD = os.path.join(DIR_TEMP, 'pip.guard')
 
 FILE_VENV = os.path.join(DIR_VENV, 'Scripts', 'activate.bat') \
