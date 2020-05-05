@@ -376,8 +376,6 @@ gulp.task('watch', () => {
  * Build project to prepare it for a deployment. Minify CSS & JS files and pack
  * Python dependencies into #{paths.py.lib_file}.
  * @task {build}
- * @arg {dryrun} Run all preparations but do not actually deploy
- * @arg {[other]} Other arguments are passed through to gcloud app deploy
  ***/
 gulp.task(
   'build',
@@ -398,6 +396,8 @@ gulp.task('rebuild', gulp.series('reset', 'build'));
 /**
   Deploy project to Google App Engine.
   @task {deploy}
+  @arg {dryrun} Run all preparations but do not actually deploy
+  @arg {[other]} Other arguments are passed through to gcloud app deploy
   **/
 gulp.task(
   'deploy',
