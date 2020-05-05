@@ -1,4 +1,4 @@
-window.LOG = function() {
+window.LOG = function () {
   return typeof console !== 'undefined' && console !== null
     ? typeof console.log === 'function'
       ? console.log(...arguments)
@@ -16,19 +16,19 @@ window.initCommon = () => {
 };
 
 window.initLoadingButton = () =>
-  $('body').on('click', '.btn-loading', function() {
+  $('body').on('click', '.btn-loading', function () {
     $(this).button('loading');
   });
 
 window.initConfirmButton = () =>
-  $('body').on('click', '.btn-confirm', function() {
+  $('body').on('click', '.btn-confirm', function () {
     if (!confirm($(this).data('message') || 'Are you sure?')) {
       event.preventDefault();
     }
   });
 
 window.initPasswordShowButton = () =>
-  $('body').on('click', '.btn-password-show', function() {
+  $('body').on('click', '.btn-password-show', function () {
     const $target = $($(this).data('target'));
     $target.focus();
     if ($(this).hasClass('active')) {
@@ -40,8 +40,8 @@ window.initPasswordShowButton = () =>
 
 window.initTime = () => {
   if ($('time').length > 0) {
-    const recalculate = function() {
-      $('time[datetime]').each(function() {
+    const recalculate = function () {
+      $('time[datetime]').each(function () {
         const date = moment.utc($(this).attr('datetime'));
         const diff = moment().diff(date, 'days');
         if (diff > 25) {
@@ -79,10 +79,10 @@ window.initAnnouncement = () => {
 };
 
 window.initRowLink = () => {
-  $('body').on('click', '.row-link', function() {
+  $('body').on('click', '.row-link', function () {
     window.location.href = $(this).data('href');
   });
-  $('body').on('click', '.not-link', event => event.stopPropagation());
+  $('body').on('click', '.not-link', (event) => event.stopPropagation());
 };
 
 window.clearNotifications = () => $('#notifications').empty();

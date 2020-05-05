@@ -1,4 +1,4 @@
-window.apiCall = function(method, url, params, data, callback) {
+window.apiCall = function (method, url, params, data, callback) {
   callback = callback || data || params;
   data = data || params;
   if (arguments.length === 4) {
@@ -41,7 +41,7 @@ window.apiCall = function(method, url, params, data, callback) {
       if (data_.status === 'success') {
         let more = void 0;
         if (data_.next_url) {
-          more = callback_ => apiCall(method, data_.next_url, {}, callback);
+          more = (callback_) => apiCall(method, data_.next_url, {}, callback);
         }
         return typeof callback === 'function'
           ? callback(void 0, data_.result, more)
