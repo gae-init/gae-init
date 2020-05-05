@@ -173,7 +173,7 @@ gulp.task('bower', () => {
 
 gulp.task(
   'copy_bower_files',
-  gulp.series('bower', () => {
+  gulp.series('bower', copy_bower_sub = () => {
     return gulp
       .src(main_bower_files(), {
         base: paths.dep.bower_components,
@@ -206,7 +206,7 @@ gulp.task(
   **/
 gulp.task(
   'run',
-  gulp.parallel('browserSync', () => {
+  gulp.parallel('browserSync', python_run = () => {
     let k_iterator;
     let options_str;
     const argv = process.argv.slice(2);
@@ -287,7 +287,7 @@ gulp.task(
   'reset',
   gulp.series(
     gulp.parallel('clean', 'clean:dev', 'clean:min', 'clean:venv'),
-    () => {
+    del_paths = () => {
       del(paths.dep.bower_components);
       return del(paths.dep.node_modules);
     },
@@ -399,7 +399,7 @@ gulp.task('rebuild', gulp.series('reset', 'build'));
   **/
 gulp.task(
   'deploy',
-  gulp.series('build', () => {
+  gulp.series('build', gcloud = () => {
     let dryrun;
     let k_iterator;
     let options_str;
