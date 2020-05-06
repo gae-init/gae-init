@@ -26,6 +26,10 @@ microsoft = auth.create_oauth_app(microsoft_config, 'microsoft')
 
 @app.route('/api/auth/callback/microsoft/')
 def microsoft_authorized():
+  err = flask.request.args.get('error')
+  if err in ['access_denied']:
+    flask.flash('You denied the request to sign in.')
+    return flask.redirect(util.get_next_url())
   id_token = microsoft.authorize_access_token()
   if id_token is None:
     flask.flash('You denied the request to sign in.')
