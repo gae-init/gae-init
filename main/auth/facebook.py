@@ -43,11 +43,14 @@ def signin_facebook():
 def retrieve_user_from_facebook(response):
   auth_id = 'facebook_%s' % response['id']
   user_db = model.User.get_by('auth_ids', auth_id)
+  if user_db:
+    return user_db
   name = response['name']
-  return user_db or auth.create_user_db(
+  email = response.get('email', '')
+  return auth.create_user_db(
     auth_id=auth_id,
     name=name,
     username=name,
-    email=response.get('email', ''),
-    verified=bool(response.get('email', '')),
+    email=email,
+    verified=bool(email),
   )

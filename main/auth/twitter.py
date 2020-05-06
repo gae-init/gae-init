@@ -27,7 +27,6 @@ twitter_config = dict(
 twitter = auth.create_oauth_app(twitter_config, 'twitter')
 
 
-
 @app.route('/api/auth/callback/twitter/')
 def twitter_authorized():
   id_token = twitter.authorize_access_token()
@@ -48,7 +47,9 @@ def signin_twitter():
 def retrieve_user_from_twitter(response):
   auth_id = 'twitter_%s' % response['id_str']
   user_db = model.User.get_by('auth_ids', auth_id)
-  return user_db or auth.create_user_db(
+  if user_db:
+    return user_db
+  return auth.create_user_db(
     auth_id=auth_id,
     name=response['name'] or response['screen_name'],
     username=response['screen_name'],

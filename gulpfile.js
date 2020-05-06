@@ -22,7 +22,8 @@ gulp.task('help', () => {
 const $ = require('gulp-load-plugins')();
 
 /*** Script ***/
-is_coffee = function(file) {
+
+is_coffee = function (file) {
   return file.path.indexOf('.coffee') > 0;
 };
 
@@ -66,6 +67,7 @@ gulp.task('script:dev', () => {
 });
 
 /*** Style ***/
+
 gulp.task('style', () => {
   return gulp
     .src(config.style)
@@ -168,10 +170,7 @@ gulp.task('bower', () => {
       match: /bower.json$/,
     },
   ];
-  return gulp
-    .src('bower.json')
-    .pipe($.plumber())
-    .pipe($.start(start_map));
+  return gulp.src('bower.json').pipe($.plumber()).pipe($.start(start_map));
 });
 
 gulp.task(
@@ -187,7 +186,6 @@ gulp.task(
 
 gulp.task('init', gulp.parallel('pip', 'copy_bower_files'));
 
-// browserSync task
 gulp.task('browserSync', () => {
   server.init({
     notify: false,
@@ -195,69 +193,70 @@ gulp.task('browserSync', () => {
   });
 });
 
+gulp.task(
+  'prerun',
+  gulp.series('init', gulp.parallel('ext:dev', 'script:dev', 'style:dev')),
+);
+
 /**
   Start the local server. Available options:
   @task {run}
   @arg {-o HOST} the host to start the dev_appserver.py
   @arg {-p PORT} the port to start the dev_appserver.py
   @arg {-a="..."} all following args are passed to dev_appserver.py
-  **/
+  */
 gulp.task(
   'run',
-  gulp.series(
-    'init',
-    gulp.parallel('ext:dev', 'script:dev', 'style:dev'),
-    gulp.parallel('browserSync', () => {
-      let k_iterator;
-      let options_str;
-      const argv = process.argv.slice(2);
-      const known_options = {
-        default: {
-          // eslint-disable-next-line
+  gulp.parallel('browserSync', () => {
+    let k_iterator;
+    let options_str;
+    const argv = process.argv.slice(2);
+    const known_options = {
+      default: {
+        // eslint-disable-next-line
         a: '',
-          // eslint-disable-next-line
+        // eslint-disable-next-line
         o: '',
-          // eslint-disable-next-line
+        // eslint-disable-next-line
         p: '',
-        },
-      };
-      const options = yargs(argv);
-      options_str = '-s';
-      for (k_iterator in known_options.default) {
-        if (options[k_iterator]) {
-          if (k_iterator === 'a') {
-            options_str += ` --appserver-args "${options[k_iterator]}"`;
-          } else {
-            options_str += ` -${k_iterator} ${options[k_iterator]}`;
-          }
+      },
+    };
+    const options = yargs(argv);
+    options_str = '-s';
+    for (k_iterator in known_options.default) {
+      if (options[k_iterator]) {
+        if (k_iterator === 'a') {
+          options_str += ` --appserver-args "${options[k_iterator]}"`;
+        } else {
+          options_str += ` -${k_iterator} ${options[k_iterator]}`;
         }
       }
-      if (options.p) {
-        config.port = options.p;
-      }
-      if (options.o) {
-        config.host = options.o;
-      }
-      //gulp.start('browser-sync');
-      return gulp.src('run.py').pipe(
-        $.start([
-          {
-            cmd: `python run.py ${options_str}`,
-            match: /run.py$/,
-          },
-        ]),
-      );
-    }),
-  ),
+    }
+    if (options.p) {
+      config.port = options.p;
+    }
+    if (options.o) {
+      config.host = options.o;
+    }
+    //gulp.start('browser-sync');
+    return gulp.src('run.py').pipe(
+      $.start([
+        {
+          cmd: `python run.py ${options_str}`,
+          match: /run.py$/,
+        },
+      ]),
+    );
+  }),
 );
 
 /*** Clean ***/
 
 /**
-Clean project from temporary files, generated CSS & JS and compiled Python
-files.
-@task {clean}
-**/
+  Clean project from temporary files, generated CSS & JS and
+  compiled Python files.
+  @task {clean}
+  */
 gulp.task('clean', () => {
   del('./**/*.pyc');
   del('./**/*.pyo');
@@ -282,9 +281,9 @@ gulp.task('clean:venv', () => {
 });
 
 /**
-Complete reset of project. Run "yarn install" after this procedure.
-@task {reset}
-**/
+  Complete reset of project. Run "yarn install" after this procedure.
+  @task {reset}
+  */
 gulp.task(
   'reset',
   gulp.series(
@@ -297,9 +296,9 @@ gulp.task(
 );
 
 /**
-Clear local datastore, blobstore, etc.
-@task {flush}
-**/
+  Clear local datastore, blobstore, etc.
+  @task {flush}
+  */
 gulp.task('flush', () => {
   return del(paths.temp.storage);
 });
@@ -313,7 +312,7 @@ gulp.task('yarn', () => {
     .pipe(yarn());
 });
 
-gulp.task('zip', done => {
+gulp.task('zip', (done) => {
   if (!fs.existsSync(paths.py.lib_file)) {
     if (fs.existsSync(paths.py.lib)) {
       gulp
@@ -333,7 +332,7 @@ function reload(done) {
   done();
 }
 
-gulp.task('ext_watch_rebuild', callback => {
+gulp.task('ext_watch_rebuild', (callback) => {
   return gulp.parallel(
     'copy_bower_files',
     gulp.series('clean:dev', gulp.parallel('ext:dev', 'style:dev')),
@@ -341,7 +340,7 @@ gulp.task('ext_watch_rebuild', callback => {
 });
 
 gulp.task('watch', () => {
-  $.watch('requirements.txt', () => {
+  $.watch(`${paths.main}/requirements.txt`, () => {
     return gulp.series('pip')();
   });
   $.watch('package.json', () => {
@@ -373,10 +372,10 @@ gulp.task('watch', () => {
 /*** Build ***/
 
 /**
- * Build project to prepare it for a deployment. Minify CSS & JS files and pack
- * Python dependencies into #{paths.py.lib_file}.
- * @task {build}
- ***/
+  Build project to prepare it for a deployment. Minify CSS & JS files
+  and pack Python dependencies into #{paths.py.lib_file}.
+  @task {build}
+  */
 gulp.task(
   'build',
   gulp.series(
@@ -387,7 +386,7 @@ gulp.task(
   ),
 );
 
-/*
+/**
   Re-build project from scratch. Equivalent to "reset" and "build" tasks.
   @task {rebuild}
   */
@@ -398,7 +397,7 @@ gulp.task('rebuild', gulp.series('reset', 'build'));
   @task {deploy}
   @arg {dryrun} Run all preparations but do not actually deploy
   @arg {[other]} Other arguments are passed through to gcloud app deploy
-  **/
+  */
 gulp.task(
   'deploy',
   gulp.series('build', () => {
@@ -438,9 +437,9 @@ gulp.task(
 );
 
 /**
- * Start the local server, watch for changes and reload browser automatically.
- * For available options refer to "run" task.
- * @task {default}
- * @order {1}
- */
-gulp.task('default', gulp.parallel('run', 'watch'));
+  Start the local server, watch for changes and reload browser automatically.
+  For available options refer to "run" task.
+  @task {default}
+  @order {1}
+  */
+gulp.task('default', gulp.series('prerun', gulp.parallel('run', 'watch')));
