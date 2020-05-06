@@ -14,11 +14,11 @@ from main import app
 microsoft_config = dict(
   access_token_method='POST',
   access_token_url='https://login.microsoftonline.com/common/oauth2/v2.0/token',
-  api_base_url='https://graph.microsoft.com/v1.0/users/',
+  api_base_url='https://graph.microsoft.com/v1.0/',
   authorize_url='https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
   client_id=config.CONFIG_DB.microsoft_client_id,
   client_secret=config.CONFIG_DB.microsoft_client_secret,
-  client_kwargs={'scope': 'https://graph.microsoft.com/user.read'},
+  client_kwargs={'scope': 'user.read'},
 )
 
 microsoft = auth.create_oauth_app(microsoft_config, 'microsoft')
