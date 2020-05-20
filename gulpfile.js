@@ -158,20 +158,23 @@ gulp.task('pip', () => {
   );
 });
 
-gulp.task('bower', () => {
-  let cmd;
-  cmd = 'node_modules/.bin/bower install';
-  if (/^win/.test(process.platform)) {
-    cmd = cmd.replace(/\//g, '\\');
-  }
-  const start_map = [
-    {
-      cmd: cmd,
-      match: /bower.json$/,
-    },
-  ];
-  return gulp.src('bower.json').pipe($.plumber()).pipe($.start(start_map));
-});
+gulp.task(
+  'bower',
+  (copy_bower_sub = () => {
+    let cmd;
+    cmd = 'node_modules/.bin/bower install';
+    if (/^win/.test(process.platform)) {
+      cmd = cmd.replace(/\//g, '\\');
+    }
+    const start_map = [
+      {
+        cmd: cmd,
+        match: /bower.json$/,
+      },
+    ];
+    return gulp.src('bower.json').pipe($.plumber()).pipe($.start(start_map));
+  }),
+);
 
 gulp.task(
   'copy_bower_files',
@@ -186,12 +189,15 @@ gulp.task(
 
 gulp.task('init', gulp.parallel('pip', 'copy_bower_files'));
 
-gulp.task('browserSync', () => {
-  server.init({
-    notify: false,
-    proxy: `${config.host}:${config.port}`,
-  });
-});
+gulp.task(
+  'browserSync',
+  (python_run = () => {
+    server.init({
+      notify: false,
+      proxy: `${config.host}:${config.port}`,
+    });
+  }),
+);
 
 gulp.task(
   'prerun',
@@ -288,10 +294,10 @@ gulp.task(
   'reset',
   gulp.series(
     gulp.parallel('clean', 'clean:dev', 'clean:min', 'clean:venv'),
-    () => {
+    (del_paths = () => {
       del(paths.dep.bower_components);
       return del(paths.dep.node_modules);
-    },
+    }),
   ),
 );
 
@@ -400,40 +406,43 @@ gulp.task('rebuild', gulp.series('reset', 'build'));
   */
 gulp.task(
   'deploy',
-  gulp.series('build', () => {
-    let dryrun;
-    let k_iterator;
-    let options_str;
-    const options = yargs(process.argv, {
-      configuration: {
-        'boolean-negation': false,
-        'camel-case-expansion': false,
-      },
-    });
-    delete options._;
-    options_str = '';
-    dryrun = '';
-    for (k_iterator in options) {
-      if (k_iterator === 'dryrun') {
-        dryrun = 'echo DRYRUN - would run: ';
-      } else {
-        if (options[k_iterator] === true) {
-          options[k_iterator] = '';
-        }
-        options_str += ` ${k_iterator.length > 1 ? '-' : ''}-${k_iterator} ${
-          options[k_iterator]
-        }`;
-      }
-    }
-    return gulp.src('run.py').pipe(
-      $.start([
-        {
-          cmd: `${dryrun}gcloud app deploy main/*.yaml${options_str}`,
-          match: /run.py$/,
+  gulp.series(
+    'build',
+    (gcloud = () => {
+      let dryrun;
+      let k_iterator;
+      let options_str;
+      const options = yargs(process.argv, {
+        configuration: {
+          'boolean-negation': false,
+          'camel-case-expansion': false,
         },
-      ]),
-    );
-  }),
+      });
+      delete options._;
+      options_str = '';
+      dryrun = '';
+      for (k_iterator in options) {
+        if (k_iterator === 'dryrun') {
+          dryrun = 'echo DRYRUN - would run: ';
+        } else {
+          if (options[k_iterator] === true) {
+            options[k_iterator] = '';
+          }
+          options_str += ` ${k_iterator.length > 1 ? '-' : ''}-${k_iterator} ${
+            options[k_iterator]
+          }`;
+        }
+      }
+      return gulp.src('run.py').pipe(
+        $.start([
+          {
+            cmd: `${dryrun}gcloud app deploy main/*.yaml${options_str}`,
+            match: /run.py$/,
+          },
+        ]),
+      );
+    }),
+  ),
 );
 
 /**
