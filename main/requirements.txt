@@ -4,7 +4,7 @@ flask-login==0.5.0
 flask-restful==0.3.8
 flask-wtf==0.14.3
 flask==1.1.2
-googleapis_common_protos==1.51.0
+googleapis_common_protos==1.52.0
 jinja2==2.11.2
 requests_toolbelt==0.9.1
 simplejson==3.17.0
