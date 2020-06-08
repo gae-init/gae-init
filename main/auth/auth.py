@@ -2,16 +2,16 @@
 
 from __future__ import absolute_import
 
-import functools
-import re
-
-from authlib.integrations.flask_client import OAuth, OAuthError
-from google.appengine.ext import ndb
 import flask
 import flask_login
 import flask_wtf
+import functools
+import re
 import unidecode
 import wtforms
+
+from authlib.integrations.flask_client import OAuth, OAuthError
+from google.appengine.ext import ndb
 
 import cache
 import config
@@ -335,7 +335,7 @@ def save_request_params():
 def save_oauth1_request_token(token):
   flask.session['oauth_token'] = token
 
-    
+
 def fetch_oauth1_request_token():
   return flask.session['oauth_token']
 
@@ -348,7 +348,7 @@ def signin_oauth(oauth_app, scheme=None):
       '%s_authorized' % oauth_app.name, _external=True, _scheme=scheme
     )
     if oauth_app.name == 'microsoft':
-        redirect_uri = redirect_uri.replace('127.0.0.1', 'localhost')
+      redirect_uri = redirect_uri.replace('127.0.0.1', 'localhost')
     return oauth_app.authorize_redirect(redirect_uri)
   except OAuthError:
     flask.flash(
