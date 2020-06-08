@@ -348,7 +348,7 @@ def signin_oauth(oauth_app, scheme=None):
       '%s_authorized' % oauth_app.name, _external=True, _scheme=scheme
     )
     if oauth_app.name == 'microsoft':
-        redirect_uri = redirect_uri.replace('127.0.0.1', 'localhost')
+      redirect_uri = redirect_uri.replace('127.0.0.1', 'localhost')
     return oauth_app.authorize_redirect(redirect_uri)
   except OAuthError:
     flask.flash(
