@@ -20,6 +20,8 @@ class Config(model.Base, model.ConfigAuth):
   email_authentication = ndb.BooleanProperty(default=False, verbose_name='Email authentication for sign in/sign up')
   feedback_email = ndb.StringProperty(default='')
   flask_secret_key = ndb.StringProperty(default=util.uuid())
+  mailgun_api_base_url = ndb.StringProperty(default='', verbose_name=u'Mailgun API base URL')
+  mailgun_api_key = ndb.StringProperty(default='', verbose_name=u'Mailgun API key')
   notify_on_new_user = ndb.BooleanProperty(default=True, verbose_name='Send an email notification when a user signs up')
   recaptcha_private_key = ndb.StringProperty(default='', verbose_name='Private Key')
   recaptcha_public_key = ndb.StringProperty(default='', verbose_name='Public Key')
