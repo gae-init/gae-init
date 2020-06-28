@@ -17,6 +17,8 @@ class ConfigAuth(object):
   github_client_secret = ndb.StringProperty(default='', verbose_name='Client Secret')
   google_client_id = ndb.StringProperty(default='', verbose_name='Client ID')
   google_client_secret = ndb.StringProperty(default='', verbose_name='Client Secret')
+  linkedin_api_key = ndb.StringProperty(default='', verbose_name='API Key')
+  linkedin_secret_key = ndb.StringProperty(default='', verbose_name='Secret Key')
   microsoft_client_id = ndb.StringProperty(default='', verbose_name='Client ID')
   microsoft_client_secret = ndb.StringProperty(default='', verbose_name='Client Secret')
   twitter_consumer_key = ndb.StringProperty(default='', verbose_name='Consumer Key')
@@ -39,6 +41,10 @@ class ConfigAuth(object):
     return bool(self.github_client_id and self.github_client_secret)
 
   @property
+  def has_linkedin(self):
+    return bool(self.linkedin_api_key and self.linkedin_secret_key)
+
+  @property
   def has_microsoft(self):
     return bool(self.microsoft_client_id and self.microsoft_client_secret)
 
@@ -56,6 +62,8 @@ class ConfigAuth(object):
     'github_client_secret': fields.String,
     'google_client_id': fields.String,
     'google_client_secret': fields.String,
+    'linkedin_api_key': fields.String,
+    'linkedin_secret_key': fields.String,
     'microsoft_client_id': fields.String,
     'microsoft_client_secret': fields.String,
     'twitter_consumer_key': fields.String,
