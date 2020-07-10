@@ -2,16 +2,16 @@
 
 from __future__ import absolute_import
 
-import functools
-import re
-
-from authlib.integrations.flask_client import OAuth, OAuthError
-from google.appengine.ext import ndb
 import flask
 import flask_login
 import flask_wtf
+import functools
+import re
 import unidecode
 import wtforms
+
+from authlib.integrations.flask_client import OAuth, OAuthError
+from google.appengine.ext import ndb
 
 import cache
 import config
@@ -336,7 +336,7 @@ def save_request_params():
 def save_oauth1_request_token(token):
   flask.session['oauth_token'] = token
 
-    
+
 def fetch_oauth1_request_token():
   return flask.session['oauth_token']
 
