@@ -19,8 +19,7 @@ twitch_config = dict(
   client_id=config.CONFIG_DB.twitch_client_id,
   client_secret=config.CONFIG_DB.twitch_client_secret,
   request_token_params={
-    'scope': 'user:read:email',
-    'state': util.uuid(),
+    'scope': 'user:read:email;user:read:stream_key',
     'token_endpoint_auth_method': 'client_secret_post',
   },
 )
