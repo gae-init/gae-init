@@ -27,16 +27,6 @@ twitch_config = dict(
 twitch = auth.create_oauth_app(twitch_config, 'twitch')
 
 
-
-
-def change_twitch_query(uri, headers, body):
-  headers["Client-ID"] = session.client_id  # Need to figure out where/how to get session variable set.
-  return uri, headers, body
-
-
-twitch.pre_request = change_twitch_query
-
-
 @app.route('/api/auth/callback/twitch/')
 def twitch_authorized():
   id_token = twitch.authorize_access_token()
@@ -60,7 +50,7 @@ def retrieve_user_from_twitch(response):
   if user_db:
     return user_db
 
-  name = response[display_name]
+  name = response['display_name']
   username = response.get('preferred_username', '')
   email = response.get('email', '')
   return auth.create_user_db(

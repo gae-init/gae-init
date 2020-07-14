@@ -1,0 +1,10 @@
+{{
+  forms.panel_fields(
+    'Twitch',
+    (form.twitch_client_id, form.twitch_client_secret),
+    '''
+      Callback URL for <a href="https://dev.twitch.tv/console/apps" target="_blank">Twitch application</a>:
+      <em>%s</em><br>
+    ''' % url_for('twitch_authorized', _external=True)
+  )
+}}
