@@ -59,8 +59,6 @@ def retrieve_user_from_twitch(response):
   if user_db:
     return user_db
 
-  import logging
-  logging.info('####### %r' % response)
   name = response['display_name']
   username = response.get('display_name', '')
   email = response.get('email', '')
