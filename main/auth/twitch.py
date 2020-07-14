@@ -34,7 +34,7 @@ def twitch_authorized():
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  me = twitch.get('people/~:(id,first-name,last-name,email-address)') # Need to change this line
+  me = twitch.get('people/~:(id,email-address)')  # Need to change this line
   user_db = retrieve_user_from_twitch(me.json())
   return auth.signin_user_db(user_db)
 
