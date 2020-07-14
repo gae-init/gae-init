@@ -20,6 +20,7 @@ twitch_config = dict(
   client_secret=config.CONFIG_DB.twitch_client_secret,
   request_token_params={
     'scope': 'user:read:email',
+    'state': util.uuid(),
     'token_endpoint_auth_method': 'client_secret_post',
   },
 )
@@ -34,7 +35,7 @@ def twitch_authorized():
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
-  me = twitch.get('people/~:(id,email-address)')  # Need to change this line
+  me = twitch.get('user')  # Need to change this line
   user_db = retrieve_user_from_twitch(me.json())
   return auth.signin_user_db(user_db)
 
@@ -50,8 +51,10 @@ def retrieve_user_from_twitch(response):
   if user_db:
     return user_db
 
+  import logging
+  logging.info('####### %r' % response)
   name = response['display_name']
-  username = response.get('preferred_username', '')
+  username = response.get('display_name', '')
   email = response.get('email', '')
   return auth.create_user_db(
     auth_id=auth_id,
