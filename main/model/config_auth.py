@@ -21,6 +21,8 @@ class ConfigAuth(object):
   linkedin_secret_key = ndb.StringProperty(default='', verbose_name='Secret Key')
   microsoft_client_id = ndb.StringProperty(default='', verbose_name='Client ID')
   microsoft_client_secret = ndb.StringProperty(default='', verbose_name='Client Secret')
+  twitch_client_id = ndb.StringProperty(default='', verbose_name='Client ID')
+  twitch_client_secret = ndb.StringProperty(default='', verbose_name='Client Secret')
   twitter_consumer_key = ndb.StringProperty(default='', verbose_name='Consumer Key')
   twitter_consumer_secret = ndb.StringProperty(default='', verbose_name='Consumer Secret')
 
@@ -49,6 +51,10 @@ class ConfigAuth(object):
     return bool(self.microsoft_client_id and self.microsoft_client_secret)
 
   @property
+  def has_twitch(self):
+    return bool(self.twitch_client_id and self.twitch_client_secret)
+
+  @property
   def has_twitter(self):
     return bool(self.twitter_consumer_key and self.twitter_consumer_secret)
 
@@ -66,6 +72,8 @@ class ConfigAuth(object):
     'linkedin_secret_key': fields.String,
     'microsoft_client_id': fields.String,
     'microsoft_client_secret': fields.String,
+    'twitch_client_id': fields.String,
+    'twitch_client_secret': fields.String,
     'twitter_consumer_key': fields.String,
     'twitter_consumer_secret': fields.String,
   }

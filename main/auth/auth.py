@@ -308,6 +308,7 @@ def urls_for_oauth(next_url):
     'gae_signin_url': url_for_signin('gae', next_url),
     'linkedin_signin_url': url_for_signin('linkedin', next_url),
     'microsoft_signin_url': url_for_signin('microsoft', next_url),
+		'twitch_signin_url': url_for_signin('twitch', next_url),
     'twitter_signin_url': url_for_signin('twitter', next_url),
   }
 
