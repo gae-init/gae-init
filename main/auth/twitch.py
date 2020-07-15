@@ -27,11 +27,6 @@ twitch_config = dict(
 
 twitch = auth.create_oauth_app(twitch_config, 'twitch')
 
-def twitch_compliance_fix(url, headers, data):
-  headers["Client-ID"] = config.CONFIG_DB.twitch_client_id
-  return url, headers, data
-
-twitch.pre_request = twitch_compliance_fix
 
 @app.route('/api/auth/callback/twitch/')
 def twitch_authorized():
@@ -40,7 +35,10 @@ def twitch_authorized():
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
 
+  import logging
+  logging.info('##### %r' % twitch)
   me = twitch.get('user')
+
   user_db = retrieve_user_from_twitch(me.json())
   return auth.signin_user_db(user_db)
 
