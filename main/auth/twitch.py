@@ -33,7 +33,6 @@ twitch_config = dict(
     'Client-ID': config.CONFIG_DB.twitch_client_id,
   },
   compliance_fix=twitch_compliance_fix,
-
 )
 
 twitch = auth.create_oauth_app(twitch_config, 'twitch')
