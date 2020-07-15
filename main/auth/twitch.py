@@ -31,7 +31,7 @@ twitch_config = dict(
   client_kwargs={
     'scope': 'user:read:email',
     'token_endpoint_auth_method': 'client_secret_post',
-		'Client-ID': config.CONFIG_DB.twitch_client_id,
+    'Client-ID': config.CONFIG_DB.twitch_client_id,
   },
   compliance_fix=twitch_compliance_fix,
 
