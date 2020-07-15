@@ -18,10 +18,10 @@ twitch_config = dict(
   authorize_url='https://id.twitch.tv/oauth2/authorize',
   client_id=config.CONFIG_DB.twitch_client_id,
   client_secret=config.CONFIG_DB.twitch_client_secret,
-  request_token_params={
+  client_kwargs={
     'scope': 'user:read:email',
     'token_endpoint_auth_method': 'client_secret_post',
-		"Client-ID": config.CONFIG_DB.twitch_client_id,
+		'Client-ID': config.CONFIG_DB.twitch_client_id,
   },
 )
 
@@ -35,10 +35,7 @@ twitch.pre_request = twitch_compliance_fix
 
 @app.route('/api/auth/callback/twitch/')
 def twitch_authorized():
-  import logging
-  logging.info('####### %r' % twitch.token)
   id_token = twitch.authorize_access_token()
-  logging.info('####### %r' % twitch.token)
   if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
@@ -54,6 +51,8 @@ def signin_twitch():
 
 
 def retrieve_user_from_twitch(response):
+  import logging
+  logging.info('#####$$s %r' % response)
   auth_id = 'twitch_%s' % response['id']
   user_db = model.User.get_by('auth_ids', auth_id)
   if user_db:
