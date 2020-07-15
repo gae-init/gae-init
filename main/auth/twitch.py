@@ -13,7 +13,6 @@ from main import app
 
 
 def twitch_compliance_fix(session):
-  # https://discuss.dev.twitch.tv/t/requiring-oauth-for-helix-twitch-api-endpoints/23916
   def fix_protected_request(url, headers, data):
     headers["Client-ID"] = config.CONFIG_DB.twitch_client_id
     return url, headers, data
