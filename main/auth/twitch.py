@@ -11,6 +11,16 @@ import util
 
 from main import app
 
+
+def twitch_compliance_fix(session):
+  # https://discuss.dev.twitch.tv/t/requiring-oauth-for-helix-twitch-api-endpoints/23916
+  def fix_protected_request(url, headers, data):
+    headers["Client-ID"] = config.CONFIG_DB.twitch_client_id
+    return url, headers, data
+
+  session.register_compliance_hook('protected_request', fix_protected_request)
+
+
 twitch_config = dict(
   access_token_method='POST',
   access_token_url='https://id.twitch.tv/oauth2/token',
@@ -23,27 +33,20 @@ twitch_config = dict(
     'token_endpoint_auth_method': 'client_secret_post',
 		'Client-ID': config.CONFIG_DB.twitch_client_id,
   },
+  compliance_fix=twitch_compliance_fix,
+
 )
 
 twitch = auth.create_oauth_app(twitch_config, 'twitch')
 
-# Need to hook this in as per @lepture's comment
-def twitch_compliance_fix(url, headers, data):
-  headers["Client-ID"] = config.CONFIG_DB.twitch_client_id
-  return url, headers, data
-
 
 @app.route('/api/auth/callback/twitch/')
 def twitch_authorized():
-	import logging
   id_token = twitch.authorize_access_token()
   if id_token is None:
     flask.flash('You denied the request to sign in.')
     return flask.redirect(util.get_next_url())
   me = twitch.get('users')
-  if me.status_code != 200:
-    logging.info('#####$$s %r' % me.headers)
-    logging.info('#####$$s %r' % me.json)
   user_db = retrieve_user_from_twitch(me.json())
   return auth.signin_user_db(user_db)
 
@@ -54,16 +57,15 @@ def signin_twitch():
 
 
 def retrieve_user_from_twitch(response):
-  import logging
-  logging.info('#####$$s %r' % response)
-  auth_id = 'twitch_%s' % response['id']
+  respo = response['data'][0]
+  auth_id = 'twitch_%s' % respo['id']
   user_db = model.User.get_by('auth_ids', auth_id)
   if user_db:
     return user_db
 
-  name = response['display_name']
-  username = response.get('display_name', '')
-  email = response.get('email', '')
+  name = respo['display_name']
+  username = respo['login']
+  email = respo['email']
   return auth.create_user_db(
     auth_id=auth_id,
     name=name,
