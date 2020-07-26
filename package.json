@@ -4,7 +4,7 @@
     "@babel/core": "7.10.5",
     "@babel/preset-env": "7.10.4",
     "bower": "1.8.8",
-    "browser-sync": "2.26.10",
+    "browser-sync": "2.26.12",
     "coffeescript": "2.5.1",
     "del": "5.1.0",
     "eslint": "7.5.0",
