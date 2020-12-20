@@ -8,7 +8,7 @@ googleapis_common_protos==1.52.0
 jinja2==2.11.2
 requests_toolbelt==0.9.1
 simplejson==3.17.2
-unidecode==1.1.1
+unidecode==1.1.2
 webargs==5.5.3
 werkzeug==1.0.1
 wtforms[email]==2.3.3
