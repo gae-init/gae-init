@@ -171,8 +171,8 @@ def install_py_libs():
 
   make_guard_flag = True
   if TRAVIS:
-    return_code = exec_pip_commands('pip install -v -r %s' % FILE_DEV_REQUIREMENTS)
-    return_code += exec_pip_commands('pip install -v -r %s' % FILE_REQUIREMENTS)
+    return_code += exec_pip_commands('pip install -v --upgrade -t %s -r %s' % (DIR_LIB_DEV, FILE_DEV_REQUIREMENTS))
+    return_code += exec_pip_commands('pip install -v --upgrade -t %s -r %s' % (DIR_LIB, FILE_REQUIREMENTS))
   else:
     return_code = exec_pip_commands('pip install -q -r %s' % FILE_DEV_REQUIREMENTS)
     return_code += exec_pip_commands('pip install --upgrade -t %s -r %s' % (DIR_LIB_DEV, FILE_DEV_REQUIREMENTS))
