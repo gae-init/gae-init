@@ -45,4 +45,4 @@ script:
   - yarn test
   - gulp deploy --dryrun
   - cd main
-  - python runner.py --test-path tests ${HOME}/google-cloud-sdk/
+  - python runner.py --test-path ../tests ${HOME}/google-cloud-sdk/
