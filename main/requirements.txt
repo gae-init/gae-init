@@ -1,4 +1,4 @@
-authlib==0.14.3  # 0.15 -- 0.15.2 give errors on dev_server, as they import non-pure python module.
+authlib==0.14.3  # 0.15 -- 0.15.3 give errors on dev_server, as they import non-pure python module.
 blinker==1.4
 flask-login==0.5.0
 flask-restful==0.3.8
