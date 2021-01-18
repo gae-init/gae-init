@@ -1430,10 +1430,10 @@ blob@0.0.5:
   resolved "https://registry.yarnpkg.com/blob/-/blob-0.0.5.tgz#d680eeef25f8cd91ad533f5b01eed48e64caf683"
   integrity sha512-gaqbzQPqOoamawKg0LGVd7SzLgXS+JH61oWprSLH+P+abTczqJbhTR8CmJ2u9/bUYNmHTGJx/UEmn6doAvvuig==
 
-bower@1.8.11, bower@^1.3.12:
-  version "1.8.11"
-  resolved "https://registry.yarnpkg.com/bower/-/bower-1.8.11.tgz#74917094f1e9042a8b453e12faf5ab81d068a64b"
-  integrity sha512-A0JneiPxxHi3ZNRyJeAVsYNuN+4ggJS5WGbzPLTbyPIg0Lj4zFK5KkLlrnhXpZbw6hWTNMNguj0ro+EEuAdKMQ==
+bower@1.8.12, bower@^1.3.12:
+  version "1.8.12"
+  resolved "https://registry.yarnpkg.com/bower/-/bower-1.8.12.tgz#44cfca2a5e04b8d9a066621e24c8b179d8ac321e"
+  integrity sha512-u1xy9SrwwoPlgjuHNjhV+YUPVdqyBj2ALBxuzeIUKXaPI2i2xypGgxqXkuHcITGdi5yBj5JuXgyMvgiWiS1S3Q==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
