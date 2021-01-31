@@ -5,7 +5,7 @@ flask-restful==0.3.8
 flask-wtf==0.14.3
 flask==1.1.2
 googleapis_common_protos==1.52.0
-jinja2==2.11.2
+jinja2==2.11.3
 requests_toolbelt==0.9.1
 simplejson==3.17.2
 unidecode==1.1.2
