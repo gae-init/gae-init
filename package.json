@@ -28,7 +28,7 @@
     "gulp-uglify-es": "2.0.0",
     "gulp-util": "3.0.8",
     "gulp-watch": "5.0.1",
-    "gulp-yarn": "2.0.0",
+    "gulp-yarn": "3.0.0",
     "gulp-zip": "5.0.2",
     "husky": "5.1.3",
     "less": "3.13.1",
