@@ -64,9 +64,12 @@ DIR_VENV = os.path.join(DIR_TEMP, 'venv')
 
 DIR_LIB = os.path.join(DIR_MAIN, 'lib')
 DIR_LIBX = os.path.join(DIR_MAIN, 'libx')
-FILE_LIB = '%s.zip' % DIR_LIB
+DIR_LIB_DEV = os.path.join(DIR_MAIN, 'libdev')
+
 FILE_REQUIREMENTS = os.path.join(DIR_MAIN, 'requirements.txt')
+FILE_DEV_REQUIREMENTS = os.path.join(DIR_MAIN, 'requirements-dev.txt')
 FILE_PIP_GUARD = os.path.join(DIR_TEMP, 'pip.guard')
+FILE_PIP_DEV_GUARD = os.path.join(DIR_TEMP, 'pip-dev.guard')
 
 FILE_VENV = os.path.join(DIR_VENV, 'Scripts', 'activate.bat') \
   if IS_WINDOWS \
@@ -157,7 +160,8 @@ def guard_is_newer(guard, watched):
 
 
 def check_if_pip_should_run():
-  return not guard_is_newer(FILE_PIP_GUARD, FILE_REQUIREMENTS)
+  return not (guard_is_newer(FILE_PIP_GUARD, FILE_REQUIREMENTS) and
+              guard_is_newer(FILE_PIP_DEV_GUARD, FILE_DEV_REQUIREMENTS))
 
 
 def install_py_libs():
@@ -167,47 +171,20 @@ def install_py_libs():
 
   make_guard_flag = True
   if TRAVIS:
-    return_code = exec_pip_commands('pip install -v -r %s' % FILE_REQUIREMENTS)
+    return_code += exec_pip_commands('pip install -v --upgrade -t %s -r %s' % (DIR_LIB_DEV, FILE_DEV_REQUIREMENTS))
+    return_code += exec_pip_commands('pip install -v --upgrade -t %s -r %s' % (DIR_LIB, FILE_REQUIREMENTS))
   else:
-    return_code = exec_pip_commands('pip install -q -r %s' % FILE_REQUIREMENTS)
+    return_code = exec_pip_commands('pip install -q -r %s' % FILE_DEV_REQUIREMENTS)
+    return_code += exec_pip_commands('pip install --upgrade -t %s -r %s' % (DIR_LIB_DEV, FILE_DEV_REQUIREMENTS))
+    return_code += exec_pip_commands('pip install -q -r %s' % FILE_REQUIREMENTS)
+    return_code += exec_pip_commands('pip install --upgrade -t %s -r %s' % (DIR_LIB, FILE_REQUIREMENTS))
   if return_code:
     print('ERROR running pip install')
     make_guard_flag = False
 
-  exclude_ext = ['.pth', '.pyc', '.egg-info', '.dist-info', '.so']
-  exclude_prefix = ['setuptools-', 'pip-', 'Pillow-']
-  exclude = ['test', 'tests', 'pip', 'setuptools', '_markerlib', 'PIL', 'easy_install.py']
-
-  def _exclude_prefix(pkg):
-    for prefix in exclude_prefix:
-      if pkg.startswith(prefix):
-        return True
-    return False
-
-  def _exclude_ext(pkg):
-    for ext in exclude_ext:
-      if pkg.endswith(ext):
-        return True
-    return False
-
-  def _get_dest(pkg):
-    make_dirs(DIR_LIB)
-    return os.path.join(DIR_LIB, pkg)
-
-  site_packages = site_packages_path()
-  dir_libs = listdir(DIR_LIB)
-  dir_libs.extend(listdir(DIR_LIBX))
-  for dir_ in listdir(site_packages):
-    if dir_ in dir_libs or dir_ in exclude:
-      continue
-    if _exclude_prefix(dir_) or _exclude_ext(dir_):
-      continue
-    src_path = os.path.join(site_packages, dir_)
-    copy = shutil.copy if os.path.isfile(src_path) else shutil.copytree
-    copy(src_path, _get_dest(dir_))
-
   if make_guard_flag:
     make_guard(FILE_PIP_GUARD, 'pip', FILE_REQUIREMENTS)
+    make_guard(FILE_PIP_DEV_GUARD, 'pip', FILE_DEV_REQUIREMENTS)
   return return_code
 
 

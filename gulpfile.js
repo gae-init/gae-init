@@ -3,7 +3,6 @@ const gulp = require('gulp');
 const server = require('browser-sync').create();
 
 const del = require('del');
-const fs = require('fs');
 const main_bower_files = require('main-bower-files');
 const uglify = require('gulp-uglify-es').default;
 const usage = require('gulp-help-doc');
@@ -318,19 +317,6 @@ gulp.task('yarn', () => {
     .pipe(yarn());
 });
 
-gulp.task('zip', (done) => {
-  if (!fs.existsSync(paths.py.lib_file)) {
-    if (fs.existsSync(paths.py.lib)) {
-      gulp
-        .src(`${paths.py.lib}/**`)
-        .pipe($.plumber())
-        .pipe($.zip('lib.zip'))
-        .pipe(gulp.dest(paths.main));
-    }
-  }
-  done();
-});
-
 /*** Watch ***/
 
 function reload(done) {
@@ -346,7 +332,7 @@ gulp.task('ext_watch_rebuild', (callback) => {
 });
 
 gulp.task('watch', () => {
-  $.watch(`${paths.main}/requirements.txt`, () => {
+  $.watch(`${paths.main}/requirements*.txt`, () => {
     return gulp.series('pip')();
   });
   $.watch('package.json', () => {
@@ -384,12 +370,7 @@ gulp.task('watch', () => {
   */
 gulp.task(
   'build',
-  gulp.series(
-    'clean:min',
-    'init',
-    'ext',
-    gulp.parallel('script', 'style', 'zip'),
-  ),
+  gulp.series('clean:min', 'init', 'ext', gulp.parallel('script', 'style')),
 );
 
 /**
