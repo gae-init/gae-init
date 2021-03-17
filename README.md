@@ -16,6 +16,19 @@ The latest version is always accessible from [https://gae-init.appspot.com](http
 
 Make sure you have all of the above or refer to the docs on how to [install the requirements](http://docs.gae-init.appspot.com/requirement/).
 
+## Initializing the project
+
+```bash
+cd /path/to/project-name
+yarn
+```
+
+To install [Gulp][] as a global package:
+
+```bash
+yarn global add gulp-cli
+```
+
 ## Running the Development Environment
 
 ```bash
@@ -31,30 +44,6 @@ For a complete list of commands:
 
 ```bash
 gulp help
-```
-
-## Initializing or Resetting the project
-
-```bash
-cd /path/to/project-name
-yarn
-gulp
-```
-
-If something goes wrong you can always do:
-
-```bash
-gulp reset
-yarn
-gulp
-```
-
----
-
-To install [Gulp][] as a global package:
-
-```bash
-yarn global add gulp-cli
 ```
 
 ## Local testing
@@ -82,6 +71,16 @@ gulp deploy
 gulp deploy --project=foo
 gulp deploy --project=foo --version=bar
 gulp deploy --project=foo --version=bar --no-promote
+```
+
+## Resetting the project
+
+If something goes wrong you can always do:
+
+```bash
+gulp reset
+yarn
+gulp
 ```
 
 ## Tech Stack
