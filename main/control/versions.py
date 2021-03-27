@@ -5,17 +5,20 @@ import pkg_resources
 
 
 MODULES = [
+  'Crypto',
   'aniso8601',
   'authlib',
   'blinker',
   'certifi',
   'chardet',
   'click',
+  'cryptography',
   'flask',
   'flask-login|flask_login',
   'flask-restful|flask_restful.__version__',
   'flask-wtf|flask_wtf',
   'itsdangerous',
+  'ipaddress',
   'jinja2',
   'marshmallow',
   'requests',
