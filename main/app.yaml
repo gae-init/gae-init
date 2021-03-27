@@ -27,13 +27,13 @@ handlers:
     static_files: static/img/favicon.ico
     upload: static/img/favicon.ico
 
-  - url: /robots.txt
-    static_files: static/robots.txt
-    upload: static/robots.txt
-
   - url: /manifest.json
     static_files: static/manifest.json
     upload: static/manifest.json
+
+  - url: /robots.txt
+    static_files: static/robots.txt
+    upload: static/robots.txt
 
   - url: /p/(.*\.ttf)
     static_files: static/\1
