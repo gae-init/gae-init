@@ -1,7 +1,7 @@
 {
   "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
   "devDependencies": {
-    "@babel/core": "7.13.14",
+    "@babel/core": "7.13.15",
     "@babel/preset-env": "7.13.15",
     "bower": "1.8.12",
     "browser-sync": "2.26.14",
