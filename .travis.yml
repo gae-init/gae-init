@@ -1,5 +1,8 @@
 language: python
 
+node_js:
+  - 12
+
 python:
   - '2.7.15'
 
@@ -28,8 +31,7 @@ before_install:
   - source $HOME/google-cloud-sdk/path.bash.inc || ls -al $HOME/google-cloud-sdk
   - command -v gcloud
   - gcloud version
-  # eslint 6.0.1 requires specific node versions.
-  - nvm install 10.13.0
+  - nvm install 12.18.1
   - node -v
 
 install:
