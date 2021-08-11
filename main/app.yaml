@@ -69,7 +69,6 @@ skip_files:
   - ^(.*/)?index\.yaml
   - ^(.*/)?index\.yml
   - ^lib/.*-info/
-  - ^lib-dev/
   - ^requirements-dev.txt
   - ^static/dev/.*
   - ^static/ext/.*\.coffee
