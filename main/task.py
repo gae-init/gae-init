@@ -1,12 +1,14 @@
 # coding: utf-8
 
 import logging
+from datetime import datetime
 
 import flask
 from google.appengine.api import mail
 from google.appengine.ext import deferred
 
 import config
+import model
 import util
 
 
@@ -154,3 +156,59 @@ def email_conflict_notification(email):
     flask.url_for('user_list', email=email, _external=True),
   )
   send_mail_notification('Conflict with: %s' % email, body)
+
+
+###############################################################################
+# Stats Related
+###############################################################################
+def task_calculate_stats(timestamp, duration='day'):
+  if duration == 'day' and timestamp < datetime.utcnow():
+    if timestamp >= datetime(2012, 1, 1):
+      deferred.defer(calculate_stats, timestamp, duration)
+
+
+def calculate_stats(timestamp, duration='day'):
+  if duration not in ['day', 'week', 'month', 'year']:
+    return
+
+  start, finish = util.date_limits(timestamp, duration)
+  code = util.date_code(timestamp, duration)
+
+  stats_db = model.Stats.get_or_insert(
+    code,
+    parent=config.CONFIG_DB.key,
+    timestamp=start,
+    duration=duration,
+    status='syncing',
+  )
+  stats_db.status = 'syncing'
+  stats_db.put()
+
+  if duration == 'day':
+    user_qry = model.User.query()
+    user_qry = user_qry.filter(model.User.created >= start)
+    user_qry = user_qry.filter(model.User.created < finish)
+    stats_db.users = user_qry.count()
+  else:
+    stats_qry = model.Stats.query()
+    stats_qry = stats_qry.filter(model.Stats.timestamp >= start)
+    stats_qry = stats_qry.filter(model.Stats.timestamp < finish)
+    if duration == 'year':
+      stats_qry = stats_qry.filter(model.Stats.duration == 'month')
+    else:
+      stats_qry = stats_qry.filter(model.Stats.duration == 'day')
+    stats_dbs = stats_qry.fetch()
+
+    stats_db.users = 0
+    for s_db in stats_dbs:
+      stats_db.users += s_db.users
+
+  stats_db.status = 'synced' if finish < datetime.utcnow() else 'dirty'
+  stats_db.put()
+
+  if duration == 'day':
+    deferred.defer(calculate_stats, start, 'week')
+  elif duration == 'week':
+    deferred.defer(calculate_stats, start, 'month')
+  elif duration == 'month':
+    deferred.defer(calculate_stats, start, 'year')

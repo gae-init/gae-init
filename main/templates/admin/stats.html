@@ -1,0 +1,98 @@
+# extends 'admin/admin_base.html'
+# import 'macro/forms.html' as forms
+# import 'macro/utils.html' as utils
+
+
+# block admin_content
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+      <ul class="nav nav-pills nav-justified">
+        <li class="{{'active' if 'stats-day' in html_class}}"><a href="{{url_for('admin_stats', duration='day')}}">Day</a></li>
+        <li class="{{'active' if 'stats-week' in html_class}}"><a href="{{url_for('admin_stats', duration='week')}}">Week</a></li>
+        <li class="{{'active' if 'stats-month' in html_class}}"><a href="{{url_for('admin_stats', duration='month')}}">Month</a></li>
+        <li class="{{'active' if 'stats-year' in html_class}}"><a href="{{url_for('admin_stats', duration='year')}}">Year</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="{{'hide' if stats_dbs|count > 1}}">
+
+  <div class="alert alert-warning {{'hide' if stats_dbs|count > 0}}">
+    There are no stats for this duration. Calculate <a href="{{url_for('admin_stats_calc', redirect=true)}}">now</a>.
+  </div>
+
+  <div class="admin-chart {{'hide' if stats_dbs|count < 2}}" id="admin-chart"></div>
+
+  <div class="table-responsive {{'hide' if stats_dbs|count == 0}}">
+    <table class="table table-striped table-bordered table-condensed table-hover">
+      <thead>
+        <tr>
+          <th class="col-xs-6 text-center">Timestamp</th>
+          <th class="col-xs-3 text-center">Users</th>
+          <th class="col-xs-3 text-center">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        # for stats_db in stats_dbs
+          <tr class="{{'success' if stats_db.status == 'synced' else 'warning'}}">
+            <td>
+              # if duration == 'day'
+                {{stats_db.timestamp.strftime('%d %b %Y (%A)')}}
+              # elif duration == 'week'
+                {{stats_db.timestamp.strftime('%d %b %Y (W%W)')}}
+              # elif duration == 'month'
+                {{stats_db.timestamp.strftime('%B %Y')}}
+              # elif duration == 'year'
+                {{stats_db.timestamp.strftime('%Y')}}
+              # endif
+            </td>
+            <td class="text-right">{{stats_db.users}}</td>
+            <td class="text-center">{{stats_db.status}}</td>
+          </tr>
+        # endfor
+      </tbody>
+    </table>
+  </div>
+# endblock
+
+# block scripts
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['{{duration}}', 'Users'],
+        # for stats_db in stats_dbs | reverse
+          # if stats_db.status == 'synced'
+            # if duration in ['day', 'week']
+              # set label = stats_db.timestamp.strftime('%d %b %y')
+            # elif duration == 'month'
+              # set label = stats_db.timestamp.strftime('%b %y')
+            # elif duration == 'year'
+              # set label = stats_db.timestamp.strftime('%Y')
+            # endif
+            ['{{label}}',  {{stats_db.users}}],
+          # endif
+        # endfor
+      ]);
+
+      var options = {
+        chartArea: {width: '90%', height: '80%'},
+        vAxis: {minValue: 0},
+        legend: {position: 'bottom'}
+      };
+
+      # if stats_dbs | length > 2
+        var chart = new google.visualization.AreaChart(document.getElementById('admin-chart'));
+      # else
+        var chart = new google.visualization.ColumnChart(document.getElementById('admin-chart'));
+      # endif
+      chart.draw(data, options);
+
+      $(window).resize(function(){
+        chart.draw(data, options);
+      });
+    }
+  </script>
+# endblock
