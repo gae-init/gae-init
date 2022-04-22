@@ -1,0 +1,40 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: daily
+      time: '09:00'
+    open-pull-requests-limit: 99
+    ignore:
+      - dependency-name: less
+        versions:
+          - '< 3.8.1, >= 3.8.0.a'
+      - dependency-name: '@babel/core'
+        versions:
+          - 7.13.0
+      - dependency-name: less
+        versions:
+          - 4.1.0
+  - package-ecosystem: pip
+    directory: '/'
+    schedule:
+      interval: daily
+      time: '09:00'
+    open-pull-requests-limit: 99
+    allow:
+      - dependency-type: direct
+      - dependency-type: indirect
+    ignore:
+      - dependency-name: authlib
+        versions:
+          - '> 0.15.3, < 0.16'
+      - dependency-name: oauthlib
+        versions:
+          - '> 2.1.0'
+      - dependency-name: requests-oauthlib
+        versions:
+          - '> 1.2.0'
+      - dependency-name: authlib
+        versions:
+          - 0.15.3
