@@ -280,7 +280,7 @@ gulp.task('clean:min', () => {
 
 gulp.task('clean:venv', () => {
   del(paths.py.lib);
-  del(paths.py.lib_file);
+  del(paths.py.libdev);
   del(paths.dep.py);
   return del(paths.dep.py_guard);
 });
@@ -364,8 +364,7 @@ gulp.task('watch', () => {
 /*** Build ***/
 
 /**
-  Build project to prepare it for a deployment. Minify CSS & JS files
-  and pack Python dependencies into #{paths.py.lib_file}.
+  Build project to prepare it for a deployment (minify CSS & JS files).
   @task {build}
   */
 gulp.task(
