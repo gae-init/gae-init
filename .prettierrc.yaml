@@ -1,5 +1,4 @@
 bracketSpacing: false
-jsxBracketSameLine: false
 printWidth: 80
 proseWrap: never
 requirePragma: false

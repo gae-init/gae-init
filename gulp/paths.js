@@ -19,7 +19,7 @@
 
   paths.py.lib = `${paths.main}/lib`;
   paths.py.libdev = `${paths.main}/libdev`;
-  
+
   paths.static.root = `${paths.main}/static`;
   paths.static.dev = `${paths.static.root}/dev`;
   paths.static.ext = `${paths.static.root}/ext`;
