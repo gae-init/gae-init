@@ -10,6 +10,6 @@ pycrypto==2.6.1
 requests_toolbelt==0.9.1
 simplejson==3.17.3
 unidecode==1.2.0
-webargs==5.5.3
+webargs==8.2.0
 werkzeug==1.0.1
 wtforms[email]==2.3.3
