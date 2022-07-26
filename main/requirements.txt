@@ -1,6 +1,6 @@
 authlib==0.14.3  # 0.15 -- 0.15.3 give errors on dev_server, as they import non-pure python module.
 blinker==1.4
-flask-login==0.5.0
+flask-login==0.6.2
 flask-restful==0.3.9
 flask-wtf==0.14.3
 flask==1.1.4
