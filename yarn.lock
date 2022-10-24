@@ -1526,13 +1526,6 @@ async@1.5.2, async@^1.2.1:
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
   integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
 
-async@^2.5.0:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.6.3.tgz#d72625e2344a3656e3a3ad4fa749fa83299d82ff"
-  integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
-  dependencies:
-    lodash "^4.17.14"
-
 atob@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
@@ -2111,7 +2104,7 @@ clone@^1.0.0, clone@^1.0.2:
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
 
-clone@^2.1.1, clone@^2.1.2:
+clone@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.2.tgz#1b7f4b9f591f1e8f83670401600345a02887435f"
   integrity sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=
@@ -3863,15 +3856,12 @@ gulp-watch@5.0.1:
     vinyl "^2.1.0"
     vinyl-file "^2.0.0"
 
-gulp-yarn@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/gulp-yarn/-/gulp-yarn-3.0.0.tgz#bd040a0569215b355f0d5d0ad10d3f8fd435f598"
-  integrity sha512-zJIohDYq+wc7mr3HpVZqnHPEkQqqMZ2jvpaGpOmfAL6Tc6L6exWZMvLw9ZHZfCJhGnkkYlF7FP14LbozH7y/VA==
+gulp-yarn@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/gulp-yarn/-/gulp-yarn-4.0.0.tgz#4e7d2f2be5d159a1ace505492f9c65ca84cd381c"
+  integrity sha512-8705y9wRQ9s7jIFgwCH7kY7q6pdAK+mrfzQl6sQLbp2pLx5VLOdnKU8070QNlN5Q4vv4kTnakovG2Xuee312jg==
   dependencies:
-    async "^2.5.0"
-    clone "^2.1.2"
-    plugin-error "^1.0.1"
-    through2 "^2.0.3"
+    plugin-error "^2.0.0"
     which "^2.0.2"
 
 gulp@4.0.2:
@@ -4890,7 +4880,7 @@ lodash@^3.3.1:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
   integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
 
-lodash@^4.17.10, lodash@^4.17.14:
+lodash@^4.17.10:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -5684,6 +5674,13 @@ plugin-error@^0.1.2:
     arr-diff "^1.0.1"
     arr-union "^2.0.1"
     extend-shallow "^1.1.2"
+
+plugin-error@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/plugin-error/-/plugin-error-2.0.0.tgz#d05da1ab0737220ae06ea04e1683d177b55f5ca4"
+  integrity sha512-o4bwIOmuFwUg2MU6xt7plGEQY3YyENx6kvwaFZBrUpamA91FdS9w3U+pU0y4OuDoBQe+jf3RLGSfQebSRBEVsQ==
+  dependencies:
+    ansi-colors "^1.0.1"
 
 portscanner@2.1.1:
   version "2.1.1"
