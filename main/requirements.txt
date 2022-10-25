@@ -7,7 +7,7 @@ flask==1.1.4
 googleapis_common_protos==1.52.0
 jinja2==2.11.3
 pycrypto==2.6.1
-requests_toolbelt==0.9.1
+requests_toolbelt==0.10.1
 simplejson==3.17.3
 unidecode==1.2.0
 webargs==5.5.3
