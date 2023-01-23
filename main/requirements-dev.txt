@@ -1,5 +1,5 @@
 # Some libs are provided by the app engine environment, and appear in app.yaml
 # These should not be uploaded, but may be used by the dev environment. Versions are pinned based on
 # https://cloud.google.com/appengine/docs/standard/python/tools/built-in-libraries-27
-setuptools==44.1.1
+setuptools==66.1.1
 
