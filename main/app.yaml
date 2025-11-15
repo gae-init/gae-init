@@ -1,23 +1,9 @@
 service: default
 instance_class: F1
-runtime: python27
-api_version: 1
-threadsafe: true
-
-builtins:
-  - appstats: on
-  - deferred: on
-  - remote_api: on
+runtime: python37
 
 inbound_services:
   - warmup
-
-libraries:
-  - name: setuptools
-    version: latest
-
-  - name: ssl
-    version: latest
 
 error_handlers:
   - file: templates/error_static.html

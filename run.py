@@ -10,8 +10,9 @@ import platform
 import shutil
 import socket
 import sys
-import urllib
-import urllib2
+import urllib.parse
+import urllib.request
+import urllib.error
 
 __version__ = '6.2.1'
 
@@ -203,14 +204,18 @@ def check_for_update():
   try:
     with open(FILE_UPDATE, 'a'):
       os.utime(FILE_UPDATE, None)
-    request = urllib2.Request(
+    data = urllib.parse.urlencode({'version': __version__}).encode('utf-8')
+    request = urllib.request.Request(
       CORE_VERSION_URL,
-      urllib.urlencode({'version': __version__}),
+      data=data,
     )
-    response = urllib2.urlopen(request)
+    response = urllib.request.urlopen(request)
+    content = response.read()
+    if isinstance(content, bytes):
+      content = content.decode('utf-8')
     with open(FILE_UPDATE, 'w') as update_json:
-      update_json.write(response.read())
-  except (urllib2.HTTPError, urllib2.URLError):
+      update_json.write(content)
+  except (urllib.error.HTTPError, urllib.error.URLError):
     pass
 
 
@@ -241,9 +246,9 @@ def print_out_update(force_show=False):
 ###############################################################################
 def internet_on():
   try:
-    urllib2.urlopen(INTERNET_TEST_URL, timeout=2)
+    urllib.request.urlopen(INTERNET_TEST_URL, timeout=2)
     return True
-  except (urllib2.URLError, socket.timeout):
+  except (urllib.error.URLError, socket.timeout):
     return False
 
 
