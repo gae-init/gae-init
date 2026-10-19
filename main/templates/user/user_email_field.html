@@ -1,16 +1,23 @@
 # import 'macro/forms.html' as forms
 
 # if config.CONFIG_DB.verify_email
-  <div class="form-group has-feedback {{'has-error' if form.email.errors}}">
-    {{form.email.label(class='control-label')}}
-    {{forms.field_optional(form.email)}}
-    {{form.email(class='form-control')}}
+  <div class="mb-3 {{'has-error' if form.email.errors}}">
+    {{form.email.label(class='form-label')}} {{forms.field_optional(form.email)}}
     # if request.method == 'GET' and user_db.email
-      # if user_db.verified
-        <span class="fa fa-check form-control-feedback text-success" title="This email is verified"></span>
-      # else
-        <span class="fa fa-warning form-control-feedback text-warning" title="This email is not verified"></span>
-      # endif
+      <div class="input-group">
+        {{form.email(class='form-control' ~ (' is-invalid' if form.email.errors else ''))}}
+        # if user_db.verified
+          <span class="input-group-text" title="This email is verified">
+            <span class="fa fa-check text-success"></span>
+          </span>
+        # else
+          <span class="input-group-text" title="This email is not verified">
+            <span class="fa fa-warning text-warning"></span>
+          </span>
+        # endif
+      </div>
+    # else
+      {{form.email(class='form-control' ~ (' is-invalid' if form.email.errors else ''))}}
     # endif
     {{forms.field_errors(form.email)}}
   </div>

@@ -1,0 +1,20 @@
+.nav-pills {
+  .nav-link {
+    border-radius: 4px;
+
+    &:hover,
+    &:focus {
+      background-color: #eee;
+      text-decoration: none;
+    }
+
+    &.active {
+      &,
+      &:hover,
+      &:focus {
+        color: #fff;
+        background-color: #337ab7;
+      }
+    }
+  }
+}

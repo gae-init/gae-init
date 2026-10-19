@@ -1,29 +1,44 @@
+"""Quick smoke tests for the GAE application."""
+
+import os
 import sys
 import unittest
+from pathlib import Path
 
-from google.appengine.ext import testbed
-from webtest import TestApp
-
-sys.path.append('./main')
+from flask.testing import FlaskClient
 
 
-class AppTest(unittest.TestCase):
-  def setUp(self):
-    # Wrap the app with WebTest's TestApp.
-    self.testbed = testbed.Testbed()
-    self.testbed.activate()
-    self.testbed.init_memcache_stub()
-    self.testbed.init_datastore_v3_stub()
-    from main import app
-    self.testapp = TestApp(app)
+# Disable OpenTelemetry exporters during testing
+os.environ["OTEL_SDK_DISABLED"] = "true"
 
-  def tearDown(self):
-    self.testbed.deactivate()
+# Ensure 'main' directory is in sys.path
+MAIN_DIR = str(Path(__file__).resolve().parent.parent / "main")
+if MAIN_DIR not in sys.path:
+    sys.path.insert(0, MAIN_DIR)
 
-  def test_index_handler(self):
-    response = self.testapp.get('/')
-    self.assertEqual(response.status_int, 200)
+from main import app  # noqa: E402
 
-  def test_non_existent_handler(self):
-    response = self.testapp.get('/not-there', status=404)
-    self.assertEqual(response.status_int, 404)
+
+class AppTestCase(unittest.TestCase):
+    """Test suite for core application routes."""
+
+    client: FlaskClient
+
+    def setUp(self) -> None:
+        """Set up test client before each test."""
+        app.testing = True
+        self.client = app.test_client()
+
+    def test_index_handler(self) -> None:
+        """Verify the index page returns HTTP 200."""
+        response = self.client.get("/")
+        assert response.status_code == 200
+
+    def test_non_existent_handler(self) -> None:
+        """Verify a non-existent route returns HTTP 404."""
+        response = self.client.get("/not-there")
+        assert response.status_code == 404
+
+
+if __name__ == "__main__":
+    unittest.main()

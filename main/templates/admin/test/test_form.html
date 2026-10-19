@@ -9,8 +9,8 @@
       {{forms.number_field(form.number)}}
       {{forms.email_field(form.email, placeholder='steve@apple.com')}}
       {{forms.date_field(form.date)}}
+      {{forms.datetime_field(form.datetime)}}
       {{forms.textarea_field(form.textarea, rows=3)}}
-      {{forms.checkbox_field(form.boolean)}}
     </div>
     <div class="col-sm-4">
       {{forms.password_field(form.password)}}
@@ -19,6 +19,7 @@
       {{forms.text_field(form.suffix, suffix='@example.com')}}
       {{forms.number_field(form.both, prefix='$', suffix='.00')}}
       {{forms.select_field(form.select)}}
+      {{forms.checkbox_field(form.boolean)}}
     </div>
     <div class="col-sm-4">
       {{forms.multiple_checkbox_field(form.checkboxes)}}
@@ -37,9 +38,15 @@
   </div>
   <hr>
   <div class="row">
-    <div class="col-sm-offset-3 col-sm-6">
-      <button type="submit" class="btn btn-primary btn-lg btn-block btn-loading" {{forms.data_loading_text()}}>
+    <div class="offset-sm-3 col-sm-6">
+      <button type="submit" class="btn btn-primary btn-lg w-100 btn-loading" {{forms.data_loading_text()}}>
         Submit this Form
+      </button>
+    </div>
+    <div class="col-sm-3">
+      <button type="submit" class="btn btn-danger btn-confirm btn-lg w-100"
+        data-message="Are you sure you want to press the red button?">
+        Press the button?
       </button>
     </div>
   </div>

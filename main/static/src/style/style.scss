@@ -1,0 +1,68 @@
+@import 'variables';
+
+@import 'font-awesome/scss/font-awesome';
+@import 'bootstrap/scss/bootstrap';
+
+@import 'mixins';
+@import 'type';
+@import 'code';
+@import 'forms';
+@import 'buttons';
+@import 'base';
+@import 'test';
+@import 'footer';
+@import 'signin';
+@import 'user';
+@import 'admin';
+@import 'navs';
+@import 'alert';
+@import 'tables';
+
+.btn-primary:disabled,
+.btn-primary.disabled,
+.btn-success:disabled,
+.btn-success.disabled,
+.btn-info:disabled,
+.btn-info.disabled,
+.btn-warning:disabled,
+.btn-warning.disabled,
+.btn-danger:disabled,
+.btn-danger.disabled {
+  color: #fff;
+}
+
+// Make BS5 badges inside links inherit color logic exactly like BS3
+.nav-pills .nav-link .badge {
+  background-color: var(--bs-secondary);
+}
+
+.nav-pills .nav-link.active .badge,
+.nav-pills > li.active > a > .badge {
+  color: #337ab7;
+  background-color: #fff !important;
+}
+
+// Ensure badges do not get underlined on hover (BS3 behavior)
+.badge:hover,
+.badge:focus {
+  text-decoration: none;
+}
+a.badge:hover,
+a.badge:focus,
+a:hover .badge,
+a:focus .badge {
+  cursor: pointer;
+}
+
+.nav-pills .nav-link:hover,
+.nav-pills .nav-link:focus,
+.nav-pills > li > a:hover,
+.nav-pills > li > a:focus {
+  background-color: var(--bs-gray-200);
+}
+
+.table > :not(caption) > * > * {
+  padding: 8px;
+}
+@import 'navbar';
+@import 'dropdowns';

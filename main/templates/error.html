@@ -1,13 +1,13 @@
 # extends 'base.html'
 
 # block header
-  <div class="jumbotron">
+  <div class="bg-body-secondary py-5 mb-4">
     <div class="container">
       <h2>
-        <small>{{error.code}}</small>
+        <small class="text-muted">{{error.code}}</small>
         Oh no...! {{error.name}}
       </h2>
-      <p>Maybe it's our fault.. maybe it's yours.. but either case, this page is unavailable!</p>
+      <p class="lead">Maybe it's our fault.. maybe it's yours.. but either case, this page is unavailable!</p>
     </div>
   </div>
 # endblock

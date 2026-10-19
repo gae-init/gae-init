@@ -1,0 +1,84 @@
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-success {
+  --bs-alert-bg: #dff0d8;
+  --bs-alert-border-color: #d6e9c6;
+  --bs-alert-color: #3c763d;
+  background-color: var(--bs-alert-bg);
+  border-color: var(--bs-alert-border-color);
+  color: var(--bs-alert-color) !important;
+}
+
+.alert-info {
+  --bs-alert-bg: #d9edf7;
+  --bs-alert-border-color: #bce8f1;
+  --bs-alert-color: #31708f;
+  background-color: var(--bs-alert-bg);
+  border-color: var(--bs-alert-border-color);
+  color: var(--bs-alert-color) !important;
+}
+
+.alert-warning {
+  --bs-alert-bg: #fcf8e3;
+  --bs-alert-border-color: #faebcc;
+  --bs-alert-color: #8a6d3b;
+  background-color: var(--bs-alert-bg);
+  border-color: var(--bs-alert-border-color);
+  color: var(--bs-alert-color) !important;
+}
+
+.alert-danger {
+  --bs-alert-bg: #f2dede;
+  --bs-alert-border-color: #ebccd1;
+  --bs-alert-color: #a94442;
+  background-color: var(--bs-alert-bg);
+  border-color: var(--bs-alert-border-color);
+  color: var(--bs-alert-color) !important;
+}
+
+// Legacy BS3 Close Button implementation for alerts
+.alert-dismissible {
+  padding-right: 35px;
+
+  .btn-close {
+    // Reset BS5 SVG background and absolute positioning padding
+    background: transparent;
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    padding: 0;
+
+    // Position like BS3
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
+    float: right;
+
+    // Font like BS3
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.2;
+    border: 0;
+
+    &::before {
+      content: '\00d7'; // Multiplication sign (x)
+    }
+
+    &:hover,
+    &:focus {
+      color: #000;
+      text-decoration: none;
+      opacity: 0.5;
+      outline: 0;
+    }
+  }
+}

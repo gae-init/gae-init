@@ -1,11 +1,82 @@
-# coding: utf-8
+"""Authentication package for user session management and OAuth providers."""
 
-from .auth import *
-from .bitbucket import *
-from .facebook import *
-from .github import *
-from .gae import *
-from .google import *
-from .linkedin import *
-from .microsoft import *
-from .twitter import *
+from .auth import (
+    AnonymousUser,
+    FlaskUser,
+    SignInForm,
+    SignUpForm,
+    admin_required,
+    create_oauth_app,
+    create_user_db,
+    cron_required,
+    current_user_db,
+    current_user_id,
+    current_user_key,
+    decorator_order_guard,
+    fetch_oauth1_request_token,
+    form_with_recaptcha,
+    get_user_db_from_email,
+    is_logged_in,
+    load_user,
+    login_manager,
+    login_required,
+    permission_registered,
+    permission_required,
+    save_oauth1_request_token,
+    save_request_params,
+    signin,
+    signin_oauth,
+    signin_user_db,
+    signout,
+    signup,
+    url_for_signin,
+    urls_for_oauth,
+)
+
+
+# isort: split
+
+# Submodules defining OAuth callback routes must be imported after base auth symbols
+from . import bitbucket, facebook, gae, github, google, linkedin, microsoft, twitter
+
+
+__all__ = [
+    "AnonymousUser",
+    "FlaskUser",
+    "SignInForm",
+    "SignUpForm",
+    "admin_required",
+    "bitbucket",
+    "create_oauth_app",
+    "create_user_db",
+    "cron_required",
+    "current_user_db",
+    "current_user_id",
+    "current_user_key",
+    "decorator_order_guard",
+    "facebook",
+    "fetch_oauth1_request_token",
+    "form_with_recaptcha",
+    "gae",
+    "get_user_db_from_email",
+    "github",
+    "google",
+    "is_logged_in",
+    "linkedin",
+    "load_user",
+    "login_manager",
+    "login_required",
+    "microsoft",
+    "permission_registered",
+    "permission_required",
+    "save_oauth1_request_token",
+    "save_request_params",
+    "signin",
+    "signin_oauth",
+    "signin_user_db",
+    "signout",
+    "signup",
+    "twitter",
+    "url_for_signin",
+    "urls_for_oauth",
+]

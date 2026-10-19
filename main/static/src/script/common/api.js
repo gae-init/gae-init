@@ -1,55 +1,60 @@
-window.apiCall = function (method, url, params, data, callback) {
-  callback = callback || data || params;
-  data = data || params;
-  if (arguments.length === 4) {
-    data = void 0;
-  }
-  if (arguments.length === 3) {
-    params = void 0;
-    data = void 0;
-  }
-  params = params || {};
+window.apiCall = async function (method, url, params = {}, data = undefined) {
+  const cleanParams = {};
   for (const key in params) {
-    if (params[key] == null) {
-      delete params[key];
+    if (params[key] != null) {
+      cleanParams[key] = params[key];
     }
   }
-  const separator = url.search('\\?') >= 0 ? '&' : '?';
-  $.ajax({
-    accepts: 'application/json',
-    contentType: 'application/json',
-    data: data ? JSON.stringify(data) : void 0,
-    dataType: 'json',
-    error(jqXHR, textStatus, errorThrown) {
-      let error = {
-        error_code: 'ajax_error',
-        error_thrown: errorThrown,
-        jqXHR,
-        text_status: textStatus,
-      };
-      try {
-        if (jqXHR.responseText) {
-          error = $.parseJSON(jqXHR.responseText);
-        }
-      } catch (_error) {
-        error = _error;
-      }
+
+  const queryStr = new URLSearchParams(cleanParams).toString();
+  const separator = url.indexOf('?') >= 0 ? '&' : '?';
+  const fullUrl = queryStr ? `${url}${separator}${queryStr}` : url;
+
+  try {
+    const response = await fetch(fullUrl, {
+      body: data ? JSON.stringify(data) : undefined,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: method,
+    });
+
+    let resultData;
+    try {
+      resultData = await response.json();
+    } catch (err) {
+      resultData = {error_thrown: err};
+    }
+
+    if (!response.ok || resultData.status !== 'success') {
+      const error = Object.assign(
+        {
+          error_code: 'fetch_error',
+          error_thrown: response.statusText,
+          response: response,
+        },
+        resultData,
+      );
       LOG('apiCall error', error);
-      return typeof callback === 'function' ? callback(error) : void 0;
-    },
-    success(data_) {
-      if (data_.status === 'success') {
-        let more = void 0;
-        if (data_.next_url) {
-          more = (callback_) => apiCall(method, data_.next_url, {}, callback);
-        }
-        return typeof callback === 'function'
-          ? callback(void 0, data_.result, more)
-          : void 0;
-      }
-      return typeof callback === 'function' ? callback(data) : void 0;
-    },
-    type: method,
-    url: `${url}${separator}${$.param(params)}`,
-  });
+      throw error;
+    }
+
+    let more = undefined;
+    if (resultData.next_url) {
+      more = () => apiCall(method, resultData.next_url);
+    }
+
+    return {more: more, result: resultData.result};
+  } catch (errorThrown) {
+    const error =
+      errorThrown && errorThrown.error_code
+        ? errorThrown
+        : {
+            error_code: 'fetch_error',
+            error_thrown: errorThrown,
+          };
+    LOG('apiCall error', error);
+    throw error;
+  }
 };

@@ -1,0 +1,88 @@
+@use 'sass:color';
+
+$fa-font-path: '/p/ext/font-awesome/fonts';
+$icon-font-path: '/p/ext/bootstrap/fonts/';
+
+$font-family-sans-serif:
+  'Helvetica Neue', Helvetica, Arial, sans-serif !default;
+$font-family-base: $font-family-sans-serif !default;
+$font-size-base: 0.875rem !default; // 14px
+$h1-font-size: 2.25rem !default; // 36px
+$h2-font-size: 1.875rem !default; // 30px
+$h3-font-size: 1.5rem !default; // 24px
+$h4-font-size: 1.125rem !default; // 18px
+$h5-font-size: $font-size-base !default; // 14px
+$h6-font-size: 0.75rem !default; // 12px
+
+$font-size-large: 1.125rem !default; // 18px
+$font-size-small: 0.75rem !default; // 12px
+$padding-large-vertical: 0.5rem !default;
+$padding-small-vertical: 0.25rem !default;
+$padding-base-horizontal: 0.75rem !default;
+$padding-large-horizontal: 1rem !default;
+$padding-small-horizontal: 0.5rem !default;
+
+$line-height-base: 1.5 !default;
+$line-height-computed: $font-size-base * $line-height-base !default;
+
+$navbar-height: 50px !default;
+
+$navbar-light-color: #777 !default;
+$navbar-light-hover-color: #333 !default;
+$navbar-light-active-color: #555 !default;
+$navbar-light-disabled-color: #ccc !default;
+$navbar-light-brand-color: #777 !default;
+$navbar-light-brand-hover-color: color.adjust(
+  #777,
+  $lightness: -10%,
+  $space: hsl
+) !default;
+$navbar-light-toggler-border-color: #ddd !default;
+
+$alert-padding-y: 15px !default;
+$alert-padding-x: 15px !default;
+$hr-border: rgba(0, 0, 0, 0.1) !default;
+$headings-color: inherit !default;
+$headings-font-weight: 500 !default;
+$headings-line-height: 1.1 !default;
+
+$form-label-font-weight: bold !default;
+
+$border-radius: 4px !default;
+$border-radius-lg: 6px !default;
+$border-radius-sm: 3px !default;
+
+$brand-info: #5bc0de !default; // bs3 info color
+$brand-primary: #337ab7 !default;
+$brand-success: #5cb85c !default;
+$brand-warning: #f0ad4e !default;
+$brand-danger: #d9534f !default;
+$text-muted: #777 !default; // bs3 text-muted
+$well-bg: #f5f5f5 !default; // bs3 light color
+$body-bg: #fff !default;
+$body-color: #333 !default;
+
+// Map BS3 colors to BS5 variables
+$primary: $brand-primary;
+$success: $brand-success;
+$info: $brand-info;
+$warning: $brand-warning;
+$danger: $brand-danger;
+
+$footer-height: $line-height-computed * 5;
+
+// Restore BS3 input focus ring
+$input-focus-border-color: #66afe9;
+$input-focus-box-shadow:
+  inset 0 1px 1px rgba(0, 0, 0, 0.075),
+  0 0 8px rgba(102, 175, 233, 0.6);
+$form-check-input-focus-border-color: $input-focus-border-color;
+$form-check-input-focus-box-shadow: $input-focus-box-shadow;
+$form-select-focus-border-color: $input-focus-border-color;
+$form-select-focus-box-shadow: $input-focus-box-shadow;
+
+// Restore BS3 placeholder color
+$input-placeholder-color: #999;
+
+// Restore BS3 form text size (BS3 help-block was not shrunk, it inherited 14px base font)
+$form-text-font-size: 0.857rem; // 12px

@@ -27,15 +27,12 @@
   </div>
 
   <div class="row text-center">
-    # if localhost
-      {{admin_link('Localhost', 'home', localhost, 'gae')}}
-    # endif
     {{admin_link('Dashboard', 'tachometer', 'https://console.cloud.google.com/home/dashboard?project=%s' % config.APPLICATION_ID, 'gae')}}
     {{admin_link('Datastore', 'database', 'https://console.cloud.google.com/datastore/query?project=%s' % config.APPLICATION_ID, 'gae')}}
     {{admin_link('Instances', 'bolt', 'https://console.cloud.google.com/appengine/instances?project=%s' % config.APPLICATION_ID, 'gae')}}
     {{admin_link('Versions', 'history', 'https://console.cloud.google.com/appengine/versions?project=%s' % config.APPLICATION_ID, 'gae')}}
     {{admin_link('Logs', 'bullhorn', 'https://console.cloud.google.com/logs?project=%s&amp;versionId=%s' % (config.APPLICATION_ID, config.CURRENT_VERSION_NAME), 'gae')}}
-    {{admin_link('APIs', 'wrench', 'https://console.developers.google.com/apis/library?project=%s' % config.APPLICATION_ID, 'gae')}}
+    {{admin_link('APIs', 'wrench', 'https://console.cloud.google.com/apis/library?project=%s' % config.APPLICATION_ID, 'gae')}}
     {{admin_link('Settings', 'cogs', 'https://console.cloud.google.com/appengine/settings?project=%s' % config.APPLICATION_ID, 'gae')}}
     {{admin_link('Billing', 'credit-card', 'https://console.cloud.google.com/billing', 'gae')}}
   </div>
@@ -44,7 +41,7 @@
 
 
 # macro admin_link(title, icon, url, target='_self')
-  <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+  <div class="col-6 col-sm-4 col-md-3 col-lg-2">
     <a class="text-muted" href="{{url}}" target="{{target}}">
       <h4><span class="fa fa-fw fa-3x fa-{{icon}}"></span></h4>
       <h4 class="ellipsis">{{title}}</h4>

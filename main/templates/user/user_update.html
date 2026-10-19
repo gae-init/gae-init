@@ -32,24 +32,24 @@
         # endif
       </div>
       <div class="col-md-2 col-sm-6">
-        <div class="form-group">
-          <label class="control-label">Avatar</label>
+        <div class="mb-3">
+          <label class="form-label">Avatar</label>
           <div>
             <img class="img-thumbnail" src="{{user_db.avatar_url_size(170)}}" alt="Avatar of {{user_db.name}}">
           </div>
         </div>
       </div>
       <div class="col-md-6 col-sm-12">
-        <div class="form-group">
-          <label class="control-label">Accounts</label>
-          <div class="alert alert-warning {{'hide' if user_db.password_hash or user_db.auth_ids}}">
+        <div class="mb-3">
+          <label class="form-label">Accounts</label>
+          <div class="alert alert-warning {{'d-none' if user_db.password_hash or user_db.auth_ids}}">
             No associated accounts
           </div>
-          <table class="table table-bordered table-hover {{'hide' if not (user_db.password_hash or user_db.auth_ids)}}">
+          <table class="table table-bordered table-hover {{'d-none' if not (user_db.password_hash or user_db.auth_ids)}}">
             <thead>
               <tr>
                 <th><span class="fa fa-key"></span></th>
-                <th class="col-xs-12">Auth ID</th>
+                <th class="col-12">Auth ID</th>
               </tr>
             </thead>
             <tbody>
@@ -72,8 +72,8 @@
     </div>
     <hr>
     <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <button type="submit" class="btn btn-primary btn-lg btn-block btn-loading" {{forms.data_loading_text()}}>
+      <div class="col-md-6 offset-md-3">
+        <button type="submit" class="btn btn-primary btn-lg w-100 btn-loading" {{forms.data_loading_text()}}>
           # if user_db.key
             Update
           # else

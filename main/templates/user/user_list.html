@@ -6,8 +6,8 @@
 # endblock
 
 # block admin_content
-  <div class="panel panel-default">
-    <div class="panel-body">
+  <div class="card">
+    <div class="card-body">
       <a class="btn btn-sm btn-primary" href="{{url_for('user_update')}}">
         <span class="fa fa-fw fa-user-plus"></span> New User
       </a>
@@ -18,7 +18,7 @@
         {{utils.filter_by_link('limit', 64)}}
         {{utils.filter_by_link('limit', 128)}}
         {{utils.filter_by_link('limit', 512)}}
-        {{utils.filter_by_link('limit', -1, label='&infin;')}}
+        {{utils.filter_by_link('limit', -1, badge='&infin;')}}
       </div>
 
       <div class="btn-group btn-group-sm">
@@ -40,24 +40,23 @@
       </div>
 
 
-      <div class="btn-group btn-group-sm {{'hide' if not permissions}}">
+      <div class="btn-group btn-group-sm {{'d-none' if not permissions}}">
         <button type="button" class="btn btn-warning" disabled>Permissions</button>
         # for permission in permissions
           {{utils.filter_by_link('permissions', permission, is_list=True)}}
         # endfor
         # if request.args.get('permissions')
-          <a href="{{update_query_argument('permissions', ignore='cursor')}}" class="btn btn-default" title="Clear all permissions"><span class="fa fa-times"></span></a>
+          <a href="{{update_query_argument('permissions', ignore='cursor')}}" class="btn btn-light" title="Clear all permissions"><span class="fa fa-times"></span></a>
         # endif
       </div>
 
-      <div id="user-actions" class="btn-group btn-group-sm hidden">
-        <button type="button" class="btn dropdown-toggle btn-info" data-toggle="dropdown">
+      <div id="user-actions" class="btn-group btn-group-sm d-none">
+        <button type="button" class="btn dropdown-toggle btn-info" data-bs-toggle="dropdown">
           More
-          <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
           <li>
-            <a id="user-delete"
+            <a class="dropdown-item" id="user-delete"
                 data-api-url="{{url_for('api.admin.user.list')}}"
                 data-confirm="Are you sure you want to delete {users} selected user(s)?"
                 data-success="{users} user(s) deleted."
@@ -69,7 +68,7 @@
             </a>
           </li>
           <li>
-            <a id="user-merge" data-user-merge-url="{{url_for('user_merge')}}" href="#">
+            <a class="dropdown-item" id="user-merge" data-user-merge-url="{{url_for('user_merge')}}" href="#">
               <span class="fa fa-fw fa-code-fork"></span>
               Merge Selected
             </a>
@@ -79,28 +78,28 @@
     </div>
   </div>
 
-  <div class="alert alert-warning alert-dismissable {{'hide' if user_dbs|count > 0}}">
-    <a href="{{url_for('user_list', order='-modified')}}" class="close" title="Remove all filters">&times;</a>
+  <div class="alert alert-warning alert-dismissible {{'d-none' if user_dbs|count > 0}}">
+    <a href="{{url_for('user_list', order='-modified')}}" class="btn-close" title="Remove all filters" aria-label="Close"></a>
     There are no users matching the filters.
   </div>
 
-  <div class="table-responsive {{'hide' if user_dbs|count == 0}}">
+  <div class="table-responsive {{'d-none' if user_dbs|count == 0}}">
     <table class="table table-bordered table-hover">
       <thead>
         <tr class="text-nowrap">
-          <th class="col-xs-5"><input id="select-all" type="checkbox"> {{utils.order_by_link('name', 'Name')}}</th>
-          <th class="col-xs-3">{{utils.order_by_link('email', 'Email')}}<br><small>{{utils.order_by_link('username', 'Username')}}</small></th>
-          <th class="col-xs-2">{{utils.order_by_link('modified', 'Modified')}}<br><small>{{utils.order_by_link('created', 'Created')}}</small></th>
-          <th class="col-xs-2">Permissions</th>
+          <th class="col-5"><input id="select-all" type="checkbox"> {{utils.order_by_link('name', 'Name')}}</th>
+          <th class="col-3">{{utils.order_by_link('email', 'Email')}}<br><small>{{utils.order_by_link('username', 'Username')}}</small></th>
+          <th class="col-2">{{utils.order_by_link('modified', 'Modified')}}<br><small>{{utils.order_by_link('created', 'Created')}}</small></th>
+          <th class="col-2">Permissions</th>
           <th class="text-center" title="Accounts"><span class="fa fa-key"></span></th>
         </tr>
       </thead>
       <tbody>
         # for user_db in user_dbs
-          <tr id="{{user_db.key.urlsafe()}}" class="row-link {{'text-muted' if not user_db.active}}" data-href="{{url_for('user_update', user_id=user_db.key.id())}}">
+          <tr id="{{user_db.key.urlsafe().decode('utf-8')}}" class="row-link {{'text-muted' if not user_db.active}}" data-href="{{url_for('user_update', user_id=user_db.key.id())}}">
             <td class="name">
               <label class="not-link">
-                <input type="checkbox" name="user_db" value="{{user_db.key.urlsafe()}}">
+                <input type="checkbox" name="user_db" value="{{user_db.key.urlsafe().decode('utf-8')}}">
                 <img src="{{user_db.avatar_url_size(80)}}" alt="Avatar of {{user_db.name}}">
               </label>
               <span>{{user_db.name}}</span>
@@ -126,13 +125,13 @@
             </td>
             <td class="not-link">
               # if user_db.admin
-                <a href="{{update_query_argument('admin', True)}}" class="label label-danger"><span class="fa fa-cog"></span> admin</a>
+                <a href="{{update_query_argument('admin', True)}}" class="badge bg-danger"><span class="fa fa-cog"></span> admin</a>
               # endif
               # if not user_db.active
-                <a href="{{update_query_argument('active', False)}}" class="label label-default"><span class="fa fa-ban"></span> inactive</a>
+                <a href="{{update_query_argument('active', False)}}" class="badge bg-secondary"><span class="fa fa-ban"></span> inactive</a>
               # endif
               # for permission in user_db.permissions
-                <a href="{{update_query_argument('permissions', permission)}}" class="label label-info">{{permission}}</a>
+                <a href="{{update_query_argument('permissions', permission)}}" class="badge bg-info">{{permission}}</a>
               # endfor
             </td>
             <td class="text-nowrap">{{utils.auth_icons(user_db, 4)}}</td>

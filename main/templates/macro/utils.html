@@ -11,14 +11,14 @@
 # endmacro
 
 
-# macro filter_by_link(property, value, icon=None, ignore='cursor', is_list=False, hash=None, label=None)
+# macro filter_by_link(property, value, icon=None, ignore='cursor', is_list=False, hash=None, badge=None)
   # set value = '%s' % value
   <a href="{{update_query_argument(property, None if request.args.get(property) == value else value, ignore, is_list)}}{{'#%s' % hash if hash}}"
-     class="btn btn-default {{'active' if value in request.args.get(property, '').split(',')}}" rel="nofollow">
+     class="btn btn-light {{'active' if value in request.args.get(property, '').split(',')}}" rel="nofollow">
     # if icon
       <span class="fa fa-fw fa-{{icon}}"></span>
-    # elif label
-      {{label|safe}}
+    # elif badge
+      {{badge|safe}}
     # else
       {{value}}
     # endif
@@ -35,14 +35,18 @@
 
 # macro next_link(next_url, prev_url=None, next_caption='', prev_caption='')
   # if next_url or prev_url
-    <ul class="pager">
+    <div class="d-flex justify-content-center gap-2 my-3">
       # if prev_url
-        <li><a href="{{prev_url}}" rel="nofollow"><span class="fa fa-long-arrow-left"></span> {{prev_caption|safe if prev_caption else 'Prev Page'}}</a></li>
+        <a class="btn btn-light text-primary border rounded-pill px-3" href="{{prev_url}}" rel="nofollow">
+          <span class="fa fa-long-arrow-left"></span> {{prev_caption|safe if prev_caption else 'Prev Page'}}
+        </a>
       # endif
       # if next_url
-        <li><a href="{{next_url}}" rel="nofollow">{{next_caption|safe if next_caption else 'Next Page'}} <span class="fa fa-long-arrow-right"></span> </a></li>
+        <a class="btn btn-light text-primary border rounded-pill px-3" href="{{next_url}}" rel="nofollow">
+          {{next_caption|safe if next_caption else 'Next Page'}} <span class="fa fa-long-arrow-right"></span>
+        </a>
       # endif
-    </ul>
+    </div>
   # endif
 # endmacro
 
@@ -57,7 +61,7 @@
 
 # macro signin_button(brand, class_btn, class_icon, url, is_icon=False)
   # set caption = 'Sign in with %s' % brand
-  <a class="btn btn-lg {{'btn-social-icon' if is_icon else 'btn-block btn-social'}} {{class_btn}}" href="{{url}}" title="{{caption if is_icon}}" rel="nofollow">
+  <a class="btn btn-lg {{'btn-social-icon' if is_icon else 'w-100 btn-social'}} {{class_btn}}" href="{{url}}" title="{{caption if is_icon}}" rel="nofollow">
     <span class="fa {{class_icon}}"></span>
     {{caption if not is_icon}}
   </a>

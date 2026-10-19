@@ -10,7 +10,7 @@
 
     # if html_class in ['admin-config', 'admin-auth']
       <p class="text-muted">
-        # set instances_url = 'https://console.developers.google.com/project/%s/appengine/instances?moduleId=default&versionId=%s' % (
+        # set instances_url = 'https://console.cloud.google.com/appengine/instances?project=%s&serviceId=default&versionId=%s' % (
               config.APPLICATION_ID,
               config.CURRENT_VERSION_NAME,
             ) if config.PRODUCTION else ''
@@ -21,7 +21,7 @@
         # else
           have to restart
         # endif
-        the <a href="https://developers.google.com/appengine/docs/adminconsole/instances" target="_blank">instances</a>.
+        the <a href="https://cloud.google.com/appengine/docs/standard/managing-instances" target="_blank">instances</a>.
       </p>
     # endif
     # block admin_header

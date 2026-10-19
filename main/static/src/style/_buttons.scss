@@ -1,0 +1,121 @@
+@use 'sass:color';
+
+@mixin button-variant($color, $background, $border) {
+  --bs-btn-color: #{$color};
+  --bs-btn-bg: #{$background};
+  --bs-btn-border-color: #{$border};
+  --bs-btn-hover-color: #{$color};
+  --bs-btn-hover-bg: #{color.adjust($background, $lightness: -10%, $space: hsl)};
+  --bs-btn-hover-border-color: #{color.adjust(
+      $border,
+      $lightness: -12%,
+      $space: hsl
+    )};
+  --bs-btn-focus-shadow-rgb: 0, 0, 0;
+  --bs-btn-active-color: #{$color};
+  --bs-btn-active-bg: #{color.adjust(
+      $background,
+      $lightness: -10%,
+      $space: hsl
+    )};
+  --bs-btn-active-border-color: #{color.adjust(
+      $border,
+      $lightness: -12%,
+      $space: hsl
+    )};
+
+  color: $color;
+  background-color: $background;
+  border-color: $border;
+
+  &:hover,
+  &:focus,
+  &.focus {
+    color: $color;
+    background-color: color.adjust($background, $lightness: -10%, $space: hsl);
+    border-color: color.adjust($border, $lightness: -12%, $space: hsl);
+  }
+
+  &:active,
+  &.active,
+  &.show {
+    color: $color;
+    background-color: color.adjust($background, $lightness: -10%, $space: hsl);
+    border-color: color.adjust($border, $lightness: -12%, $space: hsl);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: $color;
+      background-color: color.adjust(
+        $background,
+        $lightness: -17%,
+        $space: hsl
+      );
+      border-color: color.adjust($border, $lightness: -25%, $space: hsl);
+    }
+  }
+}
+
+.btn-light {
+  @include button-variant(#333, #fff, #ccc);
+}
+
+.btn-primary {
+  @include button-variant(
+    #fff,
+    #337ab7,
+    color.adjust(#337ab7, $lightness: -5%, $space: hsl)
+  );
+}
+.btn-success {
+  @include button-variant(
+    #fff,
+    #5cb85c,
+    color.adjust(#5cb85c, $lightness: -5%, $space: hsl)
+  );
+}
+.btn-info {
+  @include button-variant(
+    #fff,
+    #5bc0de,
+    color.adjust(#5bc0de, $lightness: -5%, $space: hsl)
+  );
+}
+.btn-warning {
+  @include button-variant(
+    #fff,
+    #f0ad4e,
+    color.adjust(#f0ad4e, $lightness: -5%, $space: hsl)
+  );
+}
+.btn-danger {
+  @include button-variant(
+    #fff,
+    #d9534f,
+    color.adjust(#d9534f, $lightness: -5%, $space: hsl)
+  );
+}
+
+.btn {
+  font-weight: normal;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active {
+    text-decoration: none;
+  }
+}
+
+.btn-link {
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,51 @@
+@use 'sass:math';
+@use 'sass:color';
+
+.test {
+  section {
+    padding: $line-height-computed 0;
+    > h2 {
+      margin-bottom: $line-height-computed;
+      border-bottom: 1px solid $hr-border;
+      a {
+        color: $headings-color;
+        text-decoration: none;
+      }
+
+      .on-hover {
+        display: none;
+      }
+      &:hover {
+        .on-hover {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  .test-button,
+  .test-social {
+    .btn {
+      margin-bottom: ($line-height-computed * 0.5);
+    }
+  }
+
+  .test-font {
+    p::first-line {
+      font-size: $font-size-large;
+    }
+  }
+  .test-grid {
+    .cell {
+      text-align: center;
+      background-color: #d9edf7;
+      color: #31708f;
+      font-size: math.ceil(($font-size-base * 0.85));
+      border-radius: 4px;
+      border: 1px solid color.adjust(#5bc0de, $lightness: -20%, $space: hsl);
+      overflow: hidden;
+      margin-bottom: 8px;
+      padding: 6px 0;
+    }
+  }
+}

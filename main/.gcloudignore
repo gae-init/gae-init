@@ -1,0 +1,41 @@
+# .gcloudignore to skip files not to be deployed
+# see: https://cloud.google.com/sdk/gcloud/reference/topic/gcloudignore
+
+# Ignore all hidden files/folders (like .git, .env),
+# except for this .gcloudignore file so gcloud can read it.
+.*
+!.gcloudignore
+
+# Ignore editor and OS temp/backup files
+#*#
+RCS/
+*.bak
+*~
+Icon\r
+
+# Ignore compiled Python files
+*.py[co]
+__pycache__/
+
+# Ignore GAE config files
+# gcloud automatically includes the specific .yaml file you are deploying,
+# so ignoring these globally prevents uploading unused configs.
+app.yaml
+app.yml
+index.yaml
+index.yml
+queue.yaml
+queue.yml
+
+# Ignore static dev and source files
+static/dev/
+static/ext/*.css
+static/ext/*.js
+static/ext/*.json
+static/src/
+
+# Ignore legacy font formats
+static/ext/**/*.eot
+static/ext/**/*.ttf
+static/ext/**/*.otf
+static/ext/**/*.svg

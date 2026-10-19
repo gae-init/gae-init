@@ -1,0 +1,31 @@
+a.text-muted:hover,
+a.text-muted:focus {
+  color: #333 !important;
+  .fa {
+    color: $link-hover-color;
+  }
+}
+
+.row.text-center {
+  > div {
+    margin-bottom: 20px;
+  }
+}
+
+// Restore BS3 panel margin-bottom
+.card {
+  margin-bottom: 20px;
+}
+
+// Fix accordion spacing to match BS3 panel-group
+.accordion {
+  margin-bottom: 20px;
+
+  .card {
+    margin-bottom: 0; // reset our global .card override
+
+    + .card {
+      margin-top: 5px;
+    }
+  }
+}

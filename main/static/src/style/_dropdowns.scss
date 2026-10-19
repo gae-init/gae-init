@@ -1,0 +1,8 @@
+.dropdown-menu {
+  .dropdown-item {
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}

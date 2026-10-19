@@ -2,5 +2,6 @@
   "name": "gae-init",
   "start_url": "/?utm_source=app",
   "display": "standalone",
-  "background_color": "#000"
+  "background_color": "#000000",
+  "theme_color": "#000000"
 }

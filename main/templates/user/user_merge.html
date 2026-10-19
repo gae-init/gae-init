@@ -16,19 +16,19 @@
         <table class="table table-bordered table-hover">
           <thead>
             <tr class="text-nowrap">
-              <th class="col-xs-3">Name</th>
-              <th class="col-xs-2">Username</th>
-              <th class="col-xs-2">Email</th>
-              <th class="col-xs-2">Created <span class="fa fa-chevron-up text-muted"></span></th>
-              <th class="col-xs-3">Permissions</th>
+              <th class="col-3">Name</th>
+              <th class="col-2">Username</th>
+              <th class="col-2">Email</th>
+              <th class="col-2">Created <span class="fa fa-chevron-up text-muted"></span></th>
+              <th class="col-3">Permissions</th>
               <th class="text-center" title="Accounts"><span class="fa fa-key"></span></th>
             </tr>
           </thead>
           <tbody>
             # for user_db in user_dbs
-              <tr id="{{user_db.key.urlsafe()}}" class="user-row {{'success' if merged_user_db.key.urlsafe() == user_db.key.urlsafe() else 'danger'}}">
+              <tr id="{{user_db.key.urlsafe().decode('utf-8')}}" class="user-row {{'table-success' if merged_user_db.key.urlsafe().decode('utf-8') == user_db.key.urlsafe().decode('utf-8') else 'table-danger'}}">
                 <td>
-                  <input type="radio" name="user_db" value="{{user_db.key.urlsafe()}}" {{'checked' if merged_user_db.key.urlsafe() == user_db.key.urlsafe()}} disabled>
+                  <input type="radio" name="user_db" value="{{user_db.key.urlsafe().decode('utf-8')}}" {{'checked' if merged_user_db.key.urlsafe().decode('utf-8') == user_db.key.urlsafe().decode('utf-8')}} disabled>
                   <img src="{{user_db.avatar_url_size(36)}}" width="18" alt="Avatar of {{user_db.name}}">
                   {{user_db.name}}
                   # if current_user.id == user_db.key.id()
@@ -44,13 +44,13 @@
                 </td>
                 <td>
                   # if user_db.admin
-                    <span class="label label-danger"><span class="fa fa-cog"></span> admin</span>
+                    <span class="badge bg-danger"><span class="fa fa-cog"></span> admin</span>
                   # endif
                   # if not user_db.active
-                    <span class="label label-default"><span class="fa fa-ban"></span> inactive</span>
+                    <span class="badge bg-secondary"><span class="fa fa-ban"></span> inactive</span>
                   # endif
                   # for permission in user_db.permissions
-                    <span class="label label-info">{{permission}}</span>
+                    <span class="badge bg-info">{{permission}}</span>
                   # endfor
                 </td>
                 <td class="text-nowrap">{{utils.auth_icons(user_db)}}</td>
@@ -75,13 +75,13 @@
         {{forms.email_field(form.email)}}
       </div>
       <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label">Merged Accounts</label>
+        <div class="mb-3">
+          <label class="form-label">Merged Accounts</label>
           <table class="table table-bordered table-hover">
             <thead>
               <tr>
                 <th><span class="fa fa-fw fa-key"></span></th>
-                <th class="col-xs-12">Auth ID</th>
+                <th class="col-12">Auth ID</th>
               </tr>
             </thead>
             <tbody>
@@ -105,8 +105,8 @@
     </div>
     <hr>
     <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <button type="submit" class="btn btn-danger btn-lg btn-block btn-loading" {{forms.data_loading_text()}}>
+      <div class="col-md-6 offset-md-3">
+        <button type="submit" class="btn btn-danger btn-lg w-100 btn-loading" {{forms.data_loading_text()}}>
           Merge
         </button>
       </div>

@@ -1,0 +1,141 @@
+@use 'sass:color';
+
+$height-base: calc(#{$line-height-computed} + 12px);
+$height-lg: calc(
+  #{$font-size-large * $line-height-base} + #{$padding-large-vertical * 2}
+);
+$height-sm: calc(#{$font-size-small * 1.5} + #{$padding-small-vertical * 2});
+$height-xs: calc(#{$font-size-small * 1.2} + #{$padding-small-vertical} + 1px);
+
+.btn-social {
+  position: relative;
+  padding-left: calc(#{$height-base} + #{$padding-base-horizontal});
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  :first-child {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: $height-base;
+    line-height: calc(#{$height-base} + 2px);
+    font-size: 1.6em;
+    text-align: center;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  &.btn-lg {
+    padding-left: calc(#{$height-lg} + #{$padding-large-horizontal});
+    :first-child {
+      line-height: $height-lg;
+      width: $height-lg;
+      font-size: 1.8em;
+    }
+  }
+  &.btn-sm {
+    padding-left: calc(#{$height-sm} + #{$padding-small-horizontal});
+    :first-child {
+      line-height: $height-sm;
+      width: $height-sm;
+      font-size: 1.4em;
+    }
+  }
+  &.btn-xs {
+    padding-left: calc(#{$height-xs} + #{$padding-small-horizontal});
+    :first-child {
+      line-height: $height-xs;
+      width: $height-xs;
+      font-size: 1.2em;
+    }
+  }
+}
+
+@mixin btn-social($color-bg, $color: #fff) {
+  $border: rgba(0, 0, 0, 0.2);
+  color: $color;
+  background-color: $color-bg;
+  border-color: $border;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $color;
+    background-color: color.adjust($color-bg, $lightness: -10%, $space: hsl);
+    border-color: color.adjust($border, $lightness: -12%, $space: hsl);
+  }
+}
+
+.btn-social-icon {
+  @extend .btn-social;
+  height: calc(#{$height-base} + 2px);
+  width: calc(#{$height-base} + 2px);
+  padding-left: 0;
+  padding-right: 0;
+  :first-child {
+    border: none;
+    text-align: center;
+    width: 100% !important;
+  }
+  &.btn-lg {
+    height: $height-lg;
+    width: $height-lg;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  &.btn-sm {
+    height: calc(#{$height-sm} + 2px);
+    width: calc(#{$height-sm} + 2px);
+    padding-left: 0;
+    padding-right: 0;
+  }
+  &.btn-xs {
+    height: calc(#{$height-xs} + 2px);
+    width: calc(#{$height-xs} + 2px);
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.auth {
+  .btn-social-icon {
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+}
+
+.remember {
+  text-align: center;
+  label {
+    display: inline-block;
+  }
+}
+
+.btn-bitbucket {
+  @include btn-social(#205081);
+}
+.btn-facebook {
+  @include btn-social(#3b5998);
+}
+.btn-github {
+  @include btn-social(#444444);
+}
+.btn-google {
+  @include btn-social(#dd4b39);
+}
+.btn-linkedin {
+  @include btn-social(#007bb6);
+}
+.btn-microsoft {
+  @include btn-social(#2672ec);
+}
+.btn-twitter {
+  @include btn-social(#55acee);
+}
+
+// Add vertical spacing between social buttons to match BS3 .btn-block spacing
+.btn-social + .btn-social {
+  margin-top: 5px;
+}

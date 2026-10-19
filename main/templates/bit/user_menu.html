@@ -1,22 +1,21 @@
 # if current_user.id > 0
-  <li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
       <span class="fa fa-fw fa-user"></span>
       {{current_user.name}}
-      <b class="caret"></b>
     </a>
-    <ul class="dropdown-menu">
-      <li><a href="{{url_for('profile')}}"><span class="fa fa-fw fa-user"></span> Profile</a></li>
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li><a class="dropdown-item" href="{{url_for('profile')}}"><span class="fa fa-fw fa-user"></span> Profile</a></li>
       # if current_user.admin
-        <li class="divider"></li>
-        <li><a href="{{url_for('admin')}}"><span class="fa fa-fw fa-cog"></span> Admin</a></li>
-        <li class="divider"></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{{url_for('admin')}}"><span class="fa fa-fw fa-cog"></span> Admin</a></li>
+        <li><hr class="dropdown-divider"></li>
       # endif
-      <li><a href="{{url_for('signout')}}"><span class="fa fa-fw fa-sign-out"></span> Sign out</a></li>
+      <li><a class="dropdown-item" href="{{url_for('signout')}}"><span class="fa fa-fw fa-sign-out"></span> Sign out</a></li>
     </ul>
   </li>
 # else
-  <li class="{{'active' if html_class.find('auth') != -1}}">
-    <a href="{{url_for('signin')}}"><span class="fa fa-fw fa-sign-in"></span> Sign in</a>
+  <li class="nav-item">
+    <a class="nav-link {{'active' if html_class.find('auth') != -1}}" href="{{url_for('signin')}}"><span class="fa fa-fw fa-sign-in"></span> Sign in</a>
   </li>
 # endif

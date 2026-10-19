@@ -1,10 +1,15 @@
-# coding: utf-8
+"""Application route controllers."""
 
-from .user import *
+from . import admin, error, feedback, profile, tasks, test, user, welcome
 
-from .admin import *
-from .error import *
-from .feedback import *
-from .profile import *
-from .test import *
-from .welcome import *
+
+__all__ = [
+    "admin",
+    "error",
+    "feedback",
+    "profile",
+    "tasks",
+    "test",
+    "user",
+    "welcome",
+]

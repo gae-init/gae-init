@@ -5,13 +5,13 @@
 # block admin_header
   <div class="lead">
     # for test in tests
-      <a href="#{{test}}"><span class="label label-success">{{test.title()}}</span></a>
+      <a href="#{{test}}"><span class="badge bg-success">{{test.title()}}</span></a>
     # endfor
   </div>
   <div class="lead">
-    <a href="{{url_for('sitemap')}}"><span class="label label-warning">{{url_for('sitemap')}}</span></a>
-    <a href="/robots.txt"><span class="label label-warning">/robots.txt</span></a>
-    <a href="/404"><span class="label label-warning">/404</span></a>
+    <a href="{{url_for('sitemap')}}"><span class="badge bg-warning">{{url_for('sitemap')}}</span></a>
+    <a href="/robots.txt"><span class="badge bg-warning">/robots.txt</span></a>
+    <a href="/404"><span class="badge bg-warning">/404</span></a>
   </div>
 # endblock
 
@@ -21,7 +21,7 @@
     <div id="{{test}}" class="anchor"></div>
     <section class="{{'%s-%s' % (html_class, test)}}">
       <h2>
-        <a class="pull-right" href="#" title="Back to top"><span class="text-muted fa fa-angle-up fa-fw"></span></a>
+        <a class="float-end" href="#" title="Back to top"><span class="text-muted fa fa-angle-up fa-fw"></span></a>
         <a href="#{{test}}">{{test.title()}}</a>
         <small class="on-hover">
           <a href="{{url_for('admin_test', test=test)}}" title="Just this test"><span class="fa fa-link fa-fw"></span></a>

@@ -1,18 +1,30 @@
 window.initAuth = () => {
-  $('.remember').change(() => {
-    let href;
-    const buttons = $('.btn-social')
-      .toArray()
-      .concat($('.btn-social-icon').toArray());
-    const remember = $('.remember input').is(':checked');
+  const handleRememberChange = () => {
+    const buttons = [
+      ...document.querySelectorAll('.btn-social'),
+      ...document.querySelectorAll('.btn-social-icon'),
+    ];
+    const rememberCheckbox = document.querySelector('.remember input');
+    const remember = rememberCheckbox ? rememberCheckbox.checked : false;
+
     for (const button of buttons) {
-      href = $(button).prop('href');
-      if (remember) {
-        $(button).prop('href', `${href}&remember=true`);
-      } else {
-        $(button).prop('href', href.replace('&remember=true', ''));
+      if (!button.href || button.href.startsWith('javascript:')) {
+        continue;
       }
+
+      const url = new URL(button.href, window.location.origin);
+      if (remember) {
+        url.searchParams.set('remember', 'true');
+      } else {
+        url.searchParams.delete('remember');
+      }
+      button.href = url.toString();
     }
+  };
+
+  document.querySelectorAll('.remember input').forEach((el) => {
+    el.addEventListener('change', handleRememberChange);
   });
-  $('.remember').change();
+
+  handleRememberChange();
 };

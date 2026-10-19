@@ -1,0 +1,86 @@
+$font-size-base: 0.875rem;
+
+small,
+.small {
+  font-size: 85%;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3 {
+  margin-top: 1.25rem; /* ~20px */
+  margin-bottom: 0.625rem; /* ~10px */
+
+  small,
+  .small {
+    font-size: 65%;
+  }
+}
+
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  margin-top: 0.625rem; /* ~10px */
+  margin-bottom: 0.625rem; /* ~10px */
+
+  small,
+  .small {
+    font-size: 75%;
+  }
+}
+
+p {
+  margin: 0 0 0.625rem; /* ~10px */
+}
+
+.lead {
+  margin-bottom: 1.25rem; /* ~20px */
+  font-size: 1.00625rem; /* 16.1px (~1.15 * 14px) */
+  font-weight: 300;
+  line-height: 1.4;
+
+  @media (min-width: 768px) {
+    font-size: 1.3125rem; /* 21px (~1.5 * 14px) */
+  }
+}
+
+.page-header {
+  padding-bottom: 0.5rem;
+  margin: 2.5rem 0 1.25rem;
+  border-bottom: 1px solid #eee;
+}
+
+a {
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+// Contextual text colors matching Bootstrap 3
+.text-success {
+  color: #3c763d !important;
+}
+.text-info {
+  color: #31708f !important;
+}
+.text-warning {
+  color: #8a6d3b !important;
+}
+.text-danger {
+  color: #a94442 !important;
+}
+.text-muted {
+  color: #777 !important;
+}
+.text-primary {
+  color: #337ab7 !important;
+}

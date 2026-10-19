@@ -1,26 +1,55 @@
-service: default
+runtime: python312
 instance_class: F1
-runtime: python27
-api_version: 1
-threadsafe: true
 
-builtins:
-  - appstats: on
-  - deferred: on
-  - remote_api: on
+app_engine_apis: true
 
-inbound_services:
-  - warmup
+automatic_scaling:
+  max_instances: 5
 
-libraries:
-  - name: setuptools
-    version: latest
+entrypoint: gunicorn -b :$PORT -c gunicorn.conf.py main:app
 
-  - name: ssl
-    version: latest
+env_variables:
+  MEMCACHE_USE_CROSS_COMPATIBLE_PROTOCOL: 'True'
+  # === OTEL - OpenTelemetry ===
+  # --- Service Identification ---
+  OTEL_SERVICE_NAME: 'gae-init-service' # defaults to GAE_SERVICE if omitted in some detectors
+  OTEL_RESOURCE_ATTRIBUTES: 'deployment.environment.name=production'
+  # --- Sampling (for debugging: see .env.example settings) ---
+  OTEL_TRACES_SAMPLER: 'parentbased_traceidratio'
+  OTEL_TRACES_SAMPLER_ARG: '0.05' # 5% sample rate
+  # --- Context Propagation ---
+  # Allows OTel to read Google Cloud Front End headers (X-Cloud-Trace-Context)
+  # as well as standard W3C headers
+  OTEL_PROPAGATORS: 'gcp_trace,tracecontext,baggage'
+  # --- Exporter Configuration ---
+  OTEL_TRACES_EXPORTER: 'none'
+  # If you are NOT using metrics or logs via OTel, turn them off to prevent startup errors:
+  OTEL_METRICS_EXPORTER: 'none'
+  OTEL_LOGS_EXPORTER: 'none'
+  # --- Batch Span Processor (Tuned for GAE Serverless) ---
+  # Default is 5000ms. Lower to 2000ms to flush spans faster before instance scale-down
+  OTEL_BSP_SCHEDULE_DELAY: '2000'
+  # Default is 30000ms. Lower so a hanging export doesn't block instance shutdown (SIGTERM)
+  OTEL_BSP_EXPORT_TIMEOUT: '5000'
+  # Conservative queue limits to prevent Out-Of-Memory (OOM) on F1/F2 instances
+  OTEL_BSP_MAX_QUEUE_SIZE: '1024'
+  OTEL_BSP_MAX_EXPORT_BATCH_SIZE: '256'
 
-error_handlers:
-  - file: templates/error_static.html
+# Direct VPC Egress configuration (used with Redis based L2 cache for NDB)
+# vpc_access:
+#   network_interface:
+#     network: projects/gae-init/global/networks/gae-init-vpc
+#     subnet: projects/gae-init/regions/us-central1/subnetworks/gae-init-appengine-subnet
+#   vpc_egress: private-ranges-only
+
+# Alternatively: comment out the above Direct VPC Egress configuration
+# and use a preconfigured and paid VPS connector (about USD 18/month for e2-micro)
+# which probably isn't needed anymore, but in case it is required:
+# -----
+# # Route outbound traffic through your (paid) VPC connector
+# vpc_access_connector:
+#   name: projects/gae-init/locations/us-central1/connectors/gae-init-vpc-connector
+#   egress_setting: private-ranges-only
 
 handlers:
   - url: /favicon.ico
@@ -35,45 +64,14 @@ handlers:
     static_files: static/robots.txt
     upload: static/robots.txt
 
-  - url: /p/(.*\.ttf)
-    static_files: static/\1
-    upload: static/(.*\.ttf)
-    mime_type: font/ttf
-    expiration: '365d'
-
-  - url: /p/(.*\.woff2)
-    static_files: static/\1
-    upload: static/(.*\.woff2)
-    mime_type: font/woff2
-    expiration: '365d'
-
-  - url: /p/
+  - url: /p
     static_dir: static/
     expiration: '365d'
 
   - url: /.*
-    script: main.app
+    script: auto
     secure: always
     redirect_http_response_code: 301
 
-skip_files:
-  - ^(.*/)?#.*#
-  - ^(.*/)?.*/RCS/.*
-  - ^(.*/)?.*\.bak$
-  - ^(.*/)?.*\.py[co]
-  - ^(.*/)?.*~
-  - ^(.*/)?Icon\r
-  - ^(.*/)?\..*
-  - ^(.*/)?app\.yaml
-  - ^(.*/)?app\.yml
-  - ^(.*/)?index\.yaml
-  - ^(.*/)?index\.yml
-  - ^lib/.*-info/
-  - ^requirements-dev.txt
-  - ^static/dev/.*
-  - ^static/ext/.*\.coffee
-  - ^static/ext/.*\.css
-  - ^static/ext/.*\.js
-  - ^static/ext/.*\.less
-  - ^static/ext/.*\.json
-  - ^static/src/.*
+inbound_services:
+  - warmup

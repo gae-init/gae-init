@@ -17,7 +17,7 @@
         {{forms.checkbox_field(form.check_unique_email)}}
         {{forms.checkbox_field(form.email_authentication)}}
         {{forms.checkbox_field(form.anonymous_recaptcha)}}
-        <div class="panel-group">
+        <div class="accordion" id="accordion">
           # include 'admin/bit/security.html'
           # include 'admin/bit/google_analytics_tracking_id.html'
           # include 'admin/bit/recaptcha.html'
@@ -26,8 +26,8 @@
     </div>
     <hr>
     <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <button type="submit" class="btn btn-primary btn-lg btn-block btn-loading" {{forms.data_loading_text()}}>
+      <div class="col-md-6 offset-md-3">
+        <button type="submit" class="btn btn-primary btn-lg w-100 btn-loading" {{forms.data_loading_text()}}>
           Update Config
         </button>
       </div>

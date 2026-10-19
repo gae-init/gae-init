@@ -1,0 +1,235 @@
+indexes:
+  # zig-zag: User, active, 5 * order {
+
+  - kind: User
+    properties:
+      - name: active
+      - name: created
+
+  - kind: User
+    properties:
+      - name: active
+      - name: modified
+
+  - kind: User
+    properties:
+      - name: active
+      - name: email
+
+  - kind: User
+    properties:
+      - name: active
+      - name: name
+
+  - kind: User
+    properties:
+      - name: active
+      - name: username
+
+  - kind: User
+    properties:
+      - name: active
+      - name: created
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: active
+      - name: modified
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: active
+      - name: email
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: active
+      - name: name
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: active
+      - name: username
+        direction: desc
+
+  # } zig-zag: User, active, 5 * order
+
+  # zig-zag: User, admin, 5 * order {
+
+  - kind: User
+    properties:
+      - name: admin
+      - name: created
+
+  - kind: User
+    properties:
+      - name: admin
+      - name: modified
+
+  - kind: User
+    properties:
+      - name: admin
+      - name: email
+
+  - kind: User
+    properties:
+      - name: admin
+      - name: name
+
+  - kind: User
+    properties:
+      - name: admin
+      - name: username
+
+  - kind: User
+    properties:
+      - name: admin
+      - name: created
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: admin
+      - name: modified
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: admin
+      - name: email
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: admin
+      - name: name
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: admin
+      - name: username
+        direction: desc
+
+  # } zig-zag: User, admin, 5 * order
+
+  # zig-zag: User, verified, 5 * order {
+
+  - kind: User
+    properties:
+      - name: verified
+      - name: created
+
+  - kind: User
+    properties:
+      - name: verified
+      - name: modified
+
+  - kind: User
+    properties:
+      - name: verified
+      - name: email
+
+  - kind: User
+    properties:
+      - name: verified
+      - name: name
+
+  - kind: User
+    properties:
+      - name: verified
+      - name: username
+
+  - kind: User
+    properties:
+      - name: verified
+      - name: created
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: verified
+      - name: modified
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: verified
+      - name: email
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: verified
+      - name: name
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: verified
+      - name: username
+        direction: desc
+
+  # } zig-zag: User, verified, 5 * 2 * order
+
+  # zig-zag: User, permissions, 5 * 2 * order {
+
+  - kind: User
+    properties:
+      - name: permissions
+      - name: created
+
+  - kind: User
+    properties:
+      - name: permissions
+      - name: modified
+
+  - kind: User
+    properties:
+      - name: permissions
+      - name: email
+
+  - kind: User
+    properties:
+      - name: permissions
+      - name: name
+
+  - kind: User
+    properties:
+      - name: permissions
+      - name: username
+
+  - kind: User
+    properties:
+      - name: permissions
+      - name: created
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: permissions
+      - name: modified
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: permissions
+      - name: email
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: permissions
+      - name: name
+        direction: desc
+
+  - kind: User
+    properties:
+      - name: permissions
+      - name: username
+        direction: desc
+# } zig-zag: User, permissions, 5 * order

@@ -1,0 +1,65 @@
+@use 'sass:color';
+
+// Legacy BS3 Table Overrides
+.table {
+  --bs-table-color: #333; // Standard text color
+  --bs-table-border-color: #ddd; // Legacy border color
+  --bs-table-hover-bg: #f5f5f5;
+  --bs-table-hover-color: #333;
+
+  color: #333;
+  border-color: #ddd;
+
+  > :not(caption) > * > * {
+    border-bottom-color: #ddd;
+  }
+
+  // Active state
+  .table-active,
+  > tbody > tr.table-active > * {
+    --bs-table-bg-state: #f5f5f5;
+    --bs-table-color-state: #333;
+  }
+
+  &.table-hover > tbody > tr.table-active:hover > * {
+    --bs-table-bg-state: #{color.adjust(#f5f5f5, $lightness: -5%, $space: hsl)};
+    --bs-table-color-state: #333;
+  }
+}
+
+.table-bordered {
+  border-color: #ddd;
+  > :not(caption) > * {
+    border-color: #ddd;
+    > * {
+      border-color: #ddd;
+    }
+  }
+}
+
+// Reset the BS5 variants to match BS3 row backgrounds and hover behavior
+@mixin bs3-table-variant($state, $background) {
+  .table-#{$state},
+  .table > tbody > tr.table-#{$state} > * {
+    --bs-table-bg: #{$background};
+    --bs-table-color-state: #333;
+    --bs-table-bg-state: #{$background};
+    --bs-table-border-color: #ddd;
+    border-color: #ddd;
+    color: #333;
+  }
+
+  .table-hover > tbody > tr.table-#{$state}:hover > * {
+    --bs-table-bg-state: #{color.adjust(
+        $background,
+        $lightness: -5%,
+        $space: hsl
+      )};
+    --bs-table-color-state: #333;
+  }
+}
+
+@include bs3-table-variant('success', #dff0d8);
+@include bs3-table-variant('info', #d9edf7);
+@include bs3-table-variant('warning', #fcf8e3);
+@include bs3-table-variant('danger', #f2dede);

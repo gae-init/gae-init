@@ -1,13 +1,14 @@
 .user-list {
   .name {
-    .h5;
+    @extend .h5;
     label {
       margin-bottom: 0;
       img {
-        border: 1px solid @hr-border;
+        border: 1px solid $hr-border;
         padding: 2px;
         border-radius: 4px;
-        .square(40px);
+        width: 40px;
+        height: 40px;
       }
     }
   }

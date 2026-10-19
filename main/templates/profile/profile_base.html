@@ -6,14 +6,14 @@
   <div class="page-header">
     <h1>
       # if html_class == 'profile-view'
-        <div class="pull-right">
+        <div class="float-end">
           <div class="btn-group">
-            <a class="btn btn-default btn-xs" href="{{url_for('profile_update')}}">
+            <a class="btn btn-light btn-sm" href="{{url_for('profile_update')}}">
               <span class="fa fa-edit"></span>
               Edit
             </a>
             # if config.CONFIG_DB.has_email_authentication
-              <a class="btn btn-default btn-xs" href="{{url_for('profile_password')}}">
+              <a class="btn btn-light btn-sm" href="{{url_for('profile_password')}}">
                 <span class="fa fa-lock fa-fw"></span>
                 # if not user_db.password_hash
                   Set Password
@@ -33,20 +33,16 @@
   </div>
 
   <div class="row">
-    <div class="col-xs-5 col-sm-4 col-md-3">
+    <div class="col-5 col-sm-4 col-md-3">
       <img class="img-thumbnail" src="{{user_db.avatar_url_size(512)}}" alt="Avatar of {{user_db.name}}">
       # if html_class == 'profile-update'
-        <p class="help-block">
-          # if user_db.has_facebook()
-            Change on <a href="https://facebook.com" target="_blank">Facebook</a>
-          # else
-            Change on <a href="https://gravatar.com" target="_blank">Gravatar</a>
-          # endif
+        <p class="form-text">
+          Change on <a href="https://gravatar.com" target="_blank">Gravatar</a>
         </p>
       # endif
     </div>
 
-    <div class="col-xs-12 col-sm-8 {% if html_class == 'profile-view' %} col-md-9 {% else %} col-md-6 {% endif %}">
+    <div class="col-12 col-sm-8 {% if html_class == 'profile-view' %} col-md-9 {% else %} col-md-6 {% endif %}">
       # block profile_content
       # endblock
     </div>

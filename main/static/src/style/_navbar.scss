@@ -1,0 +1,22 @@
+// Navbar overrides to match Bootstrap 3 behavior
+
+.navbar {
+  .navbar-brand,
+  .nav-link,
+  .dropdown-toggle,
+  .dropdown-item {
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}
+
+.navbar-light .navbar-nav {
+  .nav-link.active,
+  .nav-link.show,
+  .show > .nav-link {
+    color: #555;
+    background-color: #e7e7e7;
+  }
+}

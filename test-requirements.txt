@@ -1,3 +1,0 @@
--r main/requirements-dev.txt
--r main/requirements.txt
-webtest==2.0.35

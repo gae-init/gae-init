@@ -1,0 +1,106 @@
+@use 'sass:color';
+
+.form-label {
+  font-weight: 700;
+}
+
+.card-header[data-bs-toggle='collapse'] {
+  cursor: pointer;
+  user-select: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: -2px;
+  }
+}
+
+.card-title > a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.card-title {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+/* Make date and datetime input placeholders dim like text placeholders */
+input[type='date'].is-empty,
+input[type='datetime-local'].is-empty,
+input[type='date']:invalid,
+input[type='datetime-local']:invalid {
+  color: #999;
+}
+input[type='date']:focus,
+input[type='datetime-local']:focus {
+  color: inherit;
+}
+
+// Validation states matching BS3 .has-error
+.has-error {
+  .form-label,
+  .form-check-label,
+  .form-text,
+  .text-muted {
+    color: #a94442 !important;
+  }
+
+  .form-control,
+  .form-select,
+  .form-check-input {
+    border-color: #a94442;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+
+    &:focus {
+      border-color: color.adjust(#a94442, $lightness: -10%, $space: hsl);
+      box-shadow:
+        inset 0 1px 1px rgba(0, 0, 0, 0.075),
+        0 0 6px color.adjust(#a94442, $lightness: 20%, $space: hsl);
+    }
+  }
+
+  .btn-light {
+    border-color: #a94442;
+    color: #a94442; // Add icon red color
+    &:hover,
+    &:focus {
+      border-color: color.adjust(#a94442, $lightness: -10%, $space: hsl);
+      color: #a94442;
+    }
+  }
+
+  .input-group-text {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #a94442;
+  }
+}
+
+// Override BS5 is-invalid border colors to use BS3 red
+.is-invalid {
+  border-color: #a94442 !important;
+
+  &:focus {
+    border-color: color.adjust(
+      #a94442,
+      $lightness: -10%,
+      $space: hsl
+    ) !important;
+    box-shadow:
+      inset 0 1px 1px rgba(0, 0, 0, 0.075),
+      0 0 6px color.adjust(#a94442, $lightness: 20%, $space: hsl) !important;
+  }
+}
+
+// Force all browsers (including Chrome/Webkit) to respect vertical-only resizing
+// and prevent horizontal resizing from breaking grid layouts.
+textarea,
+textarea.form-control {
+  resize: vertical !important;
+  max-width: 100%;
+}

@@ -1,15 +1,15 @@
-$(() => {
+document.addEventListener('DOMContentLoaded', () => {
   initCommon();
 
-  $('html.auth').each(() => {
+  document.querySelectorAll('html.auth').forEach(() => {
     initAuth();
   });
 
-  $('html.user-list').each(() => {
+  document.querySelectorAll('html.user-list').forEach(() => {
     initUserList();
   });
 
-  $('html.user-merge').each(() => {
+  document.querySelectorAll('html.user-merge').forEach(() => {
     initUserMerge();
   });
 });
