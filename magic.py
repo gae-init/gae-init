@@ -180,7 +180,7 @@ def magic():
 
   if ARGS.project_id:
     project_db = get_project_db()
-    answer = raw_input(
+    answer = input(
       'Are you sure you want to sync "%(name)s" with %(model_count)d '
       'model(s) that was modified on %(modified)s? (Y/n): '
       % {
